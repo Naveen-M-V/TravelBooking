@@ -62,8 +62,8 @@ export class FlightController {
    */
   static async getFareRules(req: Request, res: Response) {
     try {
-      const { sId, itineraryId, fareFamilyId } = req.body
-      const result = await FlightService.getFareRules(sId, itineraryId, fareFamilyId)
+      const { sId, pricingId } = req.body
+      const result = await FlightService.getFareRules(sId, pricingId)
       res.status(200).json({ success: true, data: result })
     } catch (error: any) {
       console.error('[FlightController] Get fare rules failed:', error)
@@ -102,8 +102,8 @@ export class FlightController {
    */
   static async bookingPolling(req: Request, res: Response) {
     try {
-      const { bId } = req.body
-      const result = await FlightService.bookingPolling(bId)
+      const { bId, sId } = req.body
+      const result = await FlightService.bookingPolling(bId, sId)
       res.status(200).json({ success: true, data: result })
     } catch (error: any) {
       console.error('[FlightController] Booking polling failed:', error)

@@ -27,9 +27,9 @@ export const flightAPI = {
   getPricing: (sId: string, itineraryId: string, fareFamilyId?: string) =>
     apiClient.post('/flights/pricing', { sId, itineraryId, fareFamilyId }).then((r) => r.data),
 
-  /** Get fare rules */
-  getFareRules: (sId: string, itineraryId: string, fareFamilyId?: string) =>
-    apiClient.post('/flights/pricing/fare-rules', { sId, itineraryId, fareFamilyId }).then((r) => r.data),
+  /** Get fare rules — requires pricingId from the pricing step */
+  getFareRules: (sId: string, pricingId: string) =>
+    apiClient.post('/flights/pricing/fare-rules', { sId, pricingId }).then((r) => r.data),
 
   /** Create reservation (pre-book) */
   createReservation: (data: object) =>

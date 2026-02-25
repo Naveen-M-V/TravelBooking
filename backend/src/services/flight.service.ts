@@ -85,7 +85,32 @@ export class FlightService {
 
     try {
       const token = await this.getAccessToken()
-      const response = await almosaferClient.post('/flights/api/v1.0/search', searchInput, {
+
+      // --- Transform flat params into Almosafer's segments/travellers format ---
+      const origin = searchInput.origin || searchInput.originDestinations?.[0]?.origin || ''
+      const destination = searchInput.destination || searchInput.originDestinations?.[0]?.destination || ''
+      const departureDate = searchInput.departureDate || searchInput.originDestinations?.[0]?.departureDate || ''
+      const returnDate = searchInput.returnDate || searchInput.originDestinations?.[1]?.departureDate || null
+
+      const segments: any[] = [
+        { origin, destination, departureDate },
+      ]
+      if (returnDate) {
+        segments.push({ origin: destination, destination: origin, departureDate: returnDate })
+      }
+
+      const almosaferPayload = {
+        segments,
+        travellers: {
+          adult: searchInput.adults ?? searchInput.travellers?.adult ?? 1,
+          child: searchInput.children ?? searchInput.travellers?.child ?? 0,
+          infant: searchInput.infants ?? searchInput.travellers?.infant ?? 0,
+        },
+        cabinClass: searchInput.cabinClass || 'ECONOMY',
+        currency: searchInput.currency || 'SAR',
+      }
+
+      const response = await almosaferClient.post('/flights/api/v1.0/search', almosaferPayload, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
@@ -95,10 +120,10 @@ export class FlightService {
       await prisma.flightSearch.create({
         data: {
           sId,
-          origin: searchInput.originDestinations?.[0]?.origin || searchInput.origin || '',
-          destination: searchInput.originDestinations?.[0]?.destination || searchInput.destination || '',
-          departureDate: new Date(searchInput.originDestinations?.[0]?.departureDate || searchInput.departureDate || Date.now()),
-          returnDate: searchInput.originDestinations?.[1] ? new Date(searchInput.originDestinations[1].departureDate) : null,
+          origin,
+          destination,
+          departureDate: new Date(departureDate || Date.now()),
+          returnDate: returnDate ? new Date(returnDate) : null,
           adults: searchInput.adults || 1,
           children: searchInput.children || 0,
           infants: searchInput.infants || 0,
@@ -167,11 +192,13 @@ export class FlightService {
   /**
    * 4. POST /flights/api/v1.0/pricing - Pricing
    */
-  static async getPricing(sId: string, itineraryId: string, fareFamilyId?: string) {
+  static async getPricing(sId: string, itineraryId: string | string[], fareFamilyId?: string) {
     try {
       const token = await this.getAccessToken()
+      // API requires itineraryId as an array
+      const itineraryIds = Array.isArray(itineraryId) ? itineraryId : [itineraryId]
       const response = await almosaferClient.post('/flights/api/v1.0/pricing', 
-        { sId, itineraryId, fareFamilyId },
+        { sId, itineraryId: itineraryIds },
         { headers: { Authorization: `Bearer ${token}` } }
       )
       return response.data
@@ -184,11 +211,12 @@ export class FlightService {
   /**
    * 5. POST /flights/api/v1.0/pricing/fare-rules - Fare Rules
    */
-  static async getFareRules(sId: string, itineraryId: string, fareFamilyId?: string) {
+  static async getFareRules(sId: string, pricingId: string) {
     try {
       const token = await this.getAccessToken()
+      // API expects { sId, pricingId } — NOT itineraryId
       const response = await almosaferClient.post('/flights/api/v1.0/pricing/fare-rules', 
-        { sId, itineraryId, fareFamilyId },
+        { sId, pricingId },
         { headers: { Authorization: `Bearer ${token}` } }
       )
       return response.data
@@ -254,10 +282,11 @@ export class FlightService {
   /**
    * 8. POST /flights/api/v1.0/booking/polling - Booking Poll
    */
-  static async bookingPolling(bId: string) {
+  static async bookingPolling(bId: string, sId?: string) {
     try {
       const token = await this.getAccessToken()
-      const response = await almosaferClient.post('/flights/api/v1.0/booking/polling', { bId }, {
+      // API requires both sId and bId
+      const response = await almosaferClient.post('/flights/api/v1.0/booking/polling', { sId, bId }, {
         headers: { Authorization: `Bearer ${token}` },
       })
 
