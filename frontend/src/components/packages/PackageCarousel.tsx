@@ -60,20 +60,23 @@ export function PackageCarousel({ title, packages, onPackageClick }: PackageCaro
     <div className="mb-16">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-3xl font-bold">{title}</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+          <div className="w-10 h-0.5 bg-primary rounded-full mt-1.5" />
+        </div>
         
         {/* Navigation Arrows */}
         <div className="flex gap-2">
           <button
             onClick={handlePrevious}
-            className="p-2 rounded-full border border-gray-300 transition-all duration-150 hover:bg-primary hover:border-primary hover:text-white hover:-translate-y-0.5 hover:shadow-md active:scale-95 active:translate-y-0 active:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-teal-ghost p-2 rounded-full border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Previous packages"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             onClick={handleNext}
-            className="p-2 rounded-full border border-gray-300 transition-all duration-150 hover:bg-primary hover:border-primary hover:text-white hover:-translate-y-0.5 hover:shadow-md active:scale-95 active:translate-y-0 active:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="btn-teal-ghost p-2 rounded-full border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label="Next packages"
           >
             <ChevronRight className="w-4 h-4" />
@@ -94,7 +97,7 @@ export function PackageCarousel({ title, packages, onPackageClick }: PackageCaro
           {visiblePackages.map((pkg, index) => (
             <Card
               key={`${pkg.id}-${index}`}
-              className="overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer group"
+              className="overflow-hidden hover:shadow-[0_8px_30px_rgba(20,184,166,0.18)] transition-all duration-300 cursor-pointer group border-0 shadow-md"
               onClick={() => onPackageClick(pkg)}
             >
               {/* Image */}
@@ -147,7 +150,7 @@ export function PackageCarousel({ title, packages, onPackageClick }: PackageCaro
 
                 {/* CTA */}
                 <div className="border-t pt-2.5">
-                  <button className="w-full bg-primary hover:bg-primary-600 active:bg-primary-700 active:scale-95 text-white font-semibold text-xs py-1.5 px-3 rounded-lg transition-all duration-200 cursor-pointer">
+                  <button className="btn-teal w-full bg-primary text-white font-semibold text-xs py-1.5 px-3 rounded-lg">
                     Enquire Now
                   </button>
                 </div>

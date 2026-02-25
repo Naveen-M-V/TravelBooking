@@ -39,13 +39,32 @@ export default function Home() {
       {/* Hero Search Section */}
       <SearchHero />
 
+      {/* Why Choose Us strip */}
+      <section className="py-12 px-4 bg-white border-b border-gray-100">
+        <div className="container mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          {[
+            { emoji: '🕌', title: 'Halal Certified', desc: 'Every destination, hotel & package is verified for halal compliance' },
+            { emoji: '🛡️', title: 'Secure Booking', desc: 'End-to-end encrypted payments and full data protection' },
+            { emoji: '🤝', title: '24/7 Support', desc: 'Dedicated Muslim travel experts always available for you' },
+          ].map(({ emoji, title, desc }) => (
+            <div key={title} className="flex flex-col items-center group">
+              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-200">{emoji}</div>
+              <h3 className="text-lg font-bold mb-1.5 text-gray-800">{title}</h3>
+              <p className="text-gray-500 text-sm leading-relaxed max-w-xs">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Featured Packages Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-3">Discover Amazing Packages</h2>
-            <p className="text-gray-600 text-lg">
+          <div className="text-center mb-14">
+            <span className="text-primary text-xs font-bold uppercase tracking-widest">Explore</span>
+            <h2 className="text-4xl font-extrabold mt-1 mb-3 text-gray-900">Discover Amazing Packages</h2>
+            <div className="w-14 h-1 bg-primary rounded-full mx-auto mb-4" />
+            <p className="text-gray-500 text-lg max-w-xl mx-auto">
               Handpicked halal-friendly tours for unforgettable experiences
             </p>
           </div>
@@ -59,7 +78,7 @@ export default function Home() {
 
           {/* New & Most Popular Tours */}
           <PackageCarousel
-            title="New & Most Popular Tours"
+            title="New &amp; Most Popular Tours"
             packages={getPopularPackages()}
             onPackageClick={handlePackageClick}
           />
@@ -88,20 +107,26 @@ export default function Home() {
       />
 
       {/* CTA Section */}
-      <section className="py-16 px-4 bg-primary text-white">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Plan Your Next Trip?
+      <section className="py-24 px-4 bg-[#0B6E63] text-white relative overflow-hidden">
+        {/* Decorative background circles */}
+        <div className="absolute -top-32 -right-32 w-80 h-80 bg-white/5 rounded-full pointer-events-none" />
+        <div className="absolute -bottom-20 -left-20 w-60 h-60 bg-white/5 rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.03] rounded-full pointer-events-none" />
+
+        <div className="relative container mx-auto max-w-3xl text-center">
+          <div className="text-5xl mb-5">✈️</div>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+            Ready for Your Next Adventure?
           </h2>
-          <p className="text-lg mb-8 text-primary-100">
-            Join thousands of Muslim travelers who trust Halal Travels for their journey
+          <p className="text-lg mb-10 text-white/75 max-w-xl mx-auto leading-relaxed">
+            Join 5,000+ Muslim travelers who trust Halal Travels for their journeys
           </p>
-          <div className="flex gap-4 justify-center">
-            <button className="bg-white text-primary px-8 py-3 rounded-lg font-semibold transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:bg-primary-50 active:scale-95 active:translate-y-0 active:bg-white">
-              Create Account
+          <div className="flex gap-4 justify-center flex-wrap">
+            <button className="btn-white-cta bg-white text-[#0B6E63] px-9 py-3.5 rounded-xl font-bold text-base shadow-lg">
+              Create Free Account
             </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold transition-all duration-150 hover:-translate-y-0.5 hover:shadow-lg hover:bg-white/10 active:scale-95 active:translate-y-0 active:bg-white/20">
-              Learn More
+            <button className="btn-teal-ghost border-2 border-white/50 text-white px-9 py-3.5 rounded-xl font-bold text-base">
+              Browse Packages
             </button>
           </div>
         </div>

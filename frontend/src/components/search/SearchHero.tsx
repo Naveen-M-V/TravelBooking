@@ -24,7 +24,7 @@ export function SearchHero() {
   }, [])
 
   return (
-    <div className="relative overflow-hidden px-4 py-10" style={{ minHeight: '400px' }}>
+    <div className="relative overflow-hidden px-4 py-14" style={{ minHeight: '560px' }}>
       {/* Background slideshow */}
       {HERO_IMAGES.map((src, i) => (
         <div
@@ -34,29 +34,40 @@ export function SearchHero() {
         />
       ))}
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-black/70" />
+      {/* Gradient overlay — deeper at top/bottom for text legibility */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/75" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto max-w-3xl">
-        <div className="text-center mb-5">
-          <h1 className="text-3xl font-bold text-white mb-2 drop-shadow-lg tracking-tight">
-            Halal-Friendly Travel, Simplified
+
+        {/* Badge pill */}
+        <div className="flex justify-center mb-5">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-white/90 text-xs font-semibold tracking-wide">Halal-Verified Travel Platform</span>
+          </div>
+        </div>
+
+        {/* Headline */}
+        <div className="text-center mb-7">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3 drop-shadow-lg tracking-tight leading-tight">
+            Travel the World,{' '}
+            <span className="text-teal-300">the Halal Way</span>
           </h1>
-          <p className="text-sm text-white/80 drop-shadow">
-            Find flights and packages that respect your values
+          <p className="text-base text-white/80 drop-shadow max-w-lg mx-auto leading-relaxed">
+            Flights, stays &amp; packages — all halal-verified, all in one place
           </p>
         </div>
 
         {/* Search card */}
-        <div className="bg-white rounded-xl shadow-2xl p-4">
+        <div className="bg-white rounded-2xl shadow-2xl p-5 ring-1 ring-white/10">
           <Tabs defaultValue="flights" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 mb-4 h-9">
-              <TabsTrigger value="flights" className="flex items-center gap-1.5 text-sm">
+            <TabsList className="grid w-full grid-cols-2 mb-4 h-10 rounded-lg">
+              <TabsTrigger value="flights" className="flex items-center gap-1.5 text-sm font-semibold rounded-md">
                 <Plane className="h-3.5 w-3.5" />
                 Flights
               </TabsTrigger>
-              <TabsTrigger value="packages" className="flex items-center gap-1.5 text-sm">
+              <TabsTrigger value="packages" className="flex items-center gap-1.5 text-sm font-semibold rounded-md">
                 <Building2 className="h-3.5 w-3.5" />
                 Packages
               </TabsTrigger>
@@ -72,8 +83,22 @@ export function SearchHero() {
           </Tabs>
         </div>
 
+        {/* Trust stats strip */}
+        <div className="flex justify-center gap-8 mt-6 flex-wrap">
+          {[
+            { emoji: '✈️', label: '5,000+ Trips Booked' },
+            { emoji: '🕌', label: '50+ Halal Destinations' },
+            { emoji: '⭐', label: '4.9 / 5 Rating' },
+          ].map(({ emoji, label }) => (
+            <div key={label} className="flex items-center gap-2 text-white/75 text-sm font-medium">
+              <span>{emoji}</span>
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
+
         {/* Slide dots */}
-        <div className="flex justify-center gap-2 mt-4">
+        <div className="flex justify-center gap-2 mt-5">
           {HERO_IMAGES.map((_, i) => (
             <button
               key={i}
@@ -81,8 +106,8 @@ export function SearchHero() {
               aria-label={`Background ${i + 1}`}
               className={`rounded-full transition-all duration-300 ${
                 i === activeImg
-                  ? 'bg-white w-6 h-2 shadow'
-                  : 'bg-white/45 hover:bg-white/70 w-2 h-2'
+                  ? 'bg-white w-7 h-2 shadow-lg'
+                  : 'bg-white/40 hover:bg-white/65 w-2 h-2'
               }`}
             />
           ))}
