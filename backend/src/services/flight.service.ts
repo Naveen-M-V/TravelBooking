@@ -1,6 +1,7 @@
 import almosaferClient, { almosaferConfig } from '../config/almosafer'
 import { PrismaClient } from '@prisma/client'
 import { MOCK_SEARCH_ID, buildMockPollingResponse } from '../mocks/flight-mock-data'
+import { getAlmosaferToken, refreshAlmosaferToken } from './auth.almosafer'
 
 const prisma = new PrismaClient()
 
@@ -12,65 +13,12 @@ const isMockMode = () =>
 
 // ==================== FLIGHT ASYNC API (Correct URLs: /flights/api/v1.0/*) ====================
 export class FlightService {
-  
-  /**
-   * AUTH: POST /auth/api/v1.0/oauth2/token - Get OAuth2 access token
-   */
-  private static tokenCache: { token: string; expiresAt: number } | null = null
-
-  private static async getAccessToken(): Promise<string> {
-    // Return cached token if valid
-    if (this.tokenCache && this.tokenCache.expiresAt > Date.now()) {
-      return this.tokenCache.token
-    }
-
-    try {
-      const response = await almosaferClient.post('/auth/api/v1.0/oauth2/token', 
-        new URLSearchParams({
-          grant_type: 'client_credentials',
-          client_id: almosaferConfig.clientId,
-          client_secret: almosaferConfig.clientSecret,
-        }),
-        {
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        }
-      )
-      
-      const { access_token, expires_in } = response.data
-      this.tokenCache = {
-        token: access_token,
-        expiresAt: Date.now() + (expires_in - 60) * 1000, // Refresh 1 min early
-      }
-      
-      return access_token
-    } catch (error: any) {
-      console.error('[Almosafer Auth] Failed:', error.response?.data)
-      throw new Error('Authentication failed')
-    }
-  }
 
   /**
-   * AUTH: POST /auth/api/v1.0/oauth2/refresh-token - Refresh access token
+   * Expose refresh for controller use if needed
    */
   static async refreshToken(refreshToken: string): Promise<string> {
-    try {
-      const response = await almosaferClient.post('/auth/api/v1.0/oauth2/refresh-token', {
-        refresh_token: refreshToken,
-        client_id: almosaferConfig.clientId,
-        client_secret: almosaferConfig.clientSecret,
-      })
-      
-      const { access_token, expires_in } = response.data
-      this.tokenCache = {
-        token: access_token,
-        expiresAt: Date.now() + (expires_in - 60) * 1000,
-      }
-      
-      return access_token
-    } catch (error: any) {
-      console.error('[Almosafer] Token refresh failed:', error.response?.data)
-      throw error
-    }
+    return refreshAlmosaferToken(refreshToken)
   }
 
   /**
@@ -84,7 +32,7 @@ export class FlightService {
     }
 
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
 
       // --- Transform flat params into Almosafer's segments/travellers format ---
       const origin = searchInput.origin || searchInput.originDestinations?.[0]?.origin || ''
@@ -149,7 +97,7 @@ export class FlightService {
     }
 
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/flights/api/v1.0/search/polling', { sId }, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -177,7 +125,8 @@ export class FlightService {
    */
   static async getFareFamilies(sId: string, itineraryId: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
+      // API expects { sId, itineraryId }
       const response = await almosaferClient.post('/flights/api/v1.0/fare-families', 
         { sId, itineraryId },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -194,7 +143,7 @@ export class FlightService {
    */
   static async getPricing(sId: string, itineraryId: string | string[], fareFamilyId?: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       // API requires itineraryId as an array
       const itineraryIds = Array.isArray(itineraryId) ? itineraryId : [itineraryId]
       const response = await almosaferClient.post('/flights/api/v1.0/pricing', 
@@ -213,7 +162,7 @@ export class FlightService {
    */
   static async getFareRules(sId: string, pricingId: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       // API expects { sId, pricingId } — NOT itineraryId
       const response = await almosaferClient.post('/flights/api/v1.0/pricing/fare-rules', 
         { sId, pricingId },
@@ -231,7 +180,7 @@ export class FlightService {
    */
   static async createReservation(reservationData: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/flights/api/v1.0/reservation', reservationData, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -247,7 +196,7 @@ export class FlightService {
    */
   static async asyncBooking(bookingData: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/flights/api/v1.0/booking', bookingData, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -284,7 +233,7 @@ export class FlightService {
    */
   static async bookingPolling(bId: string, sId?: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       // API requires both sId and bId
       const response = await almosaferClient.post('/flights/api/v1.0/booking/polling', { sId, bId }, {
         headers: { Authorization: `Bearer ${token}` },
@@ -313,7 +262,7 @@ export class FlightService {
    */
   static async retrieveBooking(bId: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/flights/api/v1.0/booking/retrieve', { bId }, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -329,7 +278,7 @@ export class FlightService {
    */
   static async listBookings(filters?: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/flights/api/v1.0/booking/list', filters || {}, {
         headers: { Authorization: `Bearer ${token}` },
       })

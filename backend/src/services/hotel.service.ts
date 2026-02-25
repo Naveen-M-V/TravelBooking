@@ -1,45 +1,11 @@
 import almosaferClient, { almosaferConfig } from '../config/almosafer'
 import { PrismaClient } from '@prisma/client'
+import { getAlmosaferToken } from './auth.almosafer'
 
 const prisma = new PrismaClient()
 
 // ==================== HOTEL SYNC & ASYNC APIs (Correct URLs: /hotels/api/v1.0/*) ====================
 export class HotelService {
-  
-  /**
-   * Get OAuth2 token (shared with FlightService)
-   */
-  private static tokenCache: { token: string; expiresAt: number } | null = null
-
-  private static async getAccessToken(): Promise<string> {
-    if (this.tokenCache && this.tokenCache.expiresAt > Date.now()) {
-      return this.tokenCache.token
-    }
-
-    try {
-      const response = await almosaferClient.post('/auth/api/v1.0/oauth2/token', 
-        new URLSearchParams({
-          grant_type: 'client_credentials',
-          client_id: almosaferConfig.clientId,
-          client_secret: almosaferConfig.clientSecret,
-        }),
-        {
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        }
-      )
-      
-      const { access_token, expires_in } = response.data
-      this.tokenCache = {
-        token: access_token,
-        expiresAt: Date.now() + (expires_in - 60) * 1000,
-      }
-      
-      return access_token
-    } catch (error: any) {
-      console.error('[Hotel Auth] Failed:', error.response?.data)
-      throw new Error('Authentication failed')
-    }
-  }
 
   // ==================== HOTEL SYNC API ====================
 
@@ -48,7 +14,7 @@ export class HotelService {
    */
   static async searchSync(searchInput: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/search/sync', searchInput, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -64,7 +30,7 @@ export class HotelService {
    */
   static async searchWithPackagesSync(searchInput: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/search-with-packages/sync', searchInput, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -80,7 +46,7 @@ export class HotelService {
    */
   static async getPackagesSync(hotelId: string, checkIn: string, checkOut: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/packages/sync', 
         { hotelId, checkIn, checkOut },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -97,7 +63,7 @@ export class HotelService {
    */
   static async checkAvailability(availabilityInput: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/availability', availabilityInput, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -113,7 +79,7 @@ export class HotelService {
    */
   static async bookingSync(bookingData: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/sync/booking', bookingData, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -151,7 +117,7 @@ export class HotelService {
    */
   static async cancelBooking(bookingId: string, reason?: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/booking/cancel', 
         { bookingId, reason },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -177,7 +143,7 @@ export class HotelService {
    */
   static async searchAsync(searchInput: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/search', searchInput, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -199,7 +165,7 @@ export class HotelService {
    */
   static async searchPoll(sId: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.get(`/hotels/api/v1.0/search/poll/${sId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -215,7 +181,7 @@ export class HotelService {
    */
   static async getPackagesAsync(hotelId: string, checkIn: string, checkOut: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/packages', 
         { hotelId, checkIn, checkOut },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -234,7 +200,7 @@ export class HotelService {
    */
   static async packagePoll(pId: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.get(`/hotels/api/v1.0/packages/poll/${pId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -250,7 +216,7 @@ export class HotelService {
    */
   static async bookingAsync(bookingData: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/booking', bookingData, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -289,7 +255,7 @@ export class HotelService {
    */
   static async bookingPoll(bId: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.get(`/hotels/api/v1.0/booking/poll/${bId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
@@ -319,7 +285,7 @@ export class HotelService {
    */
   static async getOrder(bookingId: string) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/booking/get-order', 
         { bookingId },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -336,7 +302,7 @@ export class HotelService {
    */
   static async listOrders(filters?: any) {
     try {
-      const token = await this.getAccessToken()
+      const token = await getAlmosaferToken()
       const response = await almosaferClient.post('/hotels/api/v1.0/order/list', filters || {}, {
         headers: { Authorization: `Bearer ${token}` },
       })
