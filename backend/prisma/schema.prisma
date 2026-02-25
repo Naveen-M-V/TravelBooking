@@ -1,0 +1,444 @@
+// This is your Prisma schema file
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================================================
+// User Management
+// ============================================================================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String?
+  supabaseId    String?   @unique
+  firstName     String?
+  lastName      String?
+  telephone     String?
+  nationality   String?
+  residency     String?
+  role          String    @default("customer") // customer, vendor, admin
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  flightBookings   FlightBooking[]
+  flightSearches   FlightSearch[]
+  hotelBookings    HotelBooking[]
+  packageEnquiries PackageEnquiry[]
+
+  @@map("users")
+}
+
+// ============================================================================
+// Package Enquiry System
+// ============================================================================
+
+model PackageEnquiry {
+  id                  String    @id @default(uuid())
+
+  // Package info (snapshot - no FK needed since packages may be from mock data)
+  packageId           String
+  packageName         String
+  packageDestination  String
+  packageDetails      Json      // Full package snapshot
+
+  // Customer Info
+  userId              String?
+  customerName        String
+  customerEmail       String
+  customerPhone       String
+  nationality         String?
+
+  // Travel Details
+  travelDate          DateTime?
+  flexibleDates       Boolean   @default(false)
+  adults              Int       @default(2)
+  children            Int       @default(0)
+  infants             Int       @default(0)
+  specialRequests     String?
+
+  // Status: PENDING -> QUOTED -> ACCEPTED -> BOOKED | CANCELLED
+  status              String    @default("PENDING")
+
+  // Admin Pricing (filled by admin when sending quote)
+  basePrice           Decimal?  @db.Decimal(10, 2)
+  markupPercentage    Decimal?  @db.Decimal(5, 2)
+  markupAmount        Decimal?  @db.Decimal(10, 2)
+  totalPrice          Decimal?  @db.Decimal(10, 2)
+  currency            String    @default("SAR")
+  adminNotes          String?
+  quotedAt            DateTime?
+  quoteValidUntil     DateTime?
+
+  // Payment (CCAvenue)
+  ccavenueOrderId     String?   @unique
+  paymentStatus       String?   // PENDING, SUCCESS, FAILED, CANCELLED
+  paidAt              DateTime?
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  user                User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([status])
+  @@index([customerEmail])
+  @@index([packageId])
+  @@map("package_enquiries")
+}
+
+// ============================================================================
+// Flight Booking System
+// ============================================================================
+
+// FlightSearch - Track search sessions and cache results
+model FlightSearch {
+  id            String    @id @default(uuid())
+  sId           String    @unique  // Almosafer Search ID
+  
+  // Search parameters
+  origin        String
+  destination   String
+  departureDate DateTime
+  returnDate    DateTime?
+  adults        Int       @default(1)
+  children      Int       @default(0)
+  infants       Int       @default(0)
+  cabinClass    String    @default("ECONOMY")
+  
+  // Results caching
+  results       Json?     // Cached availability response
+  resultsExpiry DateTime? // When cache expires
+  
+  // User tracking (optional - for anonymous searches)
+  userId        String?
+  sessionToken  String?   // For anonymous users
+  ipAddress     String?
+  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  user          User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  bookings      FlightBooking[]
+  
+  @@index([sId])
+  @@index([userId])
+  @@index([sessionToken])
+  @@index([createdAt])
+  @@map("flight_searches")
+}
+
+model FlightBooking {
+  id                String    @id @default(uuid())
+  
+  // Mandatory Almosafer IDs
+  sId               String    // Search ID from Almosafer (links to FlightSearch)
+  bId               String    @unique // Booking ID from Almosafer
+  
+  // Booking Details
+  pricingId         String?
+  reservationId     String?
+  dsOrderNumber     String?   // Almosafer internal order number
+  internalReference String?   // Our internal reference
+  
+  // Pricing
+  currency          String
+  totalAmount       Decimal   @db.Decimal(10, 2)
+  baseAmount        Decimal?  @db.Decimal(10, 2)
+  taxAmount         Decimal?  @db.Decimal(10, 2)
+  vatAmount         Decimal?  @db.Decimal(10, 2)
+  serviceFee        Decimal?  @db.Decimal(10, 2)
+  
+  // Status
+  bookingStatus     String    @default("PENDING") // PENDING, CONFIRMED, CANCELLED, FAILED
+  pnrStatus         String?   // PNR status from airline
+  
+  // Search & Result Data (JSONB for flexibility)
+  searchQuery       Json      // Original search parameters
+  searchResult      Json?     // Full search result from Almosafer
+  pricingDetails    Json?     // Pricing breakdown
+  reservationData   Json?     // Reservation response
+  bookingData       Json?     // Final booking response
+  
+  // Flight Information (extracted for quick access)
+  itineraryId       String?
+  fareId            String?
+  airline           String?
+  origin            String?
+  destination       String?
+  departureDate     DateTime?
+  returnDate        DateTime?
+  cabinClass        String?
+  
+  // Contact Details
+  contactEmail      String
+  contactPhone      String
+  contactFirstName  String
+  contactLastName   String
+  
+  // Timestamps
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  bookedAt          DateTime?
+  
+  // Relations
+  userId            String?
+  user              User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  search            FlightSearch? @relation(fields: [sId], references: [sId], onDelete: SetNull)
+  passengers        FlightPassenger[]
+
+  @@index([sId])
+  @@index([bId])
+  @@index([bookingStatus])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("flight_bookings")
+}
+
+model FlightPassenger {
+  id                      String    @id @default(uuid())
+  
+  // Passenger Index
+  passengerIndex          Int       // Index from Almosafer API (0, 1, 2...)
+  
+  // Type
+  type                    String    // ADT (Adult), CHD (Child), INF (Infant)
+  
+  // Personal Information (exactly as per Almosafer schema)
+  title                   String    // Mr, Mrs, Ms, Miss, Master
+  firstName               String
+  lastName                String
+  dateOfBirth             DateTime
+  
+  // Contact (for primary passenger)
+  isPrimaryContact        Boolean   @default(false)
+  email                   String?
+  telephone               String?
+  
+  // Identification
+  idType                  String    // PASSPORT, NATIONAL_ID
+  idNumber                String
+  idIssueDate             DateTime?
+  idExpiryDate            DateTime?
+  nationality             String    // ISO 3166-1 alpha-2 (e.g., "SA", "AE")
+  documentIssuingCountry  String
+  
+  // Ticketing
+  eTicketNumber           String?
+  pnr                     String?
+  ticketStatus            String?   // TICKETED, PENDING, CANCELLED
+  
+  // Additional Data (JSONB)
+  frequentFlyerPrograms   Json?     // Array of {airlineCode, number}
+  selectedAddOns          Json?     // Extra baggage, meals, etc.
+  requiredInformation     Json?     // Passport/DOB requirements
+  
+  // Timestamps
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  
+  // Relations
+  bookingId               String
+  booking                 FlightBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+  @@index([type])
+  @@index([email])
+  @@map("flight_passengers")
+}
+
+// ============================================================================
+// Hotel/Package Booking System
+// ============================================================================
+
+model HotelBooking {
+  id                String    @id @default(uuid())
+  
+  // Mandatory Almosafer IDs
+  sId               String    @db.Uuid  // Search ID
+  pId               String?   @db.Uuid  // Pricing/Availability ID
+  bId               String    @unique @db.Uuid  // Booking ID
+  spId              String?   @db.Uuid  // Search Packages ID
+  
+  // Hotel Details
+  hotelId           String
+  hotelName         String?
+  countryCode       String?
+  
+  // Booking Reference
+  bookingReference  String?   // Confirmation number from hotel
+  dsOrderNumber     String?   // Almosafer order number
+  internalReference String?   // Our internal reference
+  segmentNumber     String?
+  
+  // Pricing
+  currency          String
+  totalAmount       Decimal   @db.Decimal(10, 2)
+  netPrice          Decimal?  @db.Decimal(10, 2)
+  vatAmount         Decimal?  @db.Decimal(10, 2)
+  sellingPriceMandatory Boolean @default(false)
+  
+  // Status
+  bookingStatus     String    @default("PENDING") // PENDING, CONFIRMED, CANCELLED, FAILED
+  pollingStatus     String?   // COMPLETED_SUCCESSFULLY, IN_PROGRESS, FAILED
+  
+  // Stay Details
+  checkInDate       DateTime
+  checkOutDate      DateTime
+  numberOfRooms     Int       @default(1)
+  numberOfNights    Int
+  
+  // Search & Result Data (JSONB)
+  searchQuery       Json      // Original search parameters
+  searchResult      Json?     // Search results
+  availabilityData  Json?     // Availability response
+  packageDetails    Json      // Package/room details
+  bookingData       Json?     // Final booking response
+  cancellationPolicy Json?    // Cancellation terms
+  
+  // Agent Remarks
+  agentRemarks      String?
+  bookingRemarks    Json?     // Array of remarks from hotel
+  
+  // Timestamps
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  bookedAt          DateTime?
+  cancelledAt       DateTime?
+  
+  // Relations
+  userId            String?
+  user              User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  guests            HotelGuest[]
+
+  @@index([sId])
+  @@index([bId])
+  @@index([hotelId])
+  @@index([bookingStatus])
+  @@index([userId])
+  @@index([checkInDate])
+  @@map("hotel_bookings")
+}
+
+model HotelGuest {
+  id                String    @id @default(uuid())
+  
+  // Guest Identification
+  paxId             String    @db.Uuid  // Passenger ID for Almosafer
+  roomId            String    @db.Uuid  // Room ID assignment
+  isLeadGuest       Boolean   @default(false)
+  
+  // Personal Details (exactly as per Almosafer PersonalDetails schema)
+  email             String
+  telephone         String
+  
+  // Name (nested structure in API)
+  namePrefix        String    // Mr, Mrs, Ms, Dr
+  givenName         String    // First name
+  surname           String    // Last name
+  
+  // Additional Info
+  age               Int?
+  type              String    // "0" for adult, "1" for child (as per Almosafer API)
+  
+  // Address (JSONB for full address structure)
+  address           Json      // {street, city, state, country, postalCode}
+  
+  // Timestamps
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Relations
+  bookingId         String
+  booking           HotelBooking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@index([bookingId])
+  @@index([paxId])
+  @@index([email])
+  @@map("hotel_guests")
+}
+
+// ============================================================================
+// Payment Transactions
+// ============================================================================
+
+model PaymentTransaction {
+  id                String    @id @default(uuid())
+  
+  // Reference
+  bookingType       String    // FLIGHT, HOTEL
+  bookingId         String    // FK to FlightBooking or HotelBooking
+  
+  // Payment Gateway (CC Avenue)
+  gatewayOrderId    String?   @unique
+  gatewayTrackingId String?
+  gatewayStatus     String?   // SUCCESS, FAILED, PENDING, CANCELLED
+  
+  // Amount
+  amount            Decimal   @db.Decimal(10, 2)
+  currency          String
+  
+  // Payment Method
+  paymentMethod     String?   // CREDIT_CARD, DEBIT_CARD, NET_BANKING
+  cardLast4         String?
+  cardBrand         String?
+  
+  // Status
+  status            String    @default("INITIATED") // INITIATED, PROCESSING, COMPLETED, FAILED, REFUNDED
+  
+  // Response Data
+  gatewayResponse   Json?
+  errorMessage      String?
+  
+  // Timestamps
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  completedAt       DateTime?
+
+  @@index([bookingId])
+  @@index([gatewayOrderId])
+  @@index([status])
+  @@map("payment_transactions")
+}
+
+// ============================================================================
+// System Logs & Audit
+// ============================================================================
+
+model ApiLog {
+  id                String    @id @default(uuid())
+  
+  // Request Info
+  endpoint          String
+  method            String    // GET, POST, PUT, DELETE
+  requestBody       Json?
+  requestHeaders    Json?
+  
+  // Response Info
+  responseStatus    Int
+  responseBody      Json?
+  responseTime      Int?      // milliseconds
+  
+  // Context
+  userId            String?
+  bookingId         String?
+  errorMessage      String?
+  
+  // Timestamps
+  createdAt         DateTime  @default(now())
+
+  @@index([endpoint])
+  @@index([userId])
+  @@index([createdAt])
+  @@map("api_logs")
+}
