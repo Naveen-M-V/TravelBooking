@@ -48,6 +48,7 @@ export function FlightSearchForm() {
   }
 
   const today = new Date()
+  today.setHours(0, 0, 0, 0)
 
   return (
     <form onSubmit={handleSearch} className="space-y-3">
@@ -176,9 +177,7 @@ export function FlightSearchForm() {
                 <Button
                   type="button"
                   variant="outline"
-                  className={`h-9 w-full justify-start text-left text-sm font-normal ${
-                    !searchData.departureDate ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
+                  className="h-9 w-full justify-start text-left text-sm font-normal"
                 >
                   <Calendar className="mr-2 h-4 w-4" />
                   {searchData.returnDate ? format(parseISO(searchData.returnDate), 'MMM dd, yyyy') : 'Pick a date'}
@@ -205,13 +204,13 @@ export function FlightSearchForm() {
           <div /> /* keep grid even on one-way */
         )}
 
-        {/* Passengers */}
-        <div className="space-y-1">
+        {/* Passengers + Cabin Class — full-width row */}
+        <div className="md:col-span-2 space-y-1">
           <Label className="flex items-center gap-1.5 text-xs">
             <Users className="h-3.5 w-3.5 text-primary" />
-            Passengers
+            Passengers &amp; Cabin
           </Label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
             <div>
               <p className="text-xs text-gray-500 mb-1">Adults</p>
               <Input
@@ -221,7 +220,7 @@ export function FlightSearchForm() {
               />
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Children</p>
+              <p className="text-xs text-gray-500 mb-1">Children (2–11)</p>
               <Input
                 type="number" min="0" max="9" className="h-9 text-sm"
                 value={searchData.children}
@@ -229,33 +228,31 @@ export function FlightSearchForm() {
               />
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Infants</p>
+              <p className="text-xs text-gray-500 mb-1">Infants (under 2)</p>
               <Input
                 type="number" min="0" max="9" className="h-9 text-sm"
                 value={searchData.infants}
                 onChange={(e) => setSearchData({ ...searchData, infants: parseInt(e.target.value) })}
               />
             </div>
+            <div>
+              <p className="text-xs text-gray-500 mb-1">Cabin Class</p>
+              <Select
+                value={searchData.cabinClass}
+                onValueChange={(v) => setSearchData({ ...searchData, cabinClass: v })}
+              >
+                <SelectTrigger id="cabin" className="h-9 text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="ECONOMY">Economy</SelectItem>
+                  <SelectItem value="PREMIUM_ECONOMY">Premium Economy</SelectItem>
+                  <SelectItem value="BUSINESS">Business</SelectItem>
+                  <SelectItem value="FIRST">First Class</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-        </div>
-
-        {/* Cabin class */}
-        <div className="space-y-1">
-          <Label htmlFor="cabin" className="text-xs">Cabin Class</Label>
-          <Select
-            value={searchData.cabinClass}
-            onValueChange={(v) => setSearchData({ ...searchData, cabinClass: v })}
-          >
-            <SelectTrigger id="cabin" className="h-9 text-sm">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="ECONOMY">Economy</SelectItem>
-              <SelectItem value="PREMIUM_ECONOMY">Premium Economy</SelectItem>
-              <SelectItem value="BUSINESS">Business</SelectItem>
-              <SelectItem value="FIRST">First Class</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
       </div>
 

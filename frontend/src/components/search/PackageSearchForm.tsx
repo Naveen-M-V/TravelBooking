@@ -45,6 +45,7 @@ export function PackageSearchForm() {
   }
 
   const today = new Date()
+  today.setHours(0, 0, 0, 0)
 
   return (
     <form onSubmit={handleSearch} className="space-y-4">
@@ -122,9 +123,7 @@ export function PackageSearchForm() {
               <Button
                 type="button"
                 variant="outline"
-                className={`w-full justify-start text-left font-normal ${
-                  !searchData.checkIn ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+                className="w-full justify-start text-left font-normal"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 {searchData.checkOut ? format(parseISO(searchData.checkOut), 'MMM dd, yyyy') : 'Pick a date'}
@@ -148,30 +147,26 @@ export function PackageSearchForm() {
           <input type="hidden" name="checkOut" value={searchData.checkOut} />
         </div>
 
-        {/* Rooms */}
-        <div className="space-y-2">
-          <Label htmlFor="rooms">Rooms</Label>
-          <Input
-            id="rooms"
-            type="number"
-            min="1"
-            max="5"
-            value={searchData.rooms}
-            onChange={(e) => setSearchData({ ...searchData, rooms: parseInt(e.target.value) })}
-          />
-        </div>
-
-        {/* Guests */}
-        <div className="space-y-2">
+        {/* Rooms & Guests — full-width row */}
+        <div className="space-y-2 md:col-span-2">
           <Label className="flex items-center gap-2">
             <Users className="h-4 w-4 text-primary" />
-            Guests
+            Rooms &amp; Guests
           </Label>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             <div>
-              <Label htmlFor="adults" className="text-xs text-gray-600">
-                Adults
-              </Label>
+              <p className="text-xs text-gray-500 mb-1">Rooms</p>
+              <Input
+                id="rooms"
+                type="number"
+                min="1"
+                max="5"
+                value={searchData.rooms}
+                onChange={(e) => setSearchData({ ...searchData, rooms: parseInt(e.target.value) })}
+              />
+            </div>
+            <div>
+              <p className="text-xs text-gray-500 mb-1">Adults</p>
               <Input
                 id="adults"
                 type="number"
@@ -182,9 +177,7 @@ export function PackageSearchForm() {
               />
             </div>
             <div>
-              <Label htmlFor="children" className="text-xs text-gray-600">
-                Children (0-17)
-              </Label>
+              <p className="text-xs text-gray-500 mb-1">Children (2–11)</p>
               <Input
                 id="children"
                 type="number"

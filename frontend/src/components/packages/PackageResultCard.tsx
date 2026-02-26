@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { MapPin, Calendar, Users, Star, Wifi, Coffee, Utensils, Waves, Heart, ArrowUpRight } from 'lucide-react'
+import { MapPin, Calendar, Users, Wifi, Coffee, Utensils, Waves, Heart, ArrowUpRight } from 'lucide-react'
 import { HalalRatingBadge } from '@/components/ui/halal-rating-badge'
 import Image from 'next/image'
 
@@ -27,8 +27,8 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
   } = pkg
 
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:border-teal-500/30 hover:bg-teal-500/[0.04]">
-      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(80%_60%_at_20%_0%,rgba(20,184,166,0.12),transparent_55%)]" />
+    <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:border-teal-400/50 hover:shadow-md">
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(80%_60%_at_20%_0%,rgba(20,184,166,0.05),transparent_55%)]" />
       <div className="grid grid-cols-1 md:grid-cols-12">
         {/* Image */}
         <div className="relative md:col-span-5 h-64 md:h-full">
@@ -44,14 +44,6 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
             <div className="rounded-full bg-white/90 px-3 py-1.5 shadow-sm ring-1 ring-white/40">
               <HalalRatingBadge rating={halalRating} />
             </div>
-            {rating >= 4.5 && (
-              <div className="rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold text-slate-900 shadow-sm ring-1 ring-white/40">
-                <span className="inline-flex items-center gap-1">
-                  <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-                  Top Rated
-                </span>
-              </div>
-            )}
           </div>
 
           <button
@@ -71,10 +63,6 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
                 <MapPin className="h-4 w-4" />
                 {location}
               </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Star className="h-4 w-4 fill-amber-300 text-amber-300" />
-                <span className="font-semibold">{rating}</span>
-              </span>
             </div>
           </div>
         </div>
@@ -84,30 +72,30 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
           <div className="relative p-6 md:p-7">
             <div className="grid grid-cols-1 gap-5">
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3">
-                  <div className="text-xs font-semibold text-white/45">Duration</div>
-                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-white/85">
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3">
+                  <div className="text-xs font-semibold text-gray-400">Duration</div>
+                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-gray-700">
                     <Calendar className="h-4 w-4 text-teal-400" />
                     {nights} Nights
                   </div>
                 </div>
-                <div className="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3">
-                  <div className="text-xs font-semibold text-white/45">Room</div>
-                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-white/85">
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3">
+                  <div className="text-xs font-semibold text-gray-400">Room</div>
+                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-gray-700">
                     <Users className="h-4 w-4 text-teal-400" />
                     {roomType}
                   </div>
                 </div>
-                <div className="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3">
-                  <div className="text-xs font-semibold text-white/45">Board</div>
-                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-white/85">
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3">
+                  <div className="text-xs font-semibold text-gray-400">Board</div>
+                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-gray-700">
                     <Utensils className="h-4 w-4 text-teal-400" />
                     {boardType}
                   </div>
                 </div>
-                <div className="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3">
-                  <div className="text-xs font-semibold text-white/45">Dates</div>
-                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-white/85">
+                <div className="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3">
+                  <div className="text-xs font-semibold text-gray-400">Dates</div>
+                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-gray-700">
                     <Calendar className="h-4 w-4 text-teal-400" />
                     {checkIn} → {checkOut}
                   </div>
@@ -117,50 +105,41 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                   {amenities.includes('WiFi') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5" title="WiFi">
-                      <Wifi className="h-4 w-4 text-white/60" />
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-gray-200 bg-gray-100" title="WiFi">
+                      <Wifi className="h-4 w-4 text-gray-500" />
                     </span>
                   )}
                   {amenities.includes('Breakfast') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5" title="Breakfast">
-                      <Coffee className="h-4 w-4 text-white/60" />
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-gray-200 bg-gray-100" title="Breakfast">
+                      <Coffee className="h-4 w-4 text-gray-500" />
                     </span>
                   )}
                   {amenities.includes('Restaurant') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5" title="Restaurant">
-                      <Utensils className="h-4 w-4 text-white/60" />
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-gray-200 bg-gray-100" title="Restaurant">
+                      <Utensils className="h-4 w-4 text-gray-500" />
                     </span>
                   )}
                   {amenities.includes('Pool') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5" title="Pool">
-                      <Waves className="h-4 w-4 text-white/60" />
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-gray-200 bg-gray-100" title="Pool">
+                      <Waves className="h-4 w-4 text-gray-500" />
                     </span>
                   )}
                   {amenities.length > 0 && (
-                    <span className="text-xs font-semibold text-white/35">+{Math.max(0, amenities.length - 4)} more</span>
+                    <span className="text-xs font-semibold text-gray-400">+{Math.max(0, amenities.length - 4)} more</span>
                   )}
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="rounded-full bg-teal-500/10 text-teal-300 border border-teal-500/20 px-3 py-1 text-xs font-semibold">
+                  <span className="rounded-full bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 text-xs font-semibold">
                     Free Cancellation
                   </span>
-                  <span className="rounded-full bg-white/5 text-white/55 border border-white/10 px-3 py-1 text-xs font-semibold hidden sm:inline">
+                  <span className="rounded-full bg-gray-100 text-gray-500 border border-gray-200 px-3 py-1 text-xs font-semibold hidden sm:inline">
                     Instant Confirmation
                   </span>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-white/10 pt-5">
-                <div>
-                  <div className="text-xs font-semibold text-white/40">Total from</div>
-                  <div className="mt-1 text-2xl font-bold text-white">
-                    {price?.total?.toLocaleString?.() ?? price?.total}{' '}
-                    <span className="text-sm font-semibold text-white/40">SAR</span>
-                  </div>
-                  <div className="text-xs text-white/35">Includes taxes &amp; fees</div>
-                </div>
-
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4 border-t border-gray-200 pt-5">
                 <Button onClick={() => onSelect(pkg)} size="lg" className="rounded-2xl h-11 px-5 bg-teal-500 text-white hover:bg-teal-400">
                   Enquire Now
                   <ArrowUpRight className="ml-2 h-4 w-4" />

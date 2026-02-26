@@ -30,10 +30,10 @@ const mockRecommended = [
 ]
 
 const colorMap: Record<string, string> = {
-  teal:   'bg-teal-500/15   ring-teal-500/20   text-teal-300',
-  sky:    'bg-sky-500/15    ring-sky-500/20    text-sky-300',
-  violet: 'bg-violet-500/15 ring-violet-500/20 text-violet-300',
-  amber:  'bg-amber-500/15  ring-amber-500/20  text-amber-300',
+  teal:   'bg-teal-100   ring-teal-300   text-teal-600',
+  sky:    'bg-sky-100    ring-sky-300    text-sky-600',
+  violet: 'bg-violet-100 ring-violet-300 text-violet-600',
+  amber:  'bg-amber-100  ring-amber-300  text-amber-600',
 }
 
 export default function CustomerDashboard() {
@@ -54,11 +54,11 @@ export default function CustomerDashboard() {
       {/* ── Welcome header ── */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-white/40 text-xs font-bold uppercase tracking-[0.18em] mb-1">Dashboard</p>
-          <h1 className="text-3xl font-bold tracking-tight text-white">
-            Welcome back, <span className="text-teal-300">{firstName}</span> 👋
+          <p className="text-gray-400 text-xs font-bold uppercase tracking-[0.18em] mb-1">Dashboard</p>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            Welcome back, <span className="text-teal-600">{firstName}</span>
           </h1>
-          <p className="text-white/50 mt-1">Here&apos;s what&apos;s happening with your travels.</p>
+          <p className="text-gray-500 mt-1">Here&apos;s what&apos;s happening with your travels.</p>
         </div>
         <button
           onClick={() => router.push('/packages')}
@@ -74,21 +74,21 @@ export default function CustomerDashboard() {
         {mockStats.map(({ label, value, sub, icon: Icon, color }) => (
           <div
             key={label}
-            className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 hover:border-teal-500/20 transition-colors"
+            className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5 hover:border-teal-400/50 hover:shadow-md transition-all"
           >
             <div className={`inline-flex h-10 w-10 items-center justify-center rounded-xl ring-1 ${colorMap[color]} mb-4`}>
               <Icon className="w-4 h-4" />
             </div>
-            <p className="text-2xl font-bold text-white">{value}</p>
-            <p className="text-sm font-medium text-white/70 mt-0.5">{label}</p>
-            <p className="text-xs text-white/35 mt-1">{sub}</p>
+            <p className="text-2xl font-bold text-gray-900">{value}</p>
+            <p className="text-sm font-medium text-gray-600 mt-0.5">{label}</p>
+            <p className="text-xs text-gray-400 mt-1">{sub}</p>
           </div>
         ))}
       </div>
 
       {/* ── Quick actions ── */}
       <div>
-        <p className="text-white/40 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Quick Actions</p>
+        <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Quick Actions</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: 'My Enquiries',    href: '/dashboard/customer/enquiries', icon: MessageSquare, desc: 'Track package quotes' },
@@ -99,16 +99,16 @@ export default function CustomerDashboard() {
             <button
               key={href}
               onClick={() => router.push(href)}
-              className="group flex flex-col items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-left hover:border-teal-500/25 hover:bg-teal-500/[0.04] transition-all"
+              className="group flex flex-col items-start gap-3 rounded-2xl border border-gray-200 bg-white shadow-sm p-5 text-left hover:border-teal-400/50 hover:bg-teal-50/50 transition-all"
             >
-              <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-white/5 ring-1 ring-white/10 group-hover:bg-teal-500/15 group-hover:ring-teal-500/20 transition-colors">
-                <Icon className="w-4 h-4 text-white/60 group-hover:text-teal-400 transition-colors" />
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gray-100 ring-1 ring-gray-200 group-hover:bg-teal-100 group-hover:ring-teal-300 transition-colors">
+                <Icon className="w-4 h-4 text-gray-500 group-hover:text-teal-600 transition-colors" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white/85 group-hover:text-white transition-colors">{label}</p>
-                <p className="text-xs text-white/35 mt-0.5">{desc}</p>
+                <p className="text-sm font-semibold text-gray-700 group-hover:text-gray-900 transition-colors">{label}</p>
+                <p className="text-xs text-gray-400 mt-0.5">{desc}</p>
               </div>
-              <ArrowRight className="w-4 h-4 text-white/20 group-hover:text-teal-400 group-hover:translate-x-0.5 transition-all mt-auto self-end" />
+              <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-teal-500 group-hover:translate-x-0.5 transition-all mt-auto self-end" />
             </button>
           ))}
         </div>
@@ -118,10 +118,10 @@ export default function CustomerDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
         {/* Recent activity */}
-        <div className="lg:col-span-3 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+        <div className="lg:col-span-3 rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
           <div className="flex items-center justify-between mb-5">
-            <p className="text-sm font-bold text-white">Recent Activity</p>
-            <span className="text-xs text-white/35">Last 30 days</span>
+            <p className="text-sm font-bold text-gray-900">Recent Activity</p>
+            <span className="text-xs text-gray-400">Last 30 days</span>
           </div>
           <div className="space-y-4">
             {mockActivity.map(({ icon: Icon, color, title, desc, time }, i) => (
@@ -130,20 +130,20 @@ export default function CustomerDashboard() {
                   <Icon className={`w-4 h-4 ${color}`} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-white/80">{title}</p>
-                  <p className="text-xs text-white/40 truncate">{desc}</p>
+                  <p className="text-sm font-medium text-gray-700">{title}</p>
+                  <p className="text-xs text-gray-400 truncate">{desc}</p>
                 </div>
-                <span className="text-xs text-white/30 flex-shrink-0">{time}</span>
+                <span className="text-xs text-gray-300 flex-shrink-0">{time}</span>
               </div>
             ))}
           </div>
         </div>
 
         {/* Recommended packages */}
-        <div className="lg:col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-6">
+        <div className="lg:col-span-2 rounded-2xl border border-gray-200 bg-white shadow-sm p-6">
           <div className="flex items-center justify-between mb-5">
-            <p className="text-sm font-bold text-white">Recommended</p>
-            <button onClick={() => router.push('/packages')} className="text-xs text-teal-400 hover:text-teal-300 transition-colors">
+            <p className="text-sm font-bold text-gray-900">Recommended</p>
+            <button onClick={() => router.push('/packages')} className="text-xs text-teal-600 hover:text-teal-500 transition-colors">
               View all
             </button>
           </div>
@@ -152,7 +152,7 @@ export default function CustomerDashboard() {
               <button
                 key={dest}
                 onClick={() => router.push('/packages')}
-                className="w-full flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] p-3 hover:border-teal-500/20 hover:bg-teal-500/[0.04] transition-all text-left group"
+                className="w-full flex items-center gap-3 rounded-xl border border-gray-200 bg-white p-3 hover:border-teal-300 hover:bg-teal-50/30 transition-all text-left group"
               >
                 <div className="h-12 w-12 rounded-lg overflow-hidden flex-shrink-0">
                   <img
@@ -164,9 +164,9 @@ export default function CustomerDashboard() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1 mb-0.5">
                     <MapPin className="w-3 h-3 text-teal-400 flex-shrink-0" />
-                    <span className="text-sm font-semibold text-white/85 truncate">{dest}</span>
+                    <span className="text-sm font-semibold text-gray-700 truncate">{dest}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-xs text-white/40">
+                  <div className="flex items-center gap-3 text-xs text-gray-400">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" /> {nights}
                     </span>
@@ -176,8 +176,8 @@ export default function CustomerDashboard() {
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <p className="text-xs font-bold text-teal-300">{price}</p>
-                  <p className="text-[10px] text-white/30">from</p>
+                  <p className="text-xs font-bold text-teal-600">{price}</p>
+                  <p className="text-[10px] text-gray-400">from</p>
                 </div>
               </button>
             ))}

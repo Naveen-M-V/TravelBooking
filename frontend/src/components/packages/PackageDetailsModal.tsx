@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button'
 import { 
   MapPin, 
   Calendar, 
-  Star, 
   Check, 
   Clock,
   Users,
@@ -41,21 +40,21 @@ export function PackageDetailsModal({ package: pkg, isOpen, onClose }: PackageDe
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-slate-900 border border-white/10 text-white">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white border border-gray-200 text-gray-900">
           <DialogHeader>
-            <DialogTitle className="text-2xl font-bold pr-8 text-white">{pkg.name}</DialogTitle>
+            <DialogTitle className="text-2xl font-bold pr-8 text-gray-900">{pkg.name}</DialogTitle>
           </DialogHeader>
 
           {/* Header Image & Info */}
-          <div className="relative h-64 bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 rounded-xl overflow-hidden -mt-2">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(20,184,166,0.18),transparent)]" />
+          <div className="relative h-64 bg-gradient-to-br from-teal-50 to-gray-100 border border-gray-200 rounded-xl overflow-hidden -mt-2">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_0%,rgba(20,184,166,0.15),transparent)]" />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center p-6">
                 <MapPin className="w-16 h-16 text-teal-400 mx-auto mb-2" />
-                <h3 className="text-2xl font-semibold text-white">
+                <h3 className="text-2xl font-semibold text-gray-900">
                   {pkg.destination}
                 </h3>
-                <p className="text-white/55 mt-1">{pkg.country}</p>
+                <p className="text-gray-500 mt-1">{pkg.country}</p>
               </div>
             </div>
 
@@ -72,58 +71,53 @@ export function PackageDetailsModal({ package: pkg, isOpen, onClose }: PackageDe
           </div>
 
           {/* Quick Info */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-4 border-y border-white/10">
+          <div className="grid grid-cols-3 gap-4 py-4 border-y border-gray-200">
             <div className="text-center">
               <Calendar className="w-5 h-5 mx-auto mb-1 text-teal-400" />
-              <p className="text-xs text-white/45">Duration</p>
-              <p className="font-semibold text-sm text-white/80">{pkg.duration}</p>
-            </div>
-            <div className="text-center">
-              <Star className="w-5 h-5 mx-auto mb-1 text-amber-400" />
-              <p className="text-xs text-white/45">Rating</p>
-              <p className="font-semibold text-sm text-white/80">{pkg.rating} ({pkg.reviews})</p>
+              <p className="text-xs text-gray-400">Duration</p>
+              <p className="font-semibold text-sm text-gray-700">{pkg.duration}</p>
             </div>
             <div className="text-center">
               <Users className="w-5 h-5 mx-auto mb-1 text-teal-400" />
-              <p className="text-xs text-white/45">Group Size</p>
-              <p className="font-semibold text-sm text-white/80">2-15 people</p>
+              <p className="text-xs text-gray-400">Group Size</p>
+              <p className="font-semibold text-sm text-gray-700">2–15 people</p>
             </div>
             <div className="text-center">
               <Sparkles className="w-5 h-5 mx-auto mb-1 text-teal-400" />
-              <p className="text-xs text-white/45">Halal Rating</p>
-              <p className="font-semibold text-sm text-white/80">{pkg.halalRating}/5</p>
+              <p className="text-xs text-gray-400">Halal Rating</p>
+              <p className="font-semibold text-sm text-gray-700">{pkg.halalRating}/5</p>
             </div>
           </div>
 
           {/* Tabs */}
           <Tabs defaultValue="overview" className="mt-4">
-            <TabsList className="grid w-full grid-cols-4 bg-white/5 border border-white/10">
-              <TabsTrigger value="overview" className="data-[state=active]:bg-teal-500 data-[state=active]:text-white text-white/60">Overview</TabsTrigger>
-              <TabsTrigger value="itinerary" className="data-[state=active]:bg-teal-500 data-[state=active]:text-white text-white/60">Itinerary</TabsTrigger>
-              <TabsTrigger value="included" className="data-[state=active]:bg-teal-500 data-[state=active]:text-white text-white/60">What&apos;s Included</TabsTrigger>
-              <TabsTrigger value="highlights" className="data-[state=active]:bg-teal-500 data-[state=active]:text-white text-white/60">Highlights</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-4 bg-gray-100 border border-gray-200">
+              <TabsTrigger value="overview" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-gray-500">Overview</TabsTrigger>
+              <TabsTrigger value="itinerary" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-gray-500">Itinerary</TabsTrigger>
+              <TabsTrigger value="included" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-gray-500">What&apos;s Included</TabsTrigger>
+              <TabsTrigger value="highlights" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-gray-500">Highlights</TabsTrigger>
             </TabsList>
 
             {/* Overview Tab */}
             <TabsContent value="overview" className="space-y-4 mt-4">
               <div>
-                <h3 className="font-semibold text-lg mb-2 text-white">About This Package</h3>
-                <p className="text-white/65">{pkg.description}</p>
+                <h3 className="font-semibold text-lg mb-2 text-gray-900">About This Package</h3>
+                <p className="text-gray-600">{pkg.description}</p>
               </div>
 
               <div>
-                <h3 className="font-semibold text-lg mb-3 text-white">Features</h3>
+                <h3 className="font-semibold text-lg mb-3 text-gray-900">Features</h3>
                 <div className="flex flex-wrap gap-2">
                   {pkg.features.map((feature) => (
-                    <span key={feature} className="rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-300 px-3 py-1 text-sm font-medium">
+                    <span key={feature} className="rounded-full bg-teal-50 border border-teal-200 text-teal-700 px-3 py-1 text-sm font-medium">
                       {feature}
                     </span>
                   ))}
                 </div>
               </div>
 
-              <div className="bg-teal-500/10 border border-teal-500/20 p-4 rounded-xl">
-                <Button size="lg" onClick={handleEnquireNow} className="w-full gap-2 bg-teal-500 text-white hover:bg-teal-400">
+              <div className="bg-teal-50 border border-teal-200 p-4 rounded-xl">
+                <Button size="lg" onClick={handleEnquireNow} className="w-full gap-2 bg-teal-600 text-white hover:bg-teal-500">
                   <MessageSquare className="w-5 h-5" />
                   Enquire Now
                 </Button>
@@ -140,14 +134,14 @@ export function PackageDetailsModal({ package: pkg, isOpen, onClose }: PackageDe
                         <div className="bg-teal-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
                           {day.day}
                         </div>
-                        <h4 className="font-semibold text-lg text-white">{day.title}</h4>
+                        <h4 className="font-semibold text-lg text-gray-900">{day.title}</h4>
                       </div>
-                      <p className="text-white/65 mb-3">{day.description}</p>
+                      <p className="text-gray-600 mb-3">{day.description}</p>
                       <div className="space-y-1">
                         {day.activities.map((activity, idx) => (
                           <div key={idx} className="flex items-start gap-2">
                             <Clock className="w-4 h-4 text-teal-400 mt-0.5 flex-shrink-0" />
-                            <span className="text-sm text-white/55">{activity}</span>
+                            <span className="text-sm text-gray-500">{activity}</span>
                           </div>
                         ))}
                       </div>
@@ -155,10 +149,10 @@ export function PackageDetailsModal({ package: pkg, isOpen, onClose }: PackageDe
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12 text-white/50">
-                  <Calendar className="w-12 h-12 mx-auto mb-2 opacity-40" />
-                  <p>Detailed itinerary coming soon!</p>
-                  <p className="text-sm mt-1 text-white/35">Contact us for more information</p>
+                  <div className="text-center py-12 text-gray-400">
+                    <Calendar className="w-12 h-12 mx-auto mb-2 opacity-40" />
+                    <p>Detailed itinerary coming soon!</p>
+                    <p className="text-sm mt-1 text-gray-400">Contact us for more information</p>
                 </div>
               )}
             </TabsContent>
@@ -167,34 +161,34 @@ export function PackageDetailsModal({ package: pkg, isOpen, onClose }: PackageDe
             <TabsContent value="included" className="mt-4">
               <div className="space-y-4">
                 <div>
-                  <h3 className="font-semibold text-lg mb-3 text-emerald-400">✔ Included</h3>
+                  <h3 className="font-semibold text-lg mb-3 text-emerald-600">✓ Included</h3>
                   <ul className="space-y-2">
                     {pkg.included.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-2">
                         <Check className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-white/70">{item}</span>
+                        <span className="text-gray-600">{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="border-t border-white/10 pt-4">
-                  <h3 className="font-semibold text-lg mb-3 text-rose-400">âœ— Not Included</h3>
-                  <ul className="space-y-2 text-white/55">
+                  <div className="border-t border-gray-200 pt-4">
+                    <h3 className="font-semibold text-lg mb-3 text-rose-500">✕ Not Included</h3>
+                  <ul className="space-y-2 text-gray-500">
                     <li className="flex items-start gap-2">
-                      <span className="text-rose-400 font-bold">âœ—</span>
+                      <span className="text-rose-500 font-bold">✕</span>
                       <span>Personal expenses and shopping</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-rose-400 font-bold">âœ—</span>
+                      <span className="text-rose-500 font-bold">✕</span>
                       <span>Tips and gratuities</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-rose-400 font-bold">âœ—</span>
+                      <span className="text-rose-500 font-bold">✕</span>
                       <span>Travel visa fees (if applicable)</span>
                     </li>
                     <li className="flex items-start gap-2">
-                      <span className="text-rose-400 font-bold">âœ—</span>
+                      <span className="text-rose-500 font-bold">✕</span>
                       <span>Optional activities and excursions</span>
                     </li>
                   </ul>
@@ -205,22 +199,22 @@ export function PackageDetailsModal({ package: pkg, isOpen, onClose }: PackageDe
             {/* Highlights Tab */}
             <TabsContent value="highlights" className="mt-4">
               <div>
-                <h3 className="font-semibold text-lg mb-4 text-white">Experience Highlights</h3>
+                <h3 className="font-semibold text-lg mb-4 text-gray-900">Experience Highlights</h3>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {pkg.highlights.map((highlight, idx) => (
-                    <li key={idx} className="flex items-start gap-3 p-3 bg-white/5 rounded-xl border border-white/[0.07]">
-                      <div className="w-8 h-8 rounded-full bg-teal-500/15 flex items-center justify-center flex-shrink-0">
-                        <Sparkles className="w-4 h-4 text-teal-400" />
+                    <li key={idx} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl border border-gray-200">
+                      <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
+                        <Sparkles className="w-4 h-4 text-teal-600" />
                       </div>
-                      <span className="text-white/70 pt-1">{highlight}</span>
+                      <span className="text-gray-600 pt-1">{highlight}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="mt-6 p-4 bg-teal-500/10 border border-teal-500/20 rounded-xl">
-                <h4 className="font-semibold text-white mb-2">Why This Package?</h4>
-                <p className="text-sm text-white/60">
+              <div className="mt-6 p-4 bg-teal-50 border border-teal-200 rounded-xl">
+                <h4 className="font-semibold text-gray-900 mb-2">Why This Package?</h4>
+                <p className="text-sm text-gray-600">
                   This carefully curated package combines cultural immersion with comfort,
                   ensuring you experience the best of {pkg.destination} while maintaining
                   your Islamic values and dietary requirements.
@@ -230,11 +224,11 @@ export function PackageDetailsModal({ package: pkg, isOpen, onClose }: PackageDe
           </Tabs>
 
           {/* Footer CTA */}
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10 mt-4">
-            <Button variant="outline" onClick={onClose} className="border-white/15 text-white/70 hover:bg-white/5 hover:text-white">
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 mt-4">
+            <Button variant="outline" onClick={onClose} className="border-gray-200 text-gray-600 hover:bg-gray-50">
               Close
             </Button>
-            <Button size="lg" onClick={handleEnquireNow} className="gap-2 bg-teal-500 text-white hover:bg-teal-400">
+            <Button size="lg" onClick={handleEnquireNow} className="gap-2 bg-teal-600 text-white hover:bg-teal-500">
               <MessageSquare className="w-5 h-5" />
               Enquire Now
             </Button>

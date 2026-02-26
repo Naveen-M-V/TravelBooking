@@ -39,37 +39,37 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     : (user?.email?.[0] ?? 'U').toUpperCase()
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Top accent line */}
-      <div className="h-px bg-gradient-to-r from-transparent via-teal-400/40 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-transparent via-teal-500/40 to-transparent" />
 
       <div className="flex">
         {/* ── Sidebar ── */}
-        <aside className="w-64 min-h-screen bg-slate-900/60 border-r border-white/[0.07] flex flex-col backdrop-blur-xl">
+        <aside className="w-64 min-h-screen bg-white border-r border-gray-200 flex flex-col shadow-sm">
 
           {/* Brand */}
-          <div className="px-5 py-6 border-b border-white/[0.07]">
+          <div className="px-5 py-6 border-b border-gray-200">
             <button onClick={() => router.push('/')} className="inline-flex items-center gap-2 group">
-              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/15">
-                <span className="h-2 w-2 rounded-full bg-teal-400" />
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-teal-50 ring-1 ring-teal-200">
+                <span className="h-2 w-2 rounded-full bg-teal-600" />
               </span>
-              <span className="text-xs font-bold tracking-[0.22em] uppercase text-white/80 group-hover:text-white transition-colors">
+              <span className="text-xs font-bold tracking-[0.22em] uppercase text-gray-700 group-hover:text-gray-900 transition-colors">
                 Halal Travels
               </span>
             </button>
           </div>
 
           {/* User chip */}
-          <div className="px-4 py-4 border-b border-white/[0.07]">
-            <div className="flex items-center gap-3 rounded-xl bg-white/5 ring-1 ring-white/10 px-3 py-3">
-              <div className="h-9 w-9 rounded-full bg-teal-500/20 ring-1 ring-teal-400/30 flex items-center justify-center flex-shrink-0">
-                <span className="text-xs font-bold text-teal-300">{initials}</span>
+          <div className="px-4 py-4 border-b border-gray-200">
+            <div className="flex items-center gap-3 rounded-xl bg-gray-50 ring-1 ring-gray-200 px-3 py-3">
+              <div className="h-9 w-9 rounded-full bg-teal-100 ring-1 ring-teal-300 flex items-center justify-center flex-shrink-0">
+                <span className="text-xs font-bold text-teal-700">{initials}</span>
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-white truncate">
+                <p className="text-sm font-semibold text-gray-900 truncate">
                   {user?.firstName ? `${user.firstName} ${user.lastName ?? ''}`.trim() : user?.email}
                 </p>
-                <p className="text-[10px] font-medium text-white/40 uppercase tracking-[0.14em]">
+                <p className="text-[10px] font-medium text-gray-400 uppercase tracking-[0.14em]">
                   {isAdmin ? 'Administrator' : 'Customer'}
                 </p>
               </div>
@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
           {/* Nav links */}
           <nav className="flex-1 px-3 py-4 space-y-0.5">
-            <p className="px-3 mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
+            <p className="px-3 mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400">
               {isAdmin ? 'Admin Panel' : 'My Account'}
             </p>
             {links.map(({ href, label, icon: Icon }) => {
@@ -89,23 +89,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   onClick={() => router.push(href)}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-teal-500/15 text-teal-300 ring-1 ring-teal-500/20'
-                      : 'text-white/55 hover:bg-white/5 hover:text-white/90'
+                      ? 'bg-teal-50 text-teal-700 ring-1 ring-teal-200'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" />
                   {label}
-                  {isActive && <ChevronRight className="w-3.5 h-3.5 ml-auto text-teal-400" />}
+                  {isActive && <ChevronRight className="w-3.5 h-3.5 ml-auto text-teal-600" />}
                 </button>
               )
             })}
           </nav>
 
           {/* Sign out */}
-          <div className="px-3 pb-6 border-t border-white/[0.07] pt-4">
+          <div className="px-3 pb-6 border-t border-gray-200 pt-4">
             <button
               onClick={handleSignOut}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:bg-red-500/10 hover:text-red-400 transition-all"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-500 transition-all"
             >
               <LogOut className="w-4 h-4" />
               Sign Out

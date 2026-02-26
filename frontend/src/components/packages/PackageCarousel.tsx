@@ -3,7 +3,7 @@
 import { useRef, useEffect } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { HalalRatingBadge } from '@/components/ui/halal-rating-badge'
-import { ChevronLeft, ChevronRight, Star, Calendar, Heart, Tag } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Calendar, Heart } from 'lucide-react'
 import type { FeaturedPackage } from '@/mocks/featured-packages'
 
 const CARD_WIDTH = 288  // w-72 = 18rem = 288px
@@ -15,9 +15,10 @@ interface PackageCarouselProps {
   title: string
   packages: FeaturedPackage[]
   onPackageClick: (pkg: FeaturedPackage) => void
+  reverse?: boolean
 }
 
-export function PackageCarousel({ title, packages, onPackageClick }: PackageCarouselProps) {
+export function PackageCarousel({ title, packages, onPackageClick, reverse = false }: PackageCarouselProps) {
   const trackRef  = useRef<HTMLDivElement>(null)
   const pausedRef = useRef(false)
   const timerRef  = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -54,11 +55,11 @@ export function PackageCarousel({ title, packages, onPackageClick }: PackageCaro
     if (el) el.style.scrollBehavior = 'smooth'
 
     timerRef.current = setInterval(() => {
-      if (!pausedRef.current) advance(1)
+      if (!pausedRef.current) advance(reverse ? -1 : 1)
     }, AUTO_INTERVAL_MS)
 
     return () => { if (timerRef.current) clearInterval(timerRef.current) }
-  }, [packages.length]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [packages.length, reverse]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handlePrev = () => {
     pausedRef.current = true
@@ -66,7 +67,7 @@ export function PackageCarousel({ title, packages, onPackageClick }: PackageCaro
     if (timerRef.current) clearInterval(timerRef.current)
     setTimeout(() => {
       pausedRef.current = false
-      timerRef.current = setInterval(() => { if (!pausedRef.current) advance(1) }, AUTO_INTERVAL_MS)
+      timerRef.current = setInterval(() => { if (!pausedRef.current) advance(reverse ? -1 : 1) }, AUTO_INTERVAL_MS)
     }, 6000)
   }
 
@@ -76,7 +77,7 @@ export function PackageCarousel({ title, packages, onPackageClick }: PackageCaro
     if (timerRef.current) clearInterval(timerRef.current)
     setTimeout(() => {
       pausedRef.current = false
-      timerRef.current = setInterval(() => { if (!pausedRef.current) advance(1) }, AUTO_INTERVAL_MS)
+      timerRef.current = setInterval(() => { if (!pausedRef.current) advance(reverse ? -1 : 1) }, AUTO_INTERVAL_MS)
     }, 6000)
   }
 
@@ -126,7 +127,7 @@ export function PackageCarousel({ title, packages, onPackageClick }: PackageCaro
             {doubled.map((pkg, index) => (
               <div key={`${pkg.id}-${index}`} className="w-72 flex-shrink-0">
                 <Card
-                  className="overflow-hidden cursor-pointer group border-0 shadow-[0_12px_30px_rgba(17,24,39,0.10)] hover:shadow-[0_22px_60px_rgba(17,24,39,0.18)] transition-all duration-300 rounded-3xl bg-white h-full"
+                  className="overflow-hidden cursor-pointer group border-0 shadow-[0_12px_30px_rgba(17,24,39,0.10)] hover:shadow-[0_22px_60px_rgba(17,24,39,0.18)] transition-all duration-300 rounded-3xl bg-white h-full flex flex-col"
                   onClick={() => onPackageClick(pkg)}
                 >
                   {/* Image */}
@@ -158,33 +159,21 @@ export function PackageCarousel({ title, packages, onPackageClick }: PackageCaro
                   </div>
 
                   {/* Body */}
-                  <CardContent className="p-4">
-                    <h4 className="font-bold text-sm text-gray-900 line-clamp-2 mb-3 group-hover:text-primary transition-colors">
+                  <CardContent className="p-4 flex flex-col flex-1">
+                    <h4 className="font-bold text-sm text-gray-900 line-clamp-2 mb-2 group-hover:text-primary transition-colors">
                       {pkg.name}
                     </h4>
 
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                        <Tag className="w-3.5 h-3.5 flex-shrink-0" />
-                        <span className="font-semibold text-gray-800">
-                          {pkg.currency} {pkg.price.toLocaleString()}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                        <Calendar className="w-3.5 h-3.5 flex-shrink-0" />
-                        <span className="truncate">{pkg.duration}</span>
-                      </div>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                      <Calendar className="w-3.5 h-3.5 flex-shrink-0" />
+                      <span className="truncate">{pkg.duration}</span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 mb-4">
-                      <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
-                      <span className="font-semibold text-xs text-gray-900">{pkg.rating}</span>
-                      <span className="text-xs text-gray-400">({pkg.reviews} reviews)</span>
+                    <div className="mt-auto pt-4">
+                      <button className="w-full rounded-2xl py-2.5 text-sm font-semibold transition-all bg-gray-900 text-white hover:bg-primary active:scale-[0.99]">
+                        View Details
+                      </button>
                     </div>
-
-                    <button className="w-full rounded-2xl py-2.5 text-sm font-semibold transition-all bg-gray-900 text-white hover:bg-primary active:scale-[0.99]">
-                      View Details
-                    </button>
                   </CardContent>
                 </Card>
               </div>

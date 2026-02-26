@@ -84,6 +84,7 @@ export default function Home() {
             title="New &amp; Most Popular Tours"
             packages={getPopularPackages()}
             onPackageClick={handlePackageClick}
+            reverse
           />
 
           {/* Top Destinations */}
@@ -98,6 +99,7 @@ export default function Home() {
             title="Family Destinations"
             packages={getFamilyPackages()}
             onPackageClick={handlePackageClick}
+            reverse
           />
         </div>
       </section>
