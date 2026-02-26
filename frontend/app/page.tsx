@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { BadgeCheck, Headphones, Lock, Plane } from 'lucide-react'
 import { SearchHero } from '@/components/search/SearchHero'
 import { PackageCarousel } from '@/components/packages/PackageCarousel'
 import { PackageDetailsModal } from '@/components/packages/PackageDetailsModal'
@@ -43,12 +44,14 @@ export default function Home() {
       <section className="py-12 px-4 bg-white border-b border-gray-100">
         <div className="container mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           {[
-            { emoji: '🕌', title: 'Halal Certified', desc: 'Every destination, hotel & package is verified for halal compliance' },
-            { emoji: '🛡️', title: 'Secure Booking', desc: 'End-to-end encrypted payments and full data protection' },
-            { emoji: '🤝', title: '24/7 Support', desc: 'Dedicated Muslim travel experts always available for you' },
-          ].map(({ emoji, title, desc }) => (
+            { Icon: BadgeCheck, title: 'Halal Verified', desc: 'Every stay, experience, and package is reviewed for halal compliance' },
+            { Icon: Lock, title: 'Secure Checkout', desc: 'Encrypted payments with privacy-first data protection' },
+            { Icon: Headphones, title: 'Concierge Support', desc: 'Specialists available whenever you need assistance' },
+          ].map(({ Icon, title, desc }) => (
             <div key={title} className="flex flex-col items-center group">
-              <div className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-200">{emoji}</div>
+              <div className="mb-3 rounded-2xl bg-gray-50 ring-1 ring-gray-100 p-3 group-hover:scale-105 transition-transform duration-200">
+                <Icon className="h-7 w-7 text-primary" />
+              </div>
               <h3 className="text-lg font-bold mb-1.5 text-gray-800">{title}</h3>
               <p className="text-gray-500 text-sm leading-relaxed max-w-xs">{desc}</p>
             </div>
@@ -114,7 +117,11 @@ export default function Home() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.03] rounded-full pointer-events-none" />
 
         <div className="relative container mx-auto max-w-3xl text-center">
-          <div className="text-5xl mb-5">✈️</div>
+          <div className="mb-5 flex justify-center">
+            <div className="rounded-2xl bg-white/10 ring-1 ring-white/15 p-3">
+              <Plane className="h-9 w-9" />
+            </div>
+          </div>
           <h2 className="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
             Ready for Your Next Adventure?
           </h2>

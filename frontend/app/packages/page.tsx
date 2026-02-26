@@ -47,49 +47,62 @@ export default function PackagesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-12">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-4">Halal Holiday Packages</h1>
-          <p className="text-xl opacity-90">Discover amazing destinations with complete peace of mind</p>
-          <div className="mt-6 flex gap-4 text-sm">
-            <Badge className="bg-white/20 backdrop-blur-sm text-white border-0 px-4 py-2">
-              <MapPin className="h-4 w-4 mr-2" />
-              {locations.length} Destinations
-            </Badge>
-            <Badge className="bg-white/20 backdrop-blur-sm text-white border-0 px-4 py-2">
-              <Star className="h-4 w-4 mr-2 fill-white" />
-              100% Halal-Friendly
-            </Badge>
-            <Badge className="bg-white/20 backdrop-blur-sm text-white border-0 px-4 py-2">
-              <Calendar className="h-4 w-4 mr-2" />
-              Flexible Booking
-            </Badge>
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,rgba(20,184,166,0.18),rgba(255,255,255,0)_60%)]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+        <div className="container mx-auto px-4 pt-14 pb-10">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
+              <span className="text-xs font-semibold tracking-[0.18em] uppercase text-slate-700">Packages</span>
+            </div>
+            <h1 className="mt-6 text-4xl md:text-5xl font-semibold tracking-tight text-slate-950">
+              Halal holiday packages, curated
+            </h1>
+            <p className="mt-3 text-base md:text-lg text-slate-600">
+              Unique stays, thoughtful itineraries, and a seamless halal-friendly experience.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3 text-sm">
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm">
+                <MapPin className="h-4 w-4 text-teal-600" />
+                <span className="text-slate-700">{locations.length} Destinations</span>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm">
+                <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+                <span className="text-slate-700">Halal-Friendly</span>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 shadow-sm">
+                <Calendar className="h-4 w-4 text-teal-600" />
+                <span className="text-slate-700">Flexible Booking</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Controls */}
-      <div className="bg-white border-b sticky top-0 z-10 shadow-sm">
+      <div className="bg-white/80 backdrop-blur-xl border-y border-slate-200 sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button 
-                variant={showFilters ? "default" : "outline"}
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-3">
+              <Button
+                variant={showFilters ? 'default' : 'outline'}
                 onClick={() => setShowFilters(!showFilters)}
+                className="rounded-full"
               >
                 <Filter className="h-4 w-4 mr-2" />
                 Filters
               </Button>
-              <p className="text-sm text-gray-600">
-                {filteredPackages.length} packages found
+              <p className="text-sm text-slate-600">
+                <span className="font-semibold text-slate-900">{filteredPackages.length}</span> packages
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Sort by:</span>
+              <span className="text-sm text-slate-600">Sort by:</span>
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger className="w-[200px] rounded-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -106,14 +119,14 @@ export default function PackagesPage() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Filters Sidebar */}
           {showFilters && (
             <div className="lg:col-span-3 space-y-6">
-              <Card>
+              <Card className="rounded-2xl border-slate-200 shadow-sm">
                 <CardContent className="p-6">
-                  <h3 className="font-semibold mb-4 flex items-center gap-2">
+                  <h3 className="font-semibold mb-4 flex items-center gap-2 text-slate-900">
                     <SlidersHorizontal className="h-4 w-4" />
                     Filters
                   </h3>
@@ -154,7 +167,7 @@ export default function PackagesPage() {
                               }
                             }}
                           />
-                          <label htmlFor={location} className="text-sm cursor-pointer">
+                          <label htmlFor={location} className="text-sm cursor-pointer text-slate-700">
                             {location}
                           </label>
                         </div>
@@ -217,7 +230,7 @@ export default function PackagesPage() {
 
                   <Button 
                     variant="outline" 
-                    className="w-full"
+                    className="w-full rounded-full"
                     onClick={() => {
                       setPriceRange([0, 10000])
                       setSelectedLocations([])
@@ -244,8 +257,8 @@ export default function PackagesPage() {
               ))}
 
               {filteredPackages.length === 0 && (
-                <Card className="p-12 text-center">
-                  <p className="text-gray-500 mb-4">No packages found matching your filters</p>
+                <Card className="p-12 text-center rounded-2xl border-slate-200 shadow-sm">
+                  <p className="text-slate-600 mb-4">No packages found matching your filters</p>
                   <Button onClick={() => {
                     setPriceRange([0, 10000])
                     setSelectedLocations([])
