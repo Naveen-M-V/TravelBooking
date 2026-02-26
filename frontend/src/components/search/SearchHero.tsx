@@ -24,7 +24,7 @@ export function SearchHero() {
   }, [])
 
   return (
-    <section className="relative min-h-[750px] flex items-center justify-center overflow-hidden px-4 py-20">
+    <section className="relative min-h-[480px] flex items-center justify-center overflow-hidden px-4 py-10">
       {/* Background Slideshow */}
       {HERO_IMAGES.map((src, i) => (
         <div
@@ -45,7 +45,7 @@ export function SearchHero() {
 
       <div className="relative z-10 container mx-auto max-w-5xl">
         {/* Elite Headline Section */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-6">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/20 border border-teal-400/30 backdrop-blur-md mb-6">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
@@ -54,7 +54,7 @@ export function SearchHero() {
             <span className="text-teal-50 text-[10px] font-bold tracking-[0.2em] uppercase">Premium Halal Concierge</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight leading-tight">
+          <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
             Elevate Your <span className="italic font-serif text-teal-200">Journey</span>
           </h1>
         </div>
@@ -86,37 +86,18 @@ export function SearchHero() {
             </div>
 
             {/* Main Card Body */}
-            <div className="bg-white/90 backdrop-blur-3xl rounded-[2.5rem] p-8 pt-16 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] border border-white/20">
+            <div className="bg-white/90 backdrop-blur-3xl rounded-[2rem] p-5 pt-12 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.45)] border border-white/20">
               <TabsContent value="flights" className="mt-0 focus-visible:outline-none">
                 <FlightSearchForm />
               </TabsContent>
               <TabsContent value="packages" className="mt-0 focus-visible:outline-none">
                 <PackageSearchForm />
               </TabsContent>
-
-              {/* Quick Call to Action / Info Strip */}
-              <div className="mt-8 pt-6 border-t border-slate-200/50 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p className="text-slate-500 text-xs font-medium italic">
-                  * All bookings include 24/7 Halal concierge support.
-                </p>
-              </div>
             </div>
           </Tabs>
         </div>
 
-        {/* Minimalist Trust Section */}
-        <div className="grid grid-cols-3 max-w-3xl mx-auto mt-10 border-t border-white/10 pt-8">
-          {[
-            { label: '5k+ Bookings', sub: 'Verified Halal' },
-            { label: '50+ Cities', sub: 'Global Reach' },
-            { label: '4.9 Stars', sub: 'Customer Choice' },
-          ].map((stat, i) => (
-            <div key={i} className="text-center border-r last:border-0 border-white/10">
-              <div className="text-white font-bold text-lg">{stat.label}</div>
-              <div className="text-white/40 text-[10px] uppercase tracking-widest">{stat.sub}</div>
-            </div>
-          ))}
-        </div>
+
       </div>
     </section>
   )
