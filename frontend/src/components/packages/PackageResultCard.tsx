@@ -14,7 +14,6 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
   const {
     hotelName,
     location,
-    rating,
     halalRating,
     nights,
     price,

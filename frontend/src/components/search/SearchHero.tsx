@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plane, Building2, ShieldCheck, MapPin, Star } from 'lucide-react'
+import { Plane, Building2, ShieldCheck, MapPin } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FlightSearchForm } from './FlightSearchForm'
 import { PackageSearchForm } from './PackageSearchForm'
@@ -70,17 +70,18 @@ export function SearchHero() {
               <TabsList className="bg-slate-900/80 backdrop-blur-2xl border border-white/10 p-1.5 rounded-2xl h-auto shadow-2xl">
                 <TabsTrigger 
                   value="flights" 
-                  className="px-8 py-3 data-[state=active]:bg-white data-[state=active]:text-slate-900 rounded-xl transition-all duration-300 gap-2"
+                  className="px-4 py-2.5 sm:px-8 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-slate-900 rounded-xl transition-all duration-300 gap-2"
                 >
                   <Plane className="h-4 w-4" />
                   <span className="font-bold text-xs uppercase tracking-wider">Book Flights</span>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="packages" 
-                  className="px-8 py-3 data-[state=active]:bg-white data-[state=active]:text-slate-900 rounded-xl transition-all duration-300 gap-2"
+                  className="px-4 py-2.5 sm:px-8 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-slate-900 rounded-xl transition-all duration-300 gap-2"
                 >
                   <Building2 className="h-4 w-4" />
-                  <span className="font-bold text-xs uppercase tracking-wider">Holiday Packages</span>
+                  <span className="font-bold text-xs uppercase tracking-wider hidden sm:inline">Holiday Packages</span>
+                  <span className="font-bold text-xs uppercase tracking-wider sm:hidden">Packages</span>
                 </TabsTrigger>
               </TabsList>
             </div>

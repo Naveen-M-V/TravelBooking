@@ -11,8 +11,8 @@ export interface FeaturedPackage {
   originalPrice?: number
   image: string
   halalRating: number
-  rating: number
-  reviews: number
+  rating?: number
+  reviews?: number
   features: string[]
   category: 'best' | 'popular' | 'top-destination' | 'family'
   description: string

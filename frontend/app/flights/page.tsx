@@ -193,54 +193,49 @@ export default function FlightsPage() {
                 </div>
               </div>
 
-              {/* Passengers and Class */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Passengers & Cabin Class */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <Label className="flex items-center gap-2 mb-2 text-white/80">
+                  <Label htmlFor="adults" className="flex items-center gap-2 mb-2 text-white/80">
                     <Users className="h-4 w-4 text-teal-200" />
-                    Passengers
+                    Adults
                   </Label>
-                  <div className="grid grid-cols-3 gap-2">
-                    <div>
-                      <Label htmlFor="adults" className="text-xs text-white/55">Adults</Label>
-                      <Select value={adults} onValueChange={setAdults}>
-                        <SelectTrigger id="adults" className="bg-white/10 border-white/10 text-white">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
-                            <SelectItem key={num} value={String(num)}>{num}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <Label htmlFor="children" className="text-xs text-white/55">Children (2-11)</Label>
-                      <Select value={children} onValueChange={setChildren}>
-                        <SelectTrigger id="children" className="bg-white/10 border-white/10 text-white">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {[0, 1, 2, 3, 4].map(num => (
-                            <SelectItem key={num} value={String(num)}>{num}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <Label htmlFor="infants" className="text-xs text-white/55">Infants (&lt;2)</Label>
-                      <Select value={infants} onValueChange={setInfants}>
-                        <SelectTrigger id="infants" className="bg-white/10 border-white/10 text-white">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {[0, 1, 2].map(num => (
-                            <SelectItem key={num} value={String(num)}>{num}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
+                  <Select value={adults} onValueChange={setAdults}>
+                    <SelectTrigger id="adults" className="bg-white/10 border-white/10 text-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+                        <SelectItem key={num} value={String(num)}>{num}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="children" className="text-white/80 mb-2 block">Children (2–11)</Label>
+                  <Select value={children} onValueChange={setChildren}>
+                    <SelectTrigger id="children" className="bg-white/10 border-white/10 text-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[0, 1, 2, 3, 4].map(num => (
+                        <SelectItem key={num} value={String(num)}>{num}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label htmlFor="infants" className="text-white/80 mb-2 block">Infants (under 2)</Label>
+                  <Select value={infants} onValueChange={setInfants}>
+                    <SelectTrigger id="infants" className="bg-white/10 border-white/10 text-white">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[0, 1, 2].map(num => (
+                        <SelectItem key={num} value={String(num)}>{num}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div>
                   <Label htmlFor="cabin" className="flex items-center gap-2 mb-2 text-white/80">
@@ -248,7 +243,7 @@ export default function FlightsPage() {
                     Cabin Class
                   </Label>
                   <Select value={cabin} onValueChange={setCabin}>
-                    <SelectTrigger id="cabin" className="h-11 bg-white/10 border-white/10 text-white">
+                    <SelectTrigger id="cabin" className="bg-white/10 border-white/10 text-white">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -304,7 +299,7 @@ export default function FlightsPage() {
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
                       <div>
                         <Label htmlFor="departure" className="flex items-center gap-2 mb-2 text-white/80">
                           <Calendar className="h-4 w-4 text-teal-200" />
@@ -335,13 +330,59 @@ export default function FlightsPage() {
                           </PopoverContent>
                         </Popover>
                       </div>
+                    </div>
+
+                    {/* Passengers & Cabin Class */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div>
+                        <Label htmlFor="adults" className="flex items-center gap-2 mb-2 text-white/80">
+                          <Users className="h-4 w-4 text-teal-200" />
+                          Adults
+                        </Label>
+                        <Select value={adults} onValueChange={setAdults}>
+                          <SelectTrigger id="adults" className="bg-white/10 border-white/10 text-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+                              <SelectItem key={num} value={String(num)}>{num}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label htmlFor="children" className="text-white/80 mb-2 block">Children (2–11)</Label>
+                        <Select value={children} onValueChange={setChildren}>
+                          <SelectTrigger id="children" className="bg-white/10 border-white/10 text-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[0, 1, 2, 3, 4].map(num => (
+                              <SelectItem key={num} value={String(num)}>{num}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label htmlFor="infants" className="text-white/80 mb-2 block">Infants (under 2)</Label>
+                        <Select value={infants} onValueChange={setInfants}>
+                          <SelectTrigger id="infants" className="bg-white/10 border-white/10 text-white">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[0, 1, 2].map(num => (
+                              <SelectItem key={num} value={String(num)}>{num}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                       <div>
                         <Label htmlFor="cabin" className="flex items-center gap-2 mb-2 text-white/80">
                           <Briefcase className="h-4 w-4 text-teal-200" />
                           Cabin Class
                         </Label>
                         <Select value={cabin} onValueChange={setCabin}>
-                          <SelectTrigger id="cabin" className="h-11 bg-white/10 border-white/10 text-white">
+                          <SelectTrigger id="cabin" className="bg-white/10 border-white/10 text-white">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -351,54 +392,6 @@ export default function FlightsPage() {
                             <SelectItem value="FIRST">First Class</SelectItem>
                           </SelectContent>
                         </Select>
-                      </div>
-                    </div>
-
-                    <div>
-                      <Label className="flex items-center gap-2 mb-2 text-white/80">
-                        <Users className="h-4 w-4 text-teal-200" />
-                        Passengers
-                      </Label>
-                      <div className="grid grid-cols-3 gap-2">
-                        <div>
-                          <Label htmlFor="adults" className="text-xs text-white/55">Adults</Label>
-                          <Select value={adults} onValueChange={setAdults}>
-                            <SelectTrigger id="adults" className="bg-white/10 border-white/10 text-white">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
-                                <SelectItem key={num} value={String(num)}>{num}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div>
-                          <Label htmlFor="children" className="text-xs text-white/55">Children (2-11)</Label>
-                          <Select value={children} onValueChange={setChildren}>
-                            <SelectTrigger id="children" className="bg-white/10 border-white/10 text-white">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[0, 1, 2, 3, 4].map(num => (
-                                <SelectItem key={num} value={String(num)}>{num}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div>
-                          <Label htmlFor="infants" className="text-xs text-white/55">Infants (&lt;2)</Label>
-                          <Select value={infants} onValueChange={setInfants}>
-                            <SelectTrigger id="infants" className="bg-white/10 border-white/10 text-white">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {[0, 1, 2].map(num => (
-                                <SelectItem key={num} value={String(num)}>{num}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
                       </div>
                     </div>
 

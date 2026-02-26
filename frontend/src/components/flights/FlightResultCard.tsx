@@ -96,33 +96,35 @@ export function FlightResultCard({ itinerary, onSelect, onViewDetails }: FlightR
           </div>
 
           {/* Price & CTA */}
-          <div className="lg:col-span-3 text-right lg:border-l lg:pl-6">
-            <div className="mb-4">
+          <div className="lg:col-span-3 lg:border-l lg:pl-6 flex flex-row lg:flex-col items-center lg:items-end justify-between gap-4">
+            <div>
               <p className="text-xs text-gray-500 mb-1">Total Price</p>
-              <p className="text-3xl font-bold text-primary">
+              <p className="text-2xl lg:text-3xl font-bold text-primary">
                 {formatPrice(itinerary.price.total, itinerary.price.currency)}
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 mt-1 hidden sm:block">
                 {itinerary.price.base ? formatPrice(itinerary.price.base, itinerary.price.currency) : formatPrice(itinerary.price.total * 0.85, itinerary.price.currency)} base + taxes
               </p>
             </div>
-            <Button 
-              onClick={() => onSelect(itinerary)} 
-              className="w-full"
-              size="lg"
-            >
-              Select Flight
-            </Button>
-            {onViewDetails && (
+            <div className="flex flex-col gap-2 w-full sm:w-auto lg:w-full">
               <Button 
-                onClick={() => onViewDetails(itinerary)} 
-                variant="outline"
-                className="w-full mt-2"
-                size="sm"
+                onClick={() => onSelect(itinerary)} 
+                className="w-full"
+                size="lg"
               >
-                View Details
+                Select Flight
               </Button>
-            )}
+              {onViewDetails && (
+                <Button 
+                  onClick={() => onViewDetails(itinerary)} 
+                  variant="outline"
+                  className="w-full"
+                  size="sm"
+                >
+                  View Details
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </CardContent>

@@ -6,17 +6,16 @@ import { EnquiryFormModal } from '@/components/packages/EnquiryFormModal'
 import { Slider } from '@/components/ui/slider'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Filter, SlidersHorizontal, MapPin, Star, Calendar, X } from 'lucide-react'
+import { Filter, SlidersHorizontal, MapPin, ShieldCheck, Calendar, X } from 'lucide-react'
 import { mockPackages } from '@/data/mockPackages'
 
 export default function PackagesPage() {
   const [packages] = useState(mockPackages)
   const [priceRange, setPriceRange] = useState([0, 10000])
   const [selectedLocations, setSelectedLocations] = useState<string[]>([])
-  const [selectedRatings, setSelectedRatings] = useState<number[]>([])
   const [selectedHalalRatings, setSelectedHalalRatings] = useState<number[]>([])
   const [sortBy, setSortBy] = useState('recommended')
-  const [showFilters, setShowFilters] = useState(true)
+  const [showFilters, setShowFilters] = useState(false)
   const [enquiryPackage, setEnquiryPackage] = useState<any>(null)
 
   const locations = Array.from(new Set(mockPackages.map(p => p.location)))
@@ -25,15 +24,13 @@ export default function PackagesPage() {
     .filter(pkg => {
       const withinPrice = pkg.price.total >= priceRange[0] && pkg.price.total <= priceRange[1]
       const matchLocation = selectedLocations.length === 0 || selectedLocations.includes(pkg.location)
-      const matchRating = selectedRatings.length === 0 || selectedRatings.some(r => pkg.rating >= r)
       const matchHalal = selectedHalalRatings.length === 0 || selectedHalalRatings.includes(pkg.halalRating)
-      return withinPrice && matchLocation && matchRating && matchHalal
+      return withinPrice && matchLocation && matchHalal
     })
     .sort((a, b) => {
       switch (sortBy) {
         case 'price-low': return a.price.total - b.price.total
         case 'price-high': return b.price.total - a.price.total
-        case 'rating': return b.rating - a.rating
         case 'halal': return b.halalRating - a.halalRating
         default: return 0
       }
@@ -64,7 +61,7 @@ export default function PackagesPage() {
                 <span className="text-gray-700">{locations.length} Destinations</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-white border border-gray-200 px-4 py-2 shadow-sm">
-                <Star className="h-4 w-4 text-teal-500" />
+                <ShieldCheck className="h-4 w-4 text-teal-500" />
                 <span className="text-gray-700">Halal-Friendly</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-full bg-white border border-gray-200 px-4 py-2 shadow-sm">
@@ -106,7 +103,6 @@ export default function PackagesPage() {
                   <SelectItem value="recommended">Recommended</SelectItem>
                   <SelectItem value="price-low">Price: Low to High</SelectItem>
                   <SelectItem value="price-high">Price: High to Low</SelectItem>
-                  <SelectItem value="rating">Rating: High to Low</SelectItem>
                   <SelectItem value="halal">Halal Rating: High to Low</SelectItem>
                 </SelectContent>
               </Select>
@@ -128,7 +124,7 @@ export default function PackagesPage() {
                     Filters
                   </h3>
                   <button
-                    onClick={() => { setPriceRange([0, 10000]); setSelectedLocations([]); setSelectedRatings([]); setSelectedHalalRatings([]) }}
+                    onClick={() => { setPriceRange([0, 10000]); setSelectedLocations([]); setSelectedHalalRatings([]) }}
                     className="text-xs text-gray-400 hover:text-teal-600 transition-colors flex items-center gap-1"
                   >
                     <X className="h-3 w-3" />
@@ -180,34 +176,6 @@ export default function PackagesPage() {
 
                 <div className="h-px bg-gray-100 mb-7" />
 
-                {/* Star Rating */}
-                <div className="mb-7">
-                  <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Star Rating</p>
-                  <div className="space-y-2.5">
-                    {[5, 4, 3].map(rating => (
-                      <div key={rating} className="flex items-center gap-3">
-                        <Checkbox
-                          id={`rating-${rating}`}
-                          checked={selectedRatings.includes(rating)}
-                          onCheckedChange={(checked) => {
-                            if (checked) setSelectedRatings([...selectedRatings, rating])
-                            else setSelectedRatings(selectedRatings.filter(r => r !== rating))
-                          }}
-                          className="border-white/20 data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500"
-                        />
-                        <label htmlFor={`rating-${rating}`} className="text-sm text-gray-600 cursor-pointer flex items-center gap-1">
-                          {Array.from({ length: rating }).map((_, i) => (
-                            <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
-                          ))}
-                          <span className="ml-1 text-gray-400">& up</span>
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="h-px bg-gray-100 mb-7" />
-
                 {/* Halal Rating */}
                 <div>
                   <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Halal Rating</p>
@@ -249,7 +217,7 @@ export default function PackagesPage() {
                 <div className="rounded-2xl border border-gray-200 bg-white p-16 text-center shadow-sm">
                   <p className="text-gray-500 mb-5">No packages match your filters.</p>
                   <button
-                    onClick={() => { setPriceRange([0, 10000]); setSelectedLocations([]); setSelectedRatings([]); setSelectedHalalRatings([]) }}
+                    onClick={() => { setPriceRange([0, 10000]); setSelectedLocations([]); setSelectedHalalRatings([]) }}
                     className="inline-flex items-center gap-2 rounded-full bg-teal-500 text-white px-6 py-2.5 text-sm font-semibold hover:bg-teal-400 transition-colors"
                   >
                     Clear Filters

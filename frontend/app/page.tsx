@@ -131,10 +131,10 @@ export default function Home() {
             Join 5,000+ Muslim travelers who trust Halal Travels for their journeys
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <button className="btn-white-cta bg-white text-[#0B6E63] px-9 py-3.5 rounded-xl font-bold text-base shadow-lg">
+            <button className="btn-white-cta bg-white text-[#0B6E63] px-6 sm:px-9 py-3.5 rounded-xl font-bold text-base shadow-lg">
               Create Free Account
             </button>
-            <button className="btn-teal-ghost border-2 border-white/50 text-white px-9 py-3.5 rounded-xl font-bold text-base">
+            <button className="btn-teal-ghost border-2 border-white/50 text-white px-6 sm:px-9 py-3.5 rounded-xl font-bold text-base">
               Browse Packages
             </button>
           </div>

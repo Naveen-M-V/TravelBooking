@@ -6,7 +6,7 @@ import { useAuth } from '@/context/AuthContext'
 import {
   MessageSquare, Plane, User, CreditCard,
   ArrowRight, Sparkles, CheckCircle2, Clock,
-  MapPin, Calendar, Star
+  MapPin, Calendar
 } from 'lucide-react'
 
 const mockStats = [
@@ -24,9 +24,9 @@ const mockActivity = [
 ]
 
 const mockRecommended = [
-  { dest: 'Maldives',  country: 'Maldives',   price: 'SAR 6,800', rating: 5.0, nights: '5 nights', seed: 'maldives-pkg' },
-  { dest: 'Bali',      country: 'Indonesia',  price: 'SAR 4,100', rating: 4.8, nights: '7 nights', seed: 'bali-pkg' },
-  { dest: 'Sarajevo',  country: 'Bosnia',     price: 'SAR 3,400', rating: 4.9, nights: '6 nights', seed: 'sarajevo-pkg' },
+  { dest: 'Maldives',  country: 'Maldives',   price: 'SAR 6,800', nights: '5 nights', seed: 'maldives-pkg' },
+  { dest: 'Bali',      country: 'Indonesia',  price: 'SAR 4,100', nights: '7 nights', seed: 'bali-pkg' },
+  { dest: 'Sarajevo',  country: 'Bosnia',     price: 'SAR 3,400', nights: '6 nights', seed: 'sarajevo-pkg' },
 ]
 
 const colorMap: Record<string, string> = {
@@ -148,7 +148,7 @@ export default function CustomerDashboard() {
             </button>
           </div>
           <div className="space-y-3">
-            {mockRecommended.map(({ dest, country, price, rating, nights, seed }) => (
+            {mockRecommended.map(({ dest, country, price, nights, seed }) => (
               <button
                 key={dest}
                 onClick={() => router.push('/packages')}
@@ -169,9 +169,6 @@ export default function CustomerDashboard() {
                   <div className="flex items-center gap-3 text-xs text-gray-400">
                     <span className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" /> {nights}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Star className="w-3 h-3 fill-amber-400 text-amber-400" /> {rating}
                     </span>
                   </div>
                 </div>

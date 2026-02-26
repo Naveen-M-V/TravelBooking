@@ -37,7 +37,7 @@ function FlightResultsContent() {
   const [selectedAirlines, setSelectedAirlines] = useState<string[]>([])
   const [selectedTimes, setSelectedTimes] = useState<string[]>([])
   const [sortBy, setSortBy] = useState('recommended')
-  const [showFilters, setShowFilters] = useState(true)
+  const [showFilters, setShowFilters] = useState(false)
   const [selectedFlight, setSelectedFlight] = useState<Itinerary | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
 

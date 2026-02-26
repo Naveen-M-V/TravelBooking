@@ -91,7 +91,7 @@ export function PackageDetailsModal({ package: pkg, isOpen, onClose }: PackageDe
 
           {/* Tabs */}
           <Tabs defaultValue="overview" className="mt-4">
-            <TabsList className="grid w-full grid-cols-4 bg-gray-100 border border-gray-200">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 bg-gray-100 border border-gray-200">
               <TabsTrigger value="overview" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-gray-500">Overview</TabsTrigger>
               <TabsTrigger value="itinerary" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-gray-500">Itinerary</TabsTrigger>
               <TabsTrigger value="included" className="data-[state=active]:bg-teal-600 data-[state=active]:text-white text-gray-500">What&apos;s Included</TabsTrigger>
