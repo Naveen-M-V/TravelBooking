@@ -60,7 +60,7 @@ export function SearchHero() {
         </div>
 
         {/* --- UNIQUE SEARCH CARD START --- */}
-        <div className="relative group">
+        <div className="relative group max-w-3xl mx-auto">
           {/* Decorative Glow */}
           <div className="absolute -inset-1 bg-gradient-to-r from-teal-500/20 to-emerald-500/20 rounded-[2rem] blur-2xl opacity-50 group-hover:opacity-75 transition duration-1000" />
           
@@ -105,7 +105,7 @@ export function SearchHero() {
         </div>
 
         {/* Minimalist Trust Section */}
-        <div className="grid grid-cols-3 max-w-3xl mx-auto mt-12 border-t border-white/10 pt-8">
+        <div className="grid grid-cols-3 max-w-3xl mx-auto mt-10 border-t border-white/10 pt-8">
           {[
             { label: '5k+ Bookings', sub: 'Verified Halal' },
             { label: '50+ Cities', sub: 'Global Reach' },
