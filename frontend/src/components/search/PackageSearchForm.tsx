@@ -122,8 +122,9 @@ export function PackageSearchForm() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-full justify-start text-left font-normal"
-                disabled={!searchData.checkIn}
+                className={`w-full justify-start text-left font-normal ${
+                  !searchData.checkIn ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 {searchData.checkOut ? format(parseISO(searchData.checkOut), 'MMM dd, yyyy') : 'Pick a date'}

@@ -176,8 +176,9 @@ export function FlightSearchForm() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="h-9 w-full justify-start text-left text-sm font-normal"
-                  disabled={!searchData.departureDate}
+                  className={`h-9 w-full justify-start text-left text-sm font-normal ${
+                    !searchData.departureDate ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
                 >
                   <Calendar className="mr-2 h-4 w-4" />
                   {searchData.returnDate ? format(parseISO(searchData.returnDate), 'MMM dd, yyyy') : 'Pick a date'}

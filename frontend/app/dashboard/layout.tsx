@@ -2,10 +2,9 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
-import { Button } from '@/components/ui/button'
 import {
   LayoutDashboard, MessageSquare, Plane, User, LogOut,
-  Package, Users, BarChart2, CreditCard
+  Package, Users, BarChart2, CreditCard, ChevronRight
 } from 'lucide-react'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -19,75 +18,106 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   const adminLinks = [
-    { href: '/dashboard/admin', label: 'Overview', icon: <LayoutDashboard className="w-4 h-4" /> },
-    { href: '/dashboard/admin/enquiries', label: 'Enquiries', icon: <MessageSquare className="w-4 h-4" /> },
-    { href: '/dashboard/admin/packages', label: 'Packages', icon: <Package className="w-4 h-4" /> },
-    { href: '/dashboard/admin/users', label: 'Users', icon: <Users className="w-4 h-4" /> },
-    { href: '/dashboard/admin/reports', label: 'Reports', icon: <BarChart2 className="w-4 h-4" /> },
+    { href: '/dashboard/admin',            label: 'Overview',   icon: LayoutDashboard },
+    { href: '/dashboard/admin/enquiries',  label: 'Enquiries',  icon: MessageSquare },
+    { href: '/dashboard/admin/packages',   label: 'Packages',   icon: Package },
+    { href: '/dashboard/admin/users',      label: 'Users',      icon: Users },
+    { href: '/dashboard/admin/reports',    label: 'Reports',    icon: BarChart2 },
   ]
 
   const customerLinks = [
-    { href: '/dashboard/customer', label: 'Overview', icon: <LayoutDashboard className="w-4 h-4" /> },
-    { href: '/dashboard/customer/enquiries', label: 'My Enquiries', icon: <MessageSquare className="w-4 h-4" /> },
-    { href: '/dashboard/customer/bookings', label: 'Flights', icon: <Plane className="w-4 h-4" /> },
-    { href: '/dashboard/customer/payments', label: 'Payments', icon: <CreditCard className="w-4 h-4" /> },
-    { href: '/dashboard/customer/profile', label: 'Profile', icon: <User className="w-4 h-4" /> },
+    { href: '/dashboard/customer',              label: 'Overview',      icon: LayoutDashboard },
+    { href: '/dashboard/customer/enquiries',    label: 'My Enquiries',  icon: MessageSquare },
+    { href: '/dashboard/customer/bookings',     label: 'Flights',       icon: Plane },
+    { href: '/dashboard/customer/payments',     label: 'Payments',      icon: CreditCard },
+    { href: '/dashboard/customer/profile',      label: 'Profile',       icon: User },
   ]
 
   const links = isAdmin ? adminLinks : customerLinks
+  const initials = user?.firstName
+    ? `${user.firstName[0]}${user.lastName?.[0] ?? ''}`.toUpperCase()
+    : (user?.email?.[0] ?? 'U').toUpperCase()
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-slate-950 text-white">
+      {/* Top accent line */}
+      <div className="h-px bg-gradient-to-r from-transparent via-teal-400/40 to-transparent" />
+
       <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-64 bg-white shadow-md min-h-screen p-4 flex flex-col">
-          <div className="mb-6 px-2">
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
-              {isAdmin ? 'Admin Panel' : 'My Account'}
-            </p>
-            <p className="font-semibold text-gray-900 truncate">
-              {user?.firstName || user?.email}
-            </p>
+        {/* ── Sidebar ── */}
+        <aside className="w-64 min-h-screen bg-slate-900/60 border-r border-white/[0.07] flex flex-col backdrop-blur-xl">
+
+          {/* Brand */}
+          <div className="px-5 py-6 border-b border-white/[0.07]">
+            <button onClick={() => router.push('/')} className="inline-flex items-center gap-2 group">
+              <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-white/10 ring-1 ring-white/15">
+                <span className="h-2 w-2 rounded-full bg-teal-400" />
+              </span>
+              <span className="text-xs font-bold tracking-[0.22em] uppercase text-white/80 group-hover:text-white transition-colors">
+                Halal Travels
+              </span>
+            </button>
           </div>
 
-          <nav className="flex-1 space-y-1">
-            {links.map(({ href, label, icon }) => {
+          {/* User chip */}
+          <div className="px-4 py-4 border-b border-white/[0.07]">
+            <div className="flex items-center gap-3 rounded-xl bg-white/5 ring-1 ring-white/10 px-3 py-3">
+              <div className="h-9 w-9 rounded-full bg-teal-500/20 ring-1 ring-teal-400/30 flex items-center justify-center flex-shrink-0">
+                <span className="text-xs font-bold text-teal-300">{initials}</span>
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-white truncate">
+                  {user?.firstName ? `${user.firstName} ${user.lastName ?? ''}`.trim() : user?.email}
+                </p>
+                <p className="text-[10px] font-medium text-white/40 uppercase tracking-[0.14em]">
+                  {isAdmin ? 'Administrator' : 'Customer'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Nav links */}
+          <nav className="flex-1 px-3 py-4 space-y-0.5">
+            <p className="px-3 mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-white/30">
+              {isAdmin ? 'Admin Panel' : 'My Account'}
+            </p>
+            {links.map(({ href, label, icon: Icon }) => {
               const isActive = pathname === href
               return (
                 <button
                   key={href}
                   onClick={() => router.push(href)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-primary text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-teal-500/15 text-teal-300 ring-1 ring-teal-500/20'
+                      : 'text-white/55 hover:bg-white/5 hover:text-white/90'
                   }`}
                 >
-                  {icon}
+                  <Icon className="w-4 h-4 flex-shrink-0" />
                   {label}
+                  {isActive && <ChevronRight className="w-3.5 h-3.5 ml-auto text-teal-400" />}
                 </button>
               )
             })}
           </nav>
 
-          <div className="border-t pt-4 mt-4">
-            <Button
-              variant="ghost"
-              className="w-full justify-start gap-3 text-red-600 hover:text-red-700 hover:bg-red-50"
+          {/* Sign out */}
+          <div className="px-3 pb-6 border-t border-white/[0.07] pt-4">
+            <button
               onClick={handleSignOut}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:bg-red-500/10 hover:text-red-400 transition-all"
             >
               <LogOut className="w-4 h-4" />
               Sign Out
-            </Button>
+            </button>
           </div>
         </aside>
 
-        {/* Main Content */}
-        <div className="flex-1 p-8">
+        {/* ── Main Content ── */}
+        <main className="flex-1 p-8 min-h-screen">
           {children}
-        </div>
+        </main>
       </div>
     </div>
   )
 }
-
