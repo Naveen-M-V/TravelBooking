@@ -586,6 +586,274 @@ export const featuredPackages: FeaturedPackage[] = [
       'All transfers'
     ],
     itinerary: []
+  },
+
+  // --- Additional Best Packages ---
+  {
+    id: 'pkg-017',
+    name: 'Oman Muscat & Nizwa Cultural Escape',
+    destination: 'Muscat & Nizwa',
+    country: 'Oman',
+    duration: '6 Days / 5 Nights',
+    price: 3900,
+    originalPrice: 4500,
+    currency: 'SAR',
+    image: '/images/packages/oman.jpg',
+    halalRating: 5,
+    rating: 4.8,
+    reviews: 211,
+    features: ['Halal Food', 'Desert Safari', 'Historic Forts', 'Souqs'],
+    category: 'best',
+    description: 'Explore the most authentic Arabian peninsula experience with majestic forts, wadis, and traditional Omani hospitality.',
+    highlights: [
+      'Grand Mosque Muscat',
+      'Nizwa Fort & Souq',
+      'Wadi Shab adventure',
+      'Wahiba Sands dunes',
+      'Traditional Omani cuisine'
+    ],
+    included: [
+      'Round-trip flights',
+      '5 nights hotels',
+      'Daily breakfast',
+      'Desert camp experience',
+      'All guided tours',
+      'Private driver'
+    ],
+    itinerary: []
+  },
+  {
+    id: 'pkg-018',
+    name: 'Pakistan Heritage Circuit',
+    destination: 'Lahore & Islamabad',
+    country: 'Pakistan',
+    duration: '7 Days / 6 Nights',
+    price: 2800,
+    currency: 'SAR',
+    image: '/images/packages/pakistan.jpg',
+    halalRating: 5,
+    rating: 4.7,
+    reviews: 178,
+    features: ['Mughal History', 'Halal Food', 'Hospitality', 'Mosques'],
+    category: 'best',
+    description: "Discover Pakistan's rich Islamic heritage — from Lahore's magnificent Mughal monuments to Islamabad's Faisal Mosque.",
+    highlights: [
+      'Badshahi Mosque Lahore',
+      'Lahore Fort & Shalimar Gardens',
+      'Faisal Mosque Islamabad',
+      'Lahore Food Street',
+      'Taxila Buddhist ruins'
+    ],
+    included: [
+      'Round-trip flights',
+      '6 nights boutique hotels',
+      'Daily breakfast and 3 dinners',
+      'All tours with guide',
+      'Internal flights',
+      'Travel insurance'
+    ],
+    itinerary: []
+  },
+
+  // --- Additional Popular Packages ---
+  {
+    id: 'pkg-019',
+    name: 'Uzbekistan Silk Road Journey',
+    destination: 'Samarkand & Bukhara',
+    country: 'Uzbekistan',
+    duration: '8 Days / 7 Nights',
+    price: 4700,
+    originalPrice: 5300,
+    currency: 'SAR',
+    image: '/images/packages/uzbekistan.jpg',
+    halalRating: 5,
+    rating: 4.9,
+    reviews: 134,
+    features: ['Islamic Architecture', 'Ancient Silk Road', 'Halal Food', 'UNESCO Sites'],
+    category: 'popular',
+    description: 'Walk the legendary Silk Road through Samarkand and Bukhara, marvelling at some of the most stunning Islamic architecture in the world.',
+    highlights: [
+      'Registan Square Samarkand',
+      'Shah-i-Zinda necropolis',
+      'Bukhara Old City',
+      'Kalon Minaret',
+      'Traditional Uzbek pilaf'
+    ],
+    included: [
+      'Round-trip flights',
+      '7 nights hotels',
+      'Daily breakfast and 4 dinners',
+      'High-speed train tickets',
+      'All guided tours',
+      'Visa support'
+    ],
+    itinerary: []
+  },
+  {
+    id: 'pkg-020',
+    name: 'Kosovo & Albania Hidden Gems',
+    destination: 'Pristina & Tirana',
+    country: 'Kosovo / Albania',
+    duration: '6 Days / 5 Nights',
+    price: 3100,
+    currency: 'SAR',
+    image: '/images/packages/kosovo.jpg',
+    halalRating: 5,
+    rating: 4.7,
+    reviews: 89,
+    features: ['Ottoman Heritage', 'Budget Friendly', 'Halal Food', 'Off The Beaten Path'],
+    category: 'popular',
+    description: 'Discover two of Europe\'s most underrated Muslim-majority countries full of Ottoman history and stunning Balkan landscapes.',
+    highlights: [
+      'Pristina mosque & bazaar',
+      'Prizren Ottoman old town',
+      'Tirana colourful capital',
+      'Berat UNESCO castle town',
+      'Albanian Riviera beaches'
+    ],
+    included: [
+      'Round-trip flights',
+      '5 nights accommodation',
+      'Daily breakfast',
+      'All guided tours',
+      'Inter-country bus',
+      'Visa assistance'
+    ],
+    itinerary: []
+  },
+
+  // --- Additional Top Destination Packages ---
+  {
+    id: 'pkg-021',
+    name: 'Maldives Luxury Overwater Escape',
+    destination: 'North Malé Atoll',
+    country: 'Maldives',
+    duration: '5 Days / 4 Nights',
+    price: 6800,
+    originalPrice: 7900,
+    currency: 'SAR',
+    image: '/images/packages/maldives-luxury.jpg',
+    halalRating: 5,
+    rating: 5.0,
+    reviews: 298,
+    features: ['Overwater Bungalow', 'All-Inclusive', 'Halal Dining', 'Diving'],
+    category: 'top-destination',
+    description: 'Unwind in an overwater villa surrounded by the turquoise Indian Ocean with fully halal all-inclusive dining.',
+    highlights: [
+      'Private overwater bungalow',
+      'All-inclusive halal meals',
+      'Sunset dolphin cruise',
+      'Coral reef snorkelling',
+      'Couples spa treatment'
+    ],
+    included: [
+      'Round-trip flights',
+      '4 nights overwater bungalow',
+      'All meals and soft drinks',
+      'Seaplane transfers',
+      'Snorkelling gear',
+      'Daily guided activities'
+    ],
+    itinerary: []
+  },
+  {
+    id: 'pkg-022',
+    name: 'Bosnia Emerald Landscapes & Heritage',
+    destination: 'Sarajevo, Mostar & Una',
+    country: 'Bosnia Herzegovina',
+    duration: '7 Days / 6 Nights',
+    price: 3800,
+    currency: 'SAR',
+    image: '/images/packages/bosnia-nature.jpg',
+    halalRating: 5,
+    rating: 4.9,
+    reviews: 163,
+    features: ['Nature & Adventure', 'Ottoman Heritage', 'Halal Food', 'River Rafting'],
+    category: 'top-destination',
+    description: 'Combine Sarajevo\'s Ottoman charm with the emerald rivers of Una National Park and the iconic Mostar bridge.',
+    highlights: [
+      'Mostar Stari Most bridge',
+      'Sarajevo Bascarsija',
+      'Una National Park rafting',
+      'Blagaj Tekke monastery',
+      'Traditional Bosnian food'
+    ],
+    included: [
+      'Round-trip flights',
+      '6 nights guesthouses',
+      'Daily breakfast and 3 dinners',
+      'Rafting experience',
+      'All tours with guide',
+      'Transfers'
+    ],
+    itinerary: []
+  },
+
+  // --- Additional Family Packages ---
+  {
+    id: 'pkg-023',
+    name: 'Türkiye Antalya Family Beach Holiday',
+    destination: 'Antalya & Side',
+    country: 'Turkey',
+    duration: '7 Days / 6 Nights',
+    price: 4200,
+    originalPrice: 4900,
+    currency: 'SAR',
+    image: '/images/packages/antalya.jpg',
+    halalRating: 5,
+    rating: 4.8,
+    reviews: 342,
+    features: ['All-Inclusive', 'Beach Resort', 'Kids Club', 'Water Park'],
+    category: 'family',
+    description: 'Perfect family beach holiday on the stunning Turquoise Coast with all-inclusive halal-friendly resorts and activities for all ages.',
+    highlights: [
+      'Beachfront all-inclusive resort',
+      'On-site waterpark',
+      'Supervised kids club',
+      'Boat trip to Sunken City',
+      'Aspendos Roman theatre'
+    ],
+    included: [
+      'Round-trip flights',
+      '6 nights all-inclusive resort',
+      'All meals and snacks',
+      'Kids club access',
+      'Water park entry',
+      'Airport transfers'
+    ],
+    itinerary: []
+  },
+  {
+    id: 'pkg-024',
+    name: 'Malaysia Langkawi Family Adventure',
+    destination: 'Langkawi',
+    country: 'Malaysia',
+    duration: '6 Days / 5 Nights',
+    price: 3500,
+    currency: 'SAR',
+    image: '/images/packages/langkawi.jpg',
+    halalRating: 5,
+    rating: 4.7,
+    reviews: 217,
+    features: ['Family Beach', 'Halal Food', 'Cable Car', 'Island Hopping'],
+    category: 'family',
+    description: 'Tropical family paradise with pristine beaches, cable car adventures, and some of the best halal seafood in Asia.',
+    highlights: [
+      'SkyCab cable car panorama',
+      'Underwater World aquarium',
+      'Island hopping tour',
+      'Mangrove boat safari',
+      'Halal seafood feast'
+    ],
+    included: [
+      'Round-trip flights',
+      '5 nights beach resort',
+      'Daily breakfast',
+      'Island hopping tour',
+      'Cable car tickets',
+      'All transfers'
+    ],
+    itinerary: []
   }
 ]
 

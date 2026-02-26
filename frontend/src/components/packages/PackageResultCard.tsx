@@ -1,8 +1,6 @@
 'use client'
 
-import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { MapPin, Calendar, Users, Star, Wifi, Coffee, Utensils, Waves, Heart, ArrowUpRight } from 'lucide-react'
 import { HalalRatingBadge } from '@/components/ui/halal-rating-badge'
 import Image from 'next/image'
@@ -29,8 +27,8 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
   } = pkg
 
   return (
-    <Card className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-xl">
-      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(80%_60%_at_20%_0%,rgba(20,184,166,0.14),rgba(255,255,255,0)_55%)]" />
+    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:border-teal-500/30 hover:bg-teal-500/[0.04]">
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(80%_60%_at_20%_0%,rgba(20,184,166,0.12),transparent_55%)]" />
       <div className="grid grid-cols-1 md:grid-cols-12">
         {/* Image */}
         <div className="relative md:col-span-5 h-64 md:h-full">
@@ -83,34 +81,34 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
 
         {/* Content */}
         <div className="md:col-span-7">
-          <CardContent className="relative p-6 md:p-7">
+          <div className="relative p-6 md:p-7">
             <div className="grid grid-cols-1 gap-5">
               <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                  <div className="text-xs font-semibold text-slate-600">Duration</div>
-                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-slate-900">
-                    <Calendar className="h-4 w-4 text-teal-600" />
+                <div className="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3">
+                  <div className="text-xs font-semibold text-white/45">Duration</div>
+                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-white/85">
+                    <Calendar className="h-4 w-4 text-teal-400" />
                     {nights} Nights
                   </div>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                  <div className="text-xs font-semibold text-slate-600">Room</div>
-                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-slate-900">
-                    <Users className="h-4 w-4 text-teal-600" />
+                <div className="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3">
+                  <div className="text-xs font-semibold text-white/45">Room</div>
+                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-white/85">
+                    <Users className="h-4 w-4 text-teal-400" />
                     {roomType}
                   </div>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                  <div className="text-xs font-semibold text-slate-600">Board</div>
-                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-slate-900">
-                    <Utensils className="h-4 w-4 text-teal-600" />
+                <div className="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3">
+                  <div className="text-xs font-semibold text-white/45">Board</div>
+                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-white/85">
+                    <Utensils className="h-4 w-4 text-teal-400" />
                     {boardType}
                   </div>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3">
-                  <div className="text-xs font-semibold text-slate-600">Dates</div>
-                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-slate-900">
-                    <Calendar className="h-4 w-4 text-teal-600" />
+                <div className="rounded-2xl border border-white/[0.08] bg-white/5 px-4 py-3">
+                  <div className="text-xs font-semibold text-white/45">Dates</div>
+                  <div className="mt-1 flex items-center gap-2 text-sm font-semibold text-white/85">
+                    <Calendar className="h-4 w-4 text-teal-400" />
                     {checkIn} → {checkOut}
                   </div>
                 </div>
@@ -119,58 +117,59 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
                   {amenities.includes('WiFi') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white" title="WiFi">
-                      <Wifi className="h-4 w-4 text-slate-700" />
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5" title="WiFi">
+                      <Wifi className="h-4 w-4 text-white/60" />
                     </span>
                   )}
                   {amenities.includes('Breakfast') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white" title="Breakfast">
-                      <Coffee className="h-4 w-4 text-slate-700" />
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5" title="Breakfast">
+                      <Coffee className="h-4 w-4 text-white/60" />
                     </span>
                   )}
                   {amenities.includes('Restaurant') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white" title="Restaurant">
-                      <Utensils className="h-4 w-4 text-slate-700" />
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5" title="Restaurant">
+                      <Utensils className="h-4 w-4 text-white/60" />
                     </span>
                   )}
                   {amenities.includes('Pool') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white" title="Pool">
-                      <Waves className="h-4 w-4 text-slate-700" />
+                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5" title="Pool">
+                      <Waves className="h-4 w-4 text-white/60" />
                     </span>
                   )}
                   {amenities.length > 0 && (
-                    <span className="text-xs font-semibold text-slate-500">+{Math.max(0, amenities.length - 4)} more</span>
+                    <span className="text-xs font-semibold text-white/35">+{Math.max(0, amenities.length - 4)} more</span>
                   )}
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <Badge className="rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                  <span className="rounded-full bg-teal-500/10 text-teal-300 border border-teal-500/20 px-3 py-1 text-xs font-semibold">
                     Free Cancellation
-                  </Badge>
-                  <Badge className="rounded-full bg-sky-50 text-sky-700 border border-sky-100">
+                  </span>
+                  <span className="rounded-full bg-white/5 text-white/55 border border-white/10 px-3 py-1 text-xs font-semibold hidden sm:inline">
                     Instant Confirmation
-                  </Badge>
+                  </span>
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-slate-200 pt-5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-white/10 pt-5">
                 <div>
-                  <div className="text-xs font-semibold text-slate-600">Total from</div>
-                  <div className="mt-1 text-2xl font-semibold text-slate-900">
-                    {price?.total?.toLocaleString?.() ?? price?.total} <span className="text-sm font-semibold text-slate-500">SAR</span>
+                  <div className="text-xs font-semibold text-white/40">Total from</div>
+                  <div className="mt-1 text-2xl font-bold text-white">
+                    {price?.total?.toLocaleString?.() ?? price?.total}{' '}
+                    <span className="text-sm font-semibold text-white/40">SAR</span>
                   </div>
-                  <div className="text-xs text-slate-500">Includes taxes & fees</div>
+                  <div className="text-xs text-white/35">Includes taxes &amp; fees</div>
                 </div>
 
-                <Button onClick={() => onSelect(pkg)} size="lg" className="rounded-2xl h-11 px-5">
+                <Button onClick={() => onSelect(pkg)} size="lg" className="rounded-2xl h-11 px-5 bg-teal-500 text-white hover:bg-teal-400">
                   Enquire Now
                   <ArrowUpRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </div>
-          </CardContent>
+          </div>
         </div>
       </div>
-    </Card>
+    </div>
   )
 }
