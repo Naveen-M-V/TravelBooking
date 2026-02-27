@@ -1,4 +1,4 @@
-// Mock data for featured packages on landing page
+﻿// Real tour package data sourced from Halal Travels Club (halaltravelsclub.com)
 
 export interface FeaturedPackage {
   id: string
@@ -11,8 +11,6 @@ export interface FeaturedPackage {
   originalPrice?: number
   image: string
   halalRating: number
-  rating?: number
-  reviews?: number
   features: string[]
   category: 'best' | 'popular' | 'top-destination' | 'family'
   description: string
@@ -27,848 +25,621 @@ export interface FeaturedPackage {
 }
 
 export const featuredPackages: FeaturedPackage[] = [
-  // Our Best Tour Packages
+
+  //  BEST PACKAGES 
+
   {
     id: 'pkg-001',
-    name: 'Makkah & Madinah Spiritual Journey',
-    destination: 'Makkah & Madinah',
-    country: 'Saudi Arabia',
-    duration: '10 Days / 9 Nights',
+    name: 'Best of Spain – 7 Nights 8 Days',
+    destination: 'Madrid  Toledo  Seville  Granada  Barcelona',
+    country: 'Spain',
+    duration: '8 Days / 7 Nights',
     price: 8500,
     originalPrice: 9500,
     currency: 'SAR',
-    image: '/images/packages/makkah-madinah.jpg',
-    halalRating: 5,
-    rating: 4.9,
-    reviews: 324,
-    features: ['Prayer Facilities', 'Halal Food', 'Alcohol-Free', 'Family Friendly'],
+    image: 'https://picsum.photos/seed/spain-plaza-espana-seville/800/600',
+    halalRating: 4,
+    features: ['Halal Food', 'Private Guided Tours', 'Alhambra Palace', 'Mosque of Córdoba', 'Escorted Group Tour'],
     category: 'best',
-    description: 'Experience the ultimate spiritual journey with our premium Umrah package including 5-star accommodation near Haram.',
+    description: "An immersive 8-day journey through Spain's most iconic cities — Madrid, Toledo, Córdoba, Seville, Granada, Valencia, and Barcelona — with halal dining, private guides, and the legendary Alhambra Palace.",
     highlights: [
-      'Direct view of Kaaba from hotel',
-      'Expert spiritual guide included',
-      'Ziyarat tours to historical sites',
-      'Private transportation',
-      'Buffet halal meals'
+      'Guided tour of the Alhambra Palace & Generalife Gardens, Granada',
+      'Visit to the Grand Mosque (Mezquita-Catedral) of Córdoba',
+      'Private evening walking tour of Madrid — Gran Vía, Royal Palace, Plaza Mayor',
+      "Historic city tour of Toledo, Spain's ancient former capital",
+      'Barcelona panoramic tour — Gothic Quarter & Cathedral of Santa Eulalia',
     ],
     included: [
-      'Round-trip flights',
-      '9 nights accommodation (5 Makkah, 4 Madinah)',
-      'Daily breakfast and dinner',
-      'Airport transfers',
-      'Ziyarat tours',
-      'Travel insurance'
+      'Return international flights',
+      '7 nights hotel accommodation across Madrid, Seville, Granada & Barcelona',
+      'Daily halal breakfast',
+      'Private airport transfers (Madrid arrival & Barcelona departure)',
+      'Expert private guides in Madrid & Barcelona',
+      'Escorted group coach travel: Madrid  Córdoba  Seville  Granada  Valencia  Barcelona',
+      'Guided Alhambra Palace entrance',
+      'Travel insurance',
     ],
     itinerary: [
       {
         day: 1,
-        title: 'Arrival in Jeddah - Transfer to Makkah',
-        description: 'Arrive at King Abdulaziz International Airport and transfer to your 5-star hotel near Haram.',
-        activities: ['Airport pickup', 'Hotel check-in', 'Evening Umrah']
+        title: 'Arrival in Madrid',
+        description: 'Your private driver meets you at Madrid Airport. Evening panoramic walking tour of the city centre — Gran Vía, Plaza de España, Royal Palace, Plaza Mayor and Puerta del Sol.',
+        activities: ['Private airport transfer', 'Hotel check-in', 'Evening tour: Gran Vía, Plaza de España, Royal Palace, Plaza Mayor, Puerta del Sol'],
       },
       {
         day: 2,
-        title: 'Makkah - Spiritual Activities',
-        description: 'Full day for worship and spiritual activities at Masjid al-Haram.',
-        activities: ['Fajr prayer at Haram', 'Tawaf and Sai', 'Zamzam water collection', 'Evening prayers']
+        title: 'Day Trip to Toledo',
+        description: 'Full day in Toledo — UNESCO World Heritage city and former capital of Spain, celebrated for its layers of Christian, Islamic, and Jewish history.',
+        activities: ['Breakfast at hotel', 'Guided tour of Plaza del Ayuntamiento', 'Gothic Cathedral exterior', 'Ancient city walls walk', 'Free time for lunch & shopping in the Bazaars', 'Return to Madrid'],
       },
       {
         day: 3,
-        title: 'Makkah - Historical Ziyarat',
-        description: 'Guided tour of historical Islamic sites in Makkah.',
-        activities: ['Cave of Hira', 'Jabal al-Nour', 'Jannat al-Mualla cemetery', 'Museum of the Two Holy Mosques']
-      }
-    ]
+        title: 'Madrid  Córdoba  Seville',
+        description: 'Depart with the escorted group by coach. Visit the magnificent Mezquita of Córdoba and stroll through the historic Jewish Quarter, then continue to Seville.',
+        activities: ['Breakfast & check-out', 'Coach from Madrid', 'Guided Mezquita tour, Córdoba', 'Old Jewish Quarter walk', 'Arrival in Seville', 'Hotel check-in', 'Included halal dinner'],
+      },
+      {
+        day: 4,
+        title: 'Seville City Tour',
+        description: "Morning guided city tour of Seville's most celebrated landmarks. The afternoon is free for leisure or optional excursions.",
+        activities: ['Breakfast', 'María Luisa Park visit', 'Plaza de España panoramic tour', 'Great Cathedral & Santa Cruz Quarter exteriors', 'Afternoon at leisure', 'Included halal dinner'],
+      },
+      {
+        day: 5,
+        title: 'Seville  Granada & The Alhambra',
+        description: 'Travel to Granada and explore the legendary Alhambra Palace — once the residence of the Moorish kings — along with the Generalife Gardens.',
+        activities: ['Breakfast & check-out', 'Coach to Granada', 'Guided Alhambra Palace tour', 'Generalife Gardens walk', 'Hotel check-in', 'Included halal dinner'],
+      },
+      {
+        day: 6,
+        title: 'Granada  Valencia',
+        description: 'Depart Granada via scenic mountain roads to the Mediterranean coast. Arrive Valencia with the afternoon free.',
+        activities: ['Breakfast & check-out', 'Scenic coach via Guadix, Baza & Puerto Lumbreras', 'Arrival in Valencia', 'Hotel check-in', 'Free afternoon to explore the city'],
+      },
+      {
+        day: 7,
+        title: 'Valencia  Barcelona',
+        description: 'Free morning in Valencia, then coach to Barcelona. In the evening your private guide leads you through the Gothic Quarter and Las Ramblas.',
+        activities: ['Breakfast', 'Free morning in Valencia', 'Coach to Barcelona', 'Private hotel transfer', 'Evening tour: Las Ramblas, Gothic Quarter, Cathedral of Santa Eulalia'],
+      },
+      {
+        day: 8,
+        title: 'Barcelona & Departure',
+        description: 'Final breakfast, check out, and private transfer to Barcelona Airport.',
+        activities: ['Breakfast', 'Check-out', 'Private transfer to Barcelona Airport'],
+      },
+    ],
   },
+
   {
     id: 'pkg-002',
-    name: 'Istanbul Byzantine & Ottoman Heritage',
-    destination: 'Istanbul',
-    country: 'Turkey',
+    name: 'Greece – 6 Nights 7 Days',
+    destination: 'Athens  Chalkida  Nafplio  Cape Sounion',
+    country: 'Greece',
     duration: '7 Days / 6 Nights',
-    price: 4200,
-    originalPrice: 5200,
+    price: 6200,
+    originalPrice: 7200,
     currency: 'SAR',
-    image: '/images/packages/istanbul.jpg',
+    image: 'https://picsum.photos/seed/athens-acropolis-greece/800/600',
     halalRating: 5,
-    rating: 4.8,
-    reviews: 256,
-    features: ['Mosques Nearby', 'Halal Food', 'Shopping', 'Historical Sites'],
+    features: ['Halal Full-Board', 'Islamic Heritage Sites', 'Ottoman Mosques & Castles', 'Private Guided Tours'],
     category: 'best',
-    description: 'Discover the rich Islamic history of Istanbul with visits to magnificent mosques and Ottoman palaces.',
+    description: "Discover Greece's remarkable Islamic heritage — the Grand Mosque of Athens, Ottoman castles, historic mosques, and the Acropolis — on a fully halal full-board escorted private tour.",
     highlights: [
-      'Blue Mosque and Hagia Sophia visits',
-      'Topkapi Palace tour',
-      'Bosphorus cruise',
-      'Grand Bazaar shopping',
-      'Traditional Turkish bath experience'
+      'Grand Mosque & Islamic Center of Athens — built with full Greek government support',
+      'Benaki Islamic Heritage Museum — unique in Europe and the world',
+      'Karababa Islamic Ottoman Castle & Emir Zade Mosque (1458), Chalkida',
+      'Historical mosques of Nafplio and Plamidi Ottoman Castle',
+      'Sunset visit to the Acropolis and Parthenon',
+      'Exclusive halal dinner at the gate of Al Fatih Mosque, Athens',
     ],
     included: [
-      'Round-trip flights',
-      '6 nights 4-star hotel',
-      'Daily breakfast',
-      'All guided tours',
-      'Entry fees to attractions',
-      'Private transfers'
+      'Return international flights',
+      '6 nights hotel accommodation in Athens',
+      'Exclusive halal full-board throughout (breakfast, lunch & dinner)',
+      'Private airport transfers',
+      'Expert private guided tours daily',
+      'Entrance fees: Acropolis, Benaki Museum, Karababa Castle',
+      'Exclusive halal dinner at Al Fatih Mosque gate',
+      'Halal sunset dinner at Cape Sounion viewpoint',
+      'Travel insurance',
     ],
     itinerary: [
       {
         day: 1,
-        title: 'Arrival in Istanbul',
-        description: 'Welcome to Istanbul! Transfer to your hotel in Sultanahmet district.',
-        activities: ['Airport pickup', 'Hotel check-in', 'Welcome dinner', 'Evening walk in Sultanahmet']
+        title: 'Arrival in Athens',
+        description: 'Transfer from Athens Airport to your hotel. Overnight in Athens.',
+        activities: ['Airport transfer', 'Hotel check-in', 'Rest & refresh'],
       },
       {
         day: 2,
-        title: 'Historical Peninsula Tour',
-        description: 'Explore the heart of Byzantine and Ottoman history.',
-        activities: ['Blue Mosque', 'Hagia Sophia', 'Topkapi Palace', 'Basilica Cistern']
-      }
-    ]
+        title: 'Grand Mosque of Athens & Benaki Islamic Museum',
+        description: 'Panoramic Athens tour, Grand Mosque & Islamic Center visit, and the Benaki Islamic Heritage Museum — unique in the world.',
+        activities: ['Halal full-board', 'Panoramic Athens city tour', 'Grand Mosque & Islamic Center of Athens', 'Meet & Greet with local Muslim community', 'Benaki Islamic Heritage Museum', 'Halal dinner'],
+      },
+      {
+        day: 3,
+        title: 'Chalkida – Karababa Castle & Emir Zade Mosque  Acropolis Sunset',
+        description: 'Day trip to Chalkida for the Ottoman Karababa Castle and the historic Emir Zade Mosque (1458), then a breathtaking sunset visit to the Acropolis.',
+        activities: ['Halal full-board', 'Drive to Chalkida', 'Karababa Islamic Ottoman Castle', 'Emir Zade Mosque (built 1458)', 'Halal riverside lunch', 'Acropolis & Parthenon sunset visit', 'Halal dinner in Athens'],
+      },
+      {
+        day: 4,
+        title: 'Athens Mosques & Monastiraki',
+        description: 'Athens Trilogy landmarks, ancient Monastiraki Mosque, Al Fatih Mosque and its 15th-century Quran Madrassa. Exclusive halal dinner at the mosque gate.',
+        activities: ['Halal full-board', 'Parliament & changing of the guards', 'Athens Trilogy panoramic tour', 'Monastiraki Mosque', 'Al Fatih Mosque & Quran Madrassa (1458)', 'Monastiraki & Plaka district free time', 'Exclusive halal dinner at Al Fatih Mosque gate'],
+      },
+      {
+        day: 5,
+        title: 'Corinth Canal, Sultan Ahmed Mosque & Nafplio',
+        description: 'Corinth Canal, hilltop Sultan Ahmed Mosque (1458), and the sea-side city of Nafplio with its grand 15th-century mosques and Plamidi Ottoman Castle.',
+        activities: ['Halal full-board', 'Corinth Canal visit', 'Sultan Ahmed Mosque hilltop (built 1458)', 'Nafplio sea-side halal lunch', 'Two historical mosques of Nafplio', 'Plamidi Islamic Ottoman Castle', 'Return to Athens'],
+      },
+      {
+        day: 6,
+        title: 'Athens Mall Shopping & Temple of Poseidon Sunset',
+        description: 'Morning luxury shopping, then an awe-inspiring visit to the Temple of Poseidon at Cape Sounion followed by a halal dinner overlooking the Aegean sunset.',
+        activities: ['Halal full-board', 'The Mall Athens shopping', 'Luxury brand district', 'Cape Sounion drive', 'Temple of Poseidon visit', 'Halal dinner with Aegean sunset panorama'],
+      },
+      {
+        day: 7,
+        title: 'McArthur Glen Outlet & Departure',
+        description: 'Final shopping at McArthur Glen Designer Fashion Outlet before transfer to Athens Airport.',
+        activities: ['Halal breakfast', 'McArthur Glen Designer Outlet visit', 'Transfer to Athens Airport', 'Departure'],
+      },
+    ],
   },
+
+  //  POPULAR PACKAGES 
+
   {
     id: 'pkg-003',
-    name: 'Dubai Luxury & Desert Safari',
-    destination: 'Dubai',
-    country: 'UAE',
+    name: 'Hola Barcelona – 4 Nights 3 Days',
+    destination: 'Barcelona  Montserrat',
+    country: 'Spain',
     duration: '5 Days / 4 Nights',
-    price: 3800,
+    price: 4200,
+    originalPrice: 5000,
     currency: 'SAR',
-    image: '/images/packages/dubai.jpg',
-    halalRating: 5,
-    rating: 4.7,
-    reviews: 189,
-    features: ['Luxury Hotels', 'Halal Food', 'Family Entertainment', 'Desert Safari'],
-    category: 'best',
-    description: 'Experience the perfect blend of luxury, culture, and adventure in the jewel of the Middle East.',
+    image: 'https://picsum.photos/seed/barcelona-sagrada-familia/800/600',
+    halalRating: 4,
+    features: ['Halal Food', 'Private Tours', 'Gaudí Architecture', 'Montserrat Day Trip', 'Gothic Quarter'],
+    category: 'popular',
+    description: "A vibrant city escape to Barcelona — Gaudí's masterpieces, the Gothic Quarter, a cable-car ride to Montserrat Monastery, and a free day to explore, with halal dining throughout.",
     highlights: [
-      'Burj Khalifa At The Top experience',
-      'Desert safari with BBQ dinner',
-      'Dubai Mall shopping',
-      'Dubai Marina cruise',
-      'Visit to Jumeirah Mosque'
+      'Private guided sightseeing tour of Barcelona',
+      "Sagrada Família — Gaudí's iconic basilica",
+      'Casa Batlló & La Pedrera on the famous Paseo de Gràcia',
+      'Day trip to Montserrat Mountains & Monastery by cable car',
+      'Evening panoramic tour: Las Ramblas, Gothic Quarter, Cathedral',
     ],
     included: [
-      'Round-trip flights',
-      '4 nights 5-star hotel',
-      'Daily breakfast and one dinner',
-      'Desert safari',
-      'City tour with guide',
-      'All transfers'
+      'Return international flights',
+      '4 nights hotel accommodation in Barcelona',
+      'Daily halal breakfast',
+      'Private airport transfers (arrival & departure)',
+      'Expert private guide for Day 2 city tour',
+      'Day trip to Montserrat with cable car or cog train ride',
+      'Travel insurance',
     ],
     itinerary: [
       {
         day: 1,
-        title: 'Welcome to Dubai',
-        description: 'Arrive in Dubai and settle into your luxury hotel.',
-        activities: ['Airport pickup', 'Hotel check-in', 'Evening at Dubai Marina', 'Dhow cruise dinner']
-      }
-    ]
+        title: 'Arrival in Barcelona',
+        description: 'Private transfer, hotel check-in. Evening walking tour of Las Ramblas, Gothic Quarter, and the Cathedral of Santa Eulalia.',
+        activities: ['Private airport transfer', 'Hotel check-in', 'Evening tour: Las Ramblas, Gothic Quarter, Cathedral of Santa Eulalia'],
+      },
+      {
+        day: 2,
+        title: 'Barcelona City Tour',
+        description: "Full day guided — Gaudí's masterpieces, Montjuïc panorama, and the vibrant waterfront.",
+        activities: ['Halal breakfast', 'Paseo de Gràcia: Casa Batlló & La Pedrera', 'Sagrada Família visit', 'Panoramic drive through Plaza España', 'Montjuïc Mountain ascent (cable car optional)', 'Barceloneta district & Arc de Triomf'],
+      },
+      {
+        day: 3,
+        title: 'Montserrat Mountains & Monastery',
+        description: 'Dramatic day trip to Montserrat — cable car or cog train to the monastery and breathtaking mountain scenery.',
+        activities: ['Halal breakfast', 'Transfer to Montserrat', 'Cable car or cog train ride to monastery', 'Guided panoramic monastery tour', 'Mountain free time', 'Return to Barcelona'],
+      },
+      {
+        day: 4,
+        title: 'Free Day in Barcelona',
+        description: 'Full free day — explore at your own pace, enjoy shopping, or ask us to arrange an optional excursion.',
+        activities: ['Halal breakfast', 'Full free day at leisure', 'Optional: Park Güell, Tibidabo, stadium tour, shopping'],
+      },
+      {
+        day: 5,
+        title: 'Departure',
+        description: 'Final breakfast, check out, and private transfer to Barcelona Airport.',
+        activities: ['Halal breakfast', 'Check-out', 'Private transfer to Barcelona Airport'],
+      },
+    ],
   },
+
   {
     id: 'pkg-004',
-    name: 'Malaysia Islamic Heritage & Nature',
-    destination: 'Kuala Lumpur & Penang',
-    country: 'Malaysia',
-    duration: '8 Days / 7 Nights',
-    price: 4500,
+    name: 'Enchanting Sri Lanka – Day Odyssey of Wonders',
+    destination: 'Nuwara Eliya  Beruwala  Galle  Colombo',
+    country: 'Sri Lanka',
+    duration: '6 Nights / 5 Days',
+    price: 5200,
+    originalPrice: 6000,
     currency: 'SAR',
-    image: '/images/packages/malaysia.jpg',
-    halalRating: 5,
-    rating: 4.8,
-    reviews: 201,
-    features: ['Halal Food Paradise', 'Mosques', 'Nature', 'Shopping'],
-    category: 'best',
-    description: 'Explore Malaysia\'s Islamic heritage combined with stunning natural beauty and world-class halal cuisine.',
+    image: 'https://picsum.photos/seed/srilanka-tea-plantation-nuwara/800/600',
+    halalRating: 4,
+    features: ['Halal Food', 'Islamic Heritage', 'Tea Trails & Beaches', 'UNESCO World Heritage', 'Boat Safari'],
+    category: 'popular',
+    description: "Experience Sri Lanka — the Pearl of the Indian Ocean. From misty tea plantations and Sri Lanka's oldest mosque to golden beaches, Galle Fort, and vibrant Colombo. Ayubowan!",
     highlights: [
-      'National Mosque visit',
-      'Batu Caves spiritual site',
-      'Penang street food tour',
-      'Cameron Highlands tea plantations',
-      'Islamic Arts Museum'
+      'Bluefield Tea Factory tour & tasting in Nuwara Eliya',
+      "Beruwala — birthplace of Sri Lanka's Muslim community",
+      'Galle Fort — UNESCO World Heritage Site with Tuk-Tuk ride',
+      'Masjid Al Abrar — the oldest mosque in Sri Lanka',
+      'Scenic coastal train ride along the Indian Ocean',
+      'Red Mosque, Pettah Bazaar & Lotus Tower in Colombo',
     ],
     included: [
-      'Round-trip flights',
-      '7 nights accommodation',
-      'Daily breakfast',
-      'Internal flights',
-      'All guided tours',
-      'Travel insurance'
+      'Return international flights',
+      '6 nights accommodation (Nuwara Eliya, Beruwala x3, Colombo x2)',
+      'Daily halal breakfast',
+      'Private airport transfers',
+      'Private guided tours throughout',
+      'Madhu River Boat Safari & Cinnamon Island visit',
+      'Scenic Indian Ocean coastal train ride',
+      'Seafood halal dinner at Negombo beach',
+      'Travel insurance',
     ],
-    itinerary: []
+    itinerary: [
+      {
+        day: 1,
+        title: 'Arrival  Nuwara Eliya ("Little England")',
+        description: "Welcome to Sri Lanka — 'Ayubowan!' Scenic highland drive from the airport, stopping at Bluefield Tea Factory for a tea tasting and Ramboda Waterfalls.",
+        activities: ['Airport arrival transfer', 'Bluefield Tea Factory tour & tasting', 'Ramboda Waterfalls photo stop', 'Arrive Nuwara Eliya', 'Hotel check-in & rest'],
+      },
+      {
+        day: 2,
+        title: 'Gregory Lake  Beruwala Beach',
+        description: "Peaceful morning at Gregory Lake, then travel to Beruwala — Sri Lanka's first Muslim settlement. Visit the turtle hatchery, release baby turtles, and enjoy the sunset beach.",
+        activities: ['Breakfast', 'Gregory Lake stroll & optional boat ride', 'Drive to Beruwala', 'Turtle Hatchery conservation visit', 'Baby turtle release into the sea', 'Beach leisure & sunset'],
+      },
+      {
+        day: 3,
+        title: 'Galle Fort & Moonstone Mines',
+        description: 'Explore iconic Galle Fort (UNESCO Heritage) with a Tuk-Tuk ride through its lanes, visit ancient moonstone mines, and watch stilt fishermen.',
+        activities: ['Breakfast', 'Drive to Galle', 'Galle Fort guided walk', 'Tuk-Tuk ride through the fort', 'Meetiyagoda moonstone mine visit', 'Stilt fishing experience', 'Return to Beruwala'],
+      },
+      {
+        day: 4,
+        title: 'Madhu River Safari, Oldest Mosque & Colombo by Coastal Train',
+        description: "Boat safari on Madhu River, Cinnamon Island, Masjid Al Abrar (Sri Lanka's oldest mosque), then a scenic coastal train ride to Colombo.",
+        activities: ['Breakfast', 'Madhu River Boat Safari', 'Cinnamon Island visit', 'Masjid Al Abrar (oldest mosque in Sri Lanka)', 'Scenic Indian Ocean coastal train to Colombo'],
+      },
+      {
+        day: 5,
+        title: 'Colombo City & Departure',
+        description: 'Dhuha prayer at the Red Mosque, Pettah Bazaar markets, Lotus Tower, Galle Face Green, and a final seafood halal dinner before airport transfer.',
+        activities: ['Breakfast', 'Dhuha prayer at Red Mosque', 'Pettah Bazaar market walk', 'Lotus Tower photo stop', 'Galle Face Green & local street food', 'Seafood halal dinner at Negombo beach', 'Transfer to airport'],
+      },
+    ],
   },
 
-  // New & Most Popular Tours
+  //  TOP DESTINATIONS 
+
   {
     id: 'pkg-005',
-    name: 'Morocco Imperial Cities Explorer',
-    destination: 'Casablanca, Fez, Marrakech',
-    country: 'Morocco',
-    duration: '9 Days / 8 Nights',
-    price: 5200,
+    name: 'Couples Tanzania & Zanzibar Vacation – 11 Nights 12 Days',
+    destination: 'Arusha  Serengeti  Ngorongoro  Zanzibar',
+    country: 'Tanzania',
+    duration: '12 Days / 11 Nights',
+    price: 14500,
+    originalPrice: 16000,
     currency: 'SAR',
-    image: '/images/packages/morocco.jpg',
+    image: 'https://picsum.photos/seed/tanzania-serengeti-safari/800/600',
     halalRating: 5,
-    rating: 4.9,
-    reviews: 142,
-    features: ['Islamic Architecture', 'Halal Food', 'Sahara Desert', 'Souks'],
-    category: 'popular',
-    description: 'Journey through Morocco\'s imperial cities and experience authentic Islamic culture and architecture.',
+    features: ['Halal Food', 'Luxury Safari Lodges', 'Zanzibar Beach Resort', 'Wildlife Game Drives', 'Maasai Village'],
+    category: 'top-destination',
+    description: 'The ultimate couples retreat — a luxury Tanzania safari through Serengeti, Tarangire, and Ngorongoro Crater, followed by 5 nights of beach bliss at a luxury Zanzibar resort. Fully halal.',
     highlights: [
-      'Hassan II Mosque visit',
-      'Fez Medina exploration',
-      'Sahara desert overnight',
-      'Marrakech Jemaa el-Fnaa',
-      'Traditional Moroccan cuisine'
+      'Tarangire National Park — elephant herds & buffalo game drives',
+      'Serengeti National Park — Big Five & big cat spotting',
+      "Ngorongoro Crater — world's largest unflooded caldera with black rhinos",
+      'Maasai village cultural experience',
+      'Luxury white-sand beach resort in Zanzibar — 5 nights',
+      'Optional: Hot Air Balloon Safari over the Serengeti ($550 p/p)',
     ],
     included: [
-      'Round-trip flights',
-      '8 nights accommodation',
-      'Daily breakfast and 4 dinners',
-      'Desert camp experience',
-      'All guided tours',
-      'Internal transfers'
+      'Return international flights',
+      '11 nights accommodation: luxury safari lodges & Zanzibar beach resort (5 nights)',
+      'All halal meals throughout the safari',
+      'Halal dining at beach resort',
+      'All game drives and national park entrance fees',
+      'Maasai village cultural tour',
+      'Domestic flight: Arusha  Zanzibar',
+      'All airport and inter-hotel transfers',
+      'English-speaking expert safari guide',
+      'Travel insurance',
     ],
-    itinerary: []
+    itinerary: [
+      {
+        day: 1,
+        title: 'Arrival in Arusha',
+        description: 'Transfer from Kilimanjaro International Airport to your luxury hotel in Arusha. Welcomed with refreshing juice and dates.',
+        activities: ['Kilimanjaro Airport transfer', 'Check-in at Gran Melia Hotel / Arusha Coffee Lodge', 'Welcome with juice & dates', 'Rest & acclimatise'],
+      },
+      {
+        day: 2,
+        title: 'Tarangire National Park – Full Day Game Drive',
+        description: 'Full day in scenic Tarangire National Park — famous for its large elephant herds, buffalos, zebras, wildebeests, and giraffes.',
+        activities: ['Breakfast', 'Drive to Tarangire National Park', 'Full-day wildlife game viewing', 'Halal picnic or lodge lunch', 'Elephant, giraffe & big game spotting'],
+      },
+      {
+        day: 3,
+        title: 'Serengeti via Olduvai Gorge',
+        description: "Drive to the Serengeti via Olduvai Gorge — home to early human fossils. Optional Maasai village tour before the afternoon game drive into Tanzania's greatest national park.",
+        activities: ['Breakfast', 'Drive to Serengeti via Olduvai Gorge', 'Olduvai Gorge fossil museum', 'Optional Maasai village tour', 'Afternoon Serengeti game drive', 'Check-in at luxury tented camp'],
+      },
+      {
+        day: 4,
+        title: 'Serengeti – Full Day Safari',
+        description: 'Full day exploring the vast Serengeti plains — lions, cheetahs, leopards, wildebeests, and zebras. Hot halal lodge lunch or a bush picnic.',
+        activities: ['Sunrise game drive', 'Big cat spotting: lions, cheetahs, leopards', 'Hot halal lodge lunch or bush picnic', 'Afternoon game drive', 'Sundowners at the camp'],
+      },
+      {
+        day: 5,
+        title: 'Serengeti  Ngorongoro',
+        description: 'Early half-day of final wildlife viewing in the Serengeti, then depart for the Ngorongoro Conservation Area.',
+        activities: ['Early breakfast', 'Half-day Serengeti game viewing', 'Drive to Ngorongoro Conservation Area', 'Game drive en route', 'Check-in Ngorongoro Serena Lodge'],
+      },
+      {
+        day: 6,
+        title: 'Ngorongoro Crater',
+        description: "Descend into the Ngorongoro Crater — the world's largest unflooded caldera — for black rhinos, hippos, lions, and spotted hyenas. Afternoon Maasai village cultural tour.",
+        activities: ['Breakfast', 'Ngorongoro Crater full-day game drive', 'Black rhino, hippo & Big Five spotting', 'Halal crater floor lunch', 'Maasai village cultural tour', 'Drive to Lake Manyara for overnight'],
+      },
+      {
+        day: 7,
+        title: 'Lake Manyara  Arusha  Zanzibar',
+        description: 'Morning drive to Arusha via the Great Rift Valley. Halal lunch in Arusha, then afternoon flight to Zanzibar and transfer to your beach resort.',
+        activities: ['Breakfast', 'Scenic drive via Great Rift Valley', 'Halal lunch in Arusha', 'Flight to Zanzibar (~16:30, arrives ~17:30)', 'Transfer to Zanzibar beach resort'],
+      },
+      {
+        day: 8,
+        title: 'Zanzibar Beach Resort (Days 8–11)',
+        description: 'Five days of pure relaxation on the white sand beaches of Zanzibar with warm Indian Ocean waters and halal cuisine at your luxury resort.',
+        activities: ['Daily halal meals at resort', 'Swimming & beach leisure', 'Snorkelling & watersports (optional)', 'Spice island tour (optional)', 'Sunset dhow cruise (optional)', 'Stone Town exploration (optional)'],
+      },
+      {
+        day: 12,
+        title: 'Zanzibar – Departure',
+        description: 'Final halal breakfast, resort check-out, and transfer to Zanzibar International Airport.',
+        activities: ['Final halal breakfast', 'Resort check-out (by 11:59 AM)', 'Luggage storage available', 'Airport transfer', 'Departure from Zanzibar International Airport'],
+      },
+    ],
   },
+
   {
     id: 'pkg-006',
-    name: 'Egypt Pyramids & Islamic Cairo',
-    destination: 'Cairo & Luxor',
-    country: 'Egypt',
+    name: 'Greece – Islamic Heritage Tour',
+    destination: 'Athens  Corinth  Nafplio  Cape Sounion',
+    country: 'Greece',
     duration: '7 Days / 6 Nights',
-    price: 3900,
+    price: 6200,
     currency: 'SAR',
-    image: '/images/packages/egypt.jpg',
-    halalRating: 4,
-    rating: 4.6,
-    reviews: 178,
-    features: ['Historical Sites', 'Islamic Monuments', 'Nile Cruise', 'Museums'],
-    category: 'popular',
-    description: 'Discover ancient wonders and Islamic heritage in the land of pharaohs.',
+    image: 'https://picsum.photos/seed/greece-athens-mosque-heritage/800/600',
+    halalRating: 5,
+    features: ['Halal Full-Board', 'Islamic Heritage', 'Ottoman History', 'Private Tours'],
+    category: 'top-destination',
+    description: "Experience Greece's untold Islamic history — from Ottoman castles and 15th-century mosques to the world's only Islamic museum of its kind, and a breathtaking sunset at the Acropolis.",
     highlights: [
-      'Great Pyramids & Sphinx',
-      'Egyptian Museum',
-      'Islamic Cairo mosques',
-      'Nile cruise dinner',
-      'Valley of the Kings'
+      'Grand Mosque of Athens — built with full Greek government funding',
+      'Benaki Islamic Heritage Museum — unique worldwide',
+      'Corinth Canal & 600-year-old hilltop Sultan Ahmed Mosque',
+      'Acropolis & Parthenon — used as a mosque for 400 years',
+      'Exclusive halal dinner arranged at Al Fatih Mosque gate',
     ],
     included: [
-      'Round-trip flights',
-      '6 nights hotels',
-      'Daily breakfast and 2 dinners',
-      'All entry fees',
-      'Expert Egyptologist guide',
-      'Nile cruise'
+      'Return international flights',
+      '6 nights hotel in Athens',
+      'Exclusive halal full-board',
+      'Private guided tours daily',
+      'All entrance fees',
+      'Halal dinner at Al Fatih Mosque gate',
+      'Travel insurance',
     ],
-    itinerary: []
+    itinerary: [
+      {
+        day: 1,
+        title: 'Arrival in Athens',
+        description: 'Airport transfer and hotel check-in. Overnight in Athens.',
+        activities: ['Airport transfer', 'Hotel check-in'],
+      },
+      {
+        day: 2,
+        title: 'Grand Mosque & Benaki Islamic Museum',
+        description: 'Visit Athens Grand Mosque — the first officially built in Greece in over 100 years — and the world-class Benaki Islamic Heritage Museum.',
+        activities: ['Halal full-board', 'Grand Mosque & Islamic Center of Athens', 'Benaki Islamic Heritage Museum'],
+      },
+      {
+        day: 3,
+        title: 'Chalkida – Ottoman Castle & Mosque  Acropolis Sunset',
+        description: 'Day trip to Chalkida for the Karababa Ottoman Castle and Emir Zade Mosque (1458), then Athens for the Acropolis sunset.',
+        activities: ['Halal full-board', 'Karababa Islamic Ottoman Castle', 'Emir Zade Mosque (1458)', 'Acropolis & Parthenon sunset visit'],
+      },
+      {
+        day: 4,
+        title: 'Athens Mosques & Old City',
+        description: "Monastiraki Mosque, Al Fatih Mosque with 15th-century Quran Madrassa, and the historic old city. Exclusive halal dinner at the mosque's gate.",
+        activities: ['Halal full-board', 'Monastiraki Mosque', 'Al Fatih Mosque & Quran Madrassa', 'Exclusive halal dinner at Al Fatih Mosque gate'],
+      },
+      {
+        day: 5,
+        title: 'Corinth Canal, Nafplio Mosques & Ottoman Castle',
+        description: 'Corinth Canal, the ancient Sultan Ahmed hilltop Mosque (1458), and Nafplio with its 15th-century mosques and Plamidi Ottoman Castle.',
+        activities: ['Halal full-board', 'Corinth Canal', 'Sultan Ahmed Mosque (1458)', 'Nafplio mosques & Plamidi Ottoman Castle'],
+      },
+      {
+        day: 6,
+        title: 'Shopping & Temple of Poseidon Sunset',
+        description: 'Athens Mall shopping, then a breathtaking visit to the Temple of Poseidon at Cape Sounion with a halal dinner facing the Aegean sunset.',
+        activities: ['Halal full-board', 'The Mall Athens shopping', 'Cape Sounion & Temple of Poseidon', 'Halal Aegean sunset dinner'],
+      },
+      {
+        day: 7,
+        title: 'McArthur Glen Outlet & Departure',
+        description: 'Final shopping at McArthur Glen Designer Fashion Outlet then airport transfer.',
+        activities: ['Halal breakfast', 'McArthur Glen Outlet', 'Athens Airport departure'],
+      },
+    ],
   },
+
+  //  FAMILY PACKAGES 
+
   {
     id: 'pkg-007',
-    name: 'Jordan Petra & Wadi Rum Adventure',
-    destination: 'Amman, Petra, Wadi Rum',
-    country: 'Jordan',
-    duration: '6 Days / 5 Nights',
-    price: 4800,
+    name: 'Enchanting Sri Lanka – Family Edition',
+    destination: 'Nuwara Eliya  Beruwala  Galle  Colombo',
+    country: 'Sri Lanka',
+    duration: '6 Nights / 5 Days',
+    price: 5200,
+    originalPrice: 6000,
     currency: 'SAR',
-    image: '/images/packages/jordan.jpg',
-    halalRating: 5,
-    rating: 4.8,
-    reviews: 167,
-    features: ['Ancient Sites', 'Desert Adventure', 'Halal Food', 'Dead Sea'],
-    category: 'popular',
-    description: 'Experience the Rose City of Petra and sleep under the stars in Wadi Rum desert.',
+    image: 'https://picsum.photos/seed/srilanka-galle-fort-family/800/600',
+    halalRating: 4,
+    features: ['Halal Food', 'Family Friendly', 'Beach & Wildlife', 'Islamic Heritage', 'UNESCO Heritage'],
+    category: 'family',
+    description: "A perfect family adventure across Sri Lanka — cool tea highlands, releasing baby turtles into the sea, Tuk-Tuk rides through Galle Fort, a river boat safari, and vibrant Colombo.",
     highlights: [
-      'Petra archaeological site',
-      'Wadi Rum desert camp',
-      'Dead Sea floating experience',
-      'Jerash Roman ruins',
-      'Amman citadel'
+      'Tea plantation tour — children experience how Ceylon tea is made',
+      'Turtle hatchery: release baby turtles into the ocean',
+      'Galle Fort Tuk-Tuk ride — a family favourite',
+      'Madhu River Boat Safari spotting monkeys and water monitors',
+      'Masjid Al Abrar — oldest mosque in Sri Lanka',
+      'Lotus Tower and Pettah Bazaar, Colombo',
     ],
     included: [
-      'Round-trip flights',
-      '5 nights accommodation',
-      'Daily breakfast and 3 dinners',
-      'Desert camp night',
-      'All tours with guide',
-      'Entry tickets'
+      'Return international flights',
+      '6 nights family hotel accommodation',
+      'Daily halal breakfast',
+      'Private airport transfers',
+      'Private guided tours throughout',
+      'Turtle hatchery visit & baby turtle release',
+      'Madhu River Boat Safari',
+      'Tuk-Tuk ride in Galle Fort',
+      'Seafood halal dinner at Negombo beach',
+      'Travel insurance',
     ],
-    itinerary: []
+    itinerary: [
+      {
+        day: 1,
+        title: 'Arrival  Nuwara Eliya',
+        description: 'Scenic highland drive with tea factory tour and waterfall photo stop.',
+        activities: ['Airport transfer', 'Bluefield Tea Factory tour & tasting', 'Ramboda Waterfalls photo stop', 'Hotel check-in in Nuwara Eliya'],
+      },
+      {
+        day: 2,
+        title: 'Gregory Lake & Beruwala',
+        description: 'Boat ride on Gregory Lake, turtle hatchery visit, baby turtle release into the sea, and a beach sunset.',
+        activities: ['Breakfast', 'Gregory Lake boat ride', 'Turtle Hatchery conservation visit', 'Baby turtle release into the sea', 'Beach leisure & sunset'],
+      },
+      {
+        day: 3,
+        title: 'Galle Fort Adventure',
+        description: 'Tuk-Tuk rides through Galle Fort lanes, moonstone mine visit, and stilt fishing show.',
+        activities: ['Breakfast', 'Galle Fort guided walk', 'Tuk-Tuk ride through the fort', 'Moonstone mine visit', 'Stilt fishing experience'],
+      },
+      {
+        day: 4,
+        title: 'Madhu River Safari & Colombo by Coastal Train',
+        description: 'Boat safari spotting monkeys and water monitors, Cinnamon Island, oldest mosque, then the scenic coastal train to Colombo.',
+        activities: ['Breakfast', 'Madhu River Boat Safari', 'Cinnamon Island visit', 'Masjid Al Abrar (oldest mosque)', 'Scenic Indian Ocean coastal train to Colombo'],
+      },
+      {
+        day: 5,
+        title: 'Colombo & Departure',
+        description: 'Morning mosque prayer, Pettah market, Lotus Tower, Galle Face Green, and a final seafood halal dinner at Negombo beach before departure.',
+        activities: ['Breakfast', 'Dhuha prayer at Red Mosque', 'Pettah Bazaar walk', 'Lotus Tower photo stop', 'Galle Face Green', 'Seafood halal dinner at Negombo beach', 'Airport transfer'],
+      },
+    ],
   },
+
   {
     id: 'pkg-008',
-    name: 'Azerbaijan Silk Road Heritage',
-    destination: 'Baku',
-    country: 'Azerbaijan',
-    duration: '5 Days / 4 Nights',
-    price: 3200,
-    currency: 'SAR',
-    image: '/images/packages/azerbaijan.jpg',
-    halalRating: 4,
-    rating: 4.7,
-    reviews: 98,
-    features: ['Modern City', 'Old Town', 'Halal Food', 'Caspian Sea'],
-    category: 'popular',
-    description: 'Explore the land of fire where East meets West along the ancient Silk Road.',
-    highlights: [
-      'Old City Baku (Icherisheher)',
-      'Flame Towers view',
-      'Gobustan rock art',
-      'Caspian Sea boulevard',
-      'Heydar Mosque'
-    ],
-    included: [
-      'Round-trip flights',
-      '4 nights 4-star hotel',
-      'Daily breakfast',
-      'City tours',
-      'All transfers',
-      'Visa assistance'
-    ],
-    itinerary: []
-  },
-
-  // Top Destinations
-  {
-    id: 'pkg-009',
-    name: 'Bali Paradise Beach & Culture',
-    destination: 'Bali',
-    country: 'Indonesia',
-    duration: '7 Days / 6 Nights',
-    price: 4100,
-    currency: 'SAR',
-    image: '/images/packages/bali.jpg',
-    halalRating: 4,
-    rating: 4.8,
-    reviews: 234,
-    features: ['Beach Resort', 'Halal Food', 'Spa', 'Nature'],
-    category: 'top-destination',
-    description: 'Relax in tropical paradise with halal-friendly resorts and stunning beaches.',
-    highlights: [
-      'Uluwatu Temple sunset',
-      'Ubud rice terraces',
-      'Beach resort stay',
-      'Traditional spa treatment',
-      'Halal Indonesian cuisine'
-    ],
-    included: [
-      'Round-trip flights',
-      '6 nights beach resort',
-      'Daily breakfast',
-      'Island tours',
-      'Spa session',
-      'Airport transfers'
-    ],
-    itinerary: []
-  },
-  {
-    id: 'pkg-010',
-    name: 'Spain Andalusia Muslim Heritage',
-    destination: 'Granada, Cordoba, Seville',
+    name: 'Hola Barcelona – Family Break',
+    destination: 'Barcelona  Montserrat',
     country: 'Spain',
-    duration: '8 Days / 7 Nights',
-    price: 5800,
-    currency: 'SAR',
-    image: '/images/packages/spain.jpg',
-    halalRating: 3,
-    rating: 4.7,
-    reviews: 156,
-    features: ['Islamic Heritage', 'Architecture', 'History', 'Culture'],
-    category: 'top-destination',
-    description: 'Walk through the magnificent Islamic monuments of Al-Andalus.',
-    highlights: [
-      'Alhambra Palace Granada',
-      'Mezquita-Catedral Cordoba',
-      'Alcazar of Seville',
-      'Flamenco show',
-      'Tapas tour (halal options)'
-    ],
-    included: [
-      'Round-trip flights',
-      '7 nights hotels',
-      'Daily breakfast',
-      'Fast-track entries',
-      'Expert guide',
-      'High-speed train tickets'
-    ],
-    itinerary: []
-  },
-  {
-    id: 'pkg-011',
-    name: 'Bosnia Herzegovina Hidden Gem',
-    destination: 'Sarajevo & Mostar',
-    country: 'Bosnia Herzegovina',
-    duration: '6 Days / 5 Nights',
-    price: 3400,
-    currency: 'SAR',
-    image: '/images/packages/bosnia.jpg',
-    halalRating: 5,
-    rating: 4.9,
-    reviews: 189,
-    features: ['Ottoman Heritage', 'Natural Beauty', 'Halal Food', 'Budget Friendly'],
-    category: 'top-destination',
-    description: 'Discover Europe\'s best-kept secret with stunning Ottoman architecture and warm hospitality.',
-    highlights: [
-      'Mostar Old Bridge',
-      'Sarajevo Bascarsija',
-      'Gazi Husrev-beg Mosque',
-      'Bosnian cuisine',
-      'Kravica Waterfalls'
-    ],
-    included: [
-      'Round-trip flights',
-      '5 nights accommodation',
-      'Daily breakfast',
-      'All tours with guide',
-      'Entry fees',
-      'Transfers'
-    ],
-    itinerary: []
-  },
-  {
-    id: 'pkg-012',
-    name: 'Thailand Bangkok & Islands',
-    destination: 'Bangkok & Phuket',
-    country: 'Thailand',
-    duration: '7 Days / 6 Nights',
-    price: 3700,
-    currency: 'SAR',
-    image: '/images/packages/thailand.jpg',
-    halalRating: 3,
-    rating: 4.6,
-    reviews: 221,
-    features: ['City & Beach', 'Halal Food', 'Shopping', 'Island Hopping'],
-    category: 'top-destination',
-    description: 'Experience vibrant Bangkok and pristine beaches with halal dining options.',
-    highlights: [
-      'Grand Palace Bangkok',
-      'Floating markets',
-      'Phi Phi Islands tour',
-      'Thai cooking class (halal)',
-      'Beach relaxation'
-    ],
-    included: [
-      'Round-trip flights',
-      '6 nights accommodation',
-      'Daily breakfast',
-      'Island tours',
-      'Domestic flight',
-      'All transfers'
-    ],
-    itinerary: []
-  },
-
-  // Family Destinations
-  {
-    id: 'pkg-013',
-    name: 'Singapore Family Fun Adventure',
-    destination: 'Singapore',
-    country: 'Singapore',
     duration: '5 Days / 4 Nights',
-    price: 4500,
-    currency: 'SAR',
-    image: '/images/packages/singapore.jpg',
-    halalRating: 5,
-    rating: 4.9,
-    reviews: 312,
-    features: ['Family Friendly', 'Halal Food Heaven', 'Safe', 'Theme Parks'],
-    category: 'family',
-    description: 'Perfect family destination with world-class attractions and excellent halal food options.',
-    highlights: [
-      'Universal Studios Singapore',
-      'Gardens by the Bay',
-      'Sentosa Island',
-      'Singapore Zoo',
-      'Halal food paradise'
-    ],
-    included: [
-      'Round-trip flights',
-      '4 nights family hotel',
-      'Daily breakfast',
-      'Theme park tickets',
-      'City tour',
-      'All transfers'
-    ],
-    itinerary: []
-  },
-  {
-    id: 'pkg-014',
-    name: 'Maldives Family Beach Resort',
-    destination: 'Male & Resort Island',
-    country: 'Maldives',
-    duration: '6 Days / 5 Nights',
-    price: 7200,
-    currency: 'SAR',
-    image: '/images/packages/maldives.jpg',
-    halalRating: 5,
-    rating: 4.9,
-    reviews: 267,
-    features: ['Beach Resort', 'Family Villas', 'Halal Food', 'Water Sports'],
-    category: 'family',
-    description: 'Luxury family beach resort with private villas and all-inclusive halal dining.',
-    highlights: [
-      'Private family villa',
-      'All-inclusive halal meals',
-      'Kids club activities',
-      'Snorkeling & diving',
-      'Sunset fishing trip'
-    ],
-    included: [
-      'Round-trip flights',
-      '5 nights beach villa',
-      'All meals included',
-      'Water sports',
-      'Kids activities',
-      'Speedboat transfers'
-    ],
-    itinerary: []
-  },
-  {
-    id: 'pkg-015',
-    name: 'Turkey Family Discovery Tour',
-    destination: 'Istanbul & Cappadocia',
-    country: 'Turkey',
-    duration: '8 Days / 7 Nights',
-    price: 5500,
-    currency: 'SAR',
-    image: '/images/packages/turkey-family.jpg',
-    halalRating: 5,
-    rating: 4.8,
-    reviews: 198,
-    features: ['Family Friendly', 'Adventure', 'History', 'Hot Air Balloon'],
-    category: 'family',
-    description: 'Exciting family adventure through Turkey\'s most iconic destinations.',
-    highlights: [
-      'Hot air balloon ride Cappadocia',
-      'Underground cities',
-      'Bosphorus cruise',
-      'Turkish ice cream experience',
-      'Family-friendly hotels'
-    ],
-    included: [
-      'Round-trip flights',
-      '7 nights family rooms',
-      'Daily breakfast and 3 dinners',
-      'All tours with family guide',
-      'Balloon ride',
-      'Internal flights'
-    ],
-    itinerary: []
-  },
-  {
-    id: 'pkg-016',
-    name: 'Qatar Doha Family Experience',
-    destination: 'Doha',
-    country: 'Qatar',
-    duration: '4 Days / 3 Nights',
-    price: 3600,
-    currency: 'SAR',
-    image: '/images/packages/qatar.jpg',
-    halalRating: 5,
-    rating: 4.7,
-    reviews: 145,
-    features: ['Modern City', 'Family Entertainment', 'Desert Safari', 'Museums'],
-    category: 'family',
-    description: 'Short family getaway to futuristic Doha with perfect blend of culture and entertainment.',
-    highlights: [
-      'Museum of Islamic Art',
-      'Katara Cultural Village',
-      'Desert safari with kids',
-      'Souq Waqif traditional market',
-      'The Pearl Qatar'
-    ],
-    included: [
-      'Round-trip flights',
-      '3 nights 5-star hotel',
-      'Daily breakfast',
-      'Desert safari',
-      'City tour',
-      'All transfers'
-    ],
-    itinerary: []
-  },
-
-  // --- Additional Best Packages ---
-  {
-    id: 'pkg-017',
-    name: 'Oman Muscat & Nizwa Cultural Escape',
-    destination: 'Muscat & Nizwa',
-    country: 'Oman',
-    duration: '6 Days / 5 Nights',
-    price: 3900,
-    originalPrice: 4500,
-    currency: 'SAR',
-    image: '/images/packages/oman.jpg',
-    halalRating: 5,
-    rating: 4.8,
-    reviews: 211,
-    features: ['Halal Food', 'Desert Safari', 'Historic Forts', 'Souqs'],
-    category: 'best',
-    description: 'Explore the most authentic Arabian peninsula experience with majestic forts, wadis, and traditional Omani hospitality.',
-    highlights: [
-      'Grand Mosque Muscat',
-      'Nizwa Fort & Souq',
-      'Wadi Shab adventure',
-      'Wahiba Sands dunes',
-      'Traditional Omani cuisine'
-    ],
-    included: [
-      'Round-trip flights',
-      '5 nights hotels',
-      'Daily breakfast',
-      'Desert camp experience',
-      'All guided tours',
-      'Private driver'
-    ],
-    itinerary: []
-  },
-  {
-    id: 'pkg-018',
-    name: 'Pakistan Heritage Circuit',
-    destination: 'Lahore & Islamabad',
-    country: 'Pakistan',
-    duration: '7 Days / 6 Nights',
-    price: 2800,
-    currency: 'SAR',
-    image: '/images/packages/pakistan.jpg',
-    halalRating: 5,
-    rating: 4.7,
-    reviews: 178,
-    features: ['Mughal History', 'Halal Food', 'Hospitality', 'Mosques'],
-    category: 'best',
-    description: "Discover Pakistan's rich Islamic heritage — from Lahore's magnificent Mughal monuments to Islamabad's Faisal Mosque.",
-    highlights: [
-      'Badshahi Mosque Lahore',
-      'Lahore Fort & Shalimar Gardens',
-      'Faisal Mosque Islamabad',
-      'Lahore Food Street',
-      'Taxila Buddhist ruins'
-    ],
-    included: [
-      'Round-trip flights',
-      '6 nights boutique hotels',
-      'Daily breakfast and 3 dinners',
-      'All tours with guide',
-      'Internal flights',
-      'Travel insurance'
-    ],
-    itinerary: []
-  },
-
-  // --- Additional Popular Packages ---
-  {
-    id: 'pkg-019',
-    name: 'Uzbekistan Silk Road Journey',
-    destination: 'Samarkand & Bukhara',
-    country: 'Uzbekistan',
-    duration: '8 Days / 7 Nights',
-    price: 4700,
-    originalPrice: 5300,
-    currency: 'SAR',
-    image: '/images/packages/uzbekistan.jpg',
-    halalRating: 5,
-    rating: 4.9,
-    reviews: 134,
-    features: ['Islamic Architecture', 'Ancient Silk Road', 'Halal Food', 'UNESCO Sites'],
-    category: 'popular',
-    description: 'Walk the legendary Silk Road through Samarkand and Bukhara, marvelling at some of the most stunning Islamic architecture in the world.',
-    highlights: [
-      'Registan Square Samarkand',
-      'Shah-i-Zinda necropolis',
-      'Bukhara Old City',
-      'Kalon Minaret',
-      'Traditional Uzbek pilaf'
-    ],
-    included: [
-      'Round-trip flights',
-      '7 nights hotels',
-      'Daily breakfast and 4 dinners',
-      'High-speed train tickets',
-      'All guided tours',
-      'Visa support'
-    ],
-    itinerary: []
-  },
-  {
-    id: 'pkg-020',
-    name: 'Kosovo & Albania Hidden Gems',
-    destination: 'Pristina & Tirana',
-    country: 'Kosovo / Albania',
-    duration: '6 Days / 5 Nights',
-    price: 3100,
-    currency: 'SAR',
-    image: '/images/packages/kosovo.jpg',
-    halalRating: 5,
-    rating: 4.7,
-    reviews: 89,
-    features: ['Ottoman Heritage', 'Budget Friendly', 'Halal Food', 'Off The Beaten Path'],
-    category: 'popular',
-    description: 'Discover two of Europe\'s most underrated Muslim-majority countries full of Ottoman history and stunning Balkan landscapes.',
-    highlights: [
-      'Pristina mosque & bazaar',
-      'Prizren Ottoman old town',
-      'Tirana colourful capital',
-      'Berat UNESCO castle town',
-      'Albanian Riviera beaches'
-    ],
-    included: [
-      'Round-trip flights',
-      '5 nights accommodation',
-      'Daily breakfast',
-      'All guided tours',
-      'Inter-country bus',
-      'Visa assistance'
-    ],
-    itinerary: []
-  },
-
-  // --- Additional Top Destination Packages ---
-  {
-    id: 'pkg-021',
-    name: 'Maldives Luxury Overwater Escape',
-    destination: 'North Malé Atoll',
-    country: 'Maldives',
-    duration: '5 Days / 4 Nights',
-    price: 6800,
-    originalPrice: 7900,
-    currency: 'SAR',
-    image: '/images/packages/maldives-luxury.jpg',
-    halalRating: 5,
-    rating: 5.0,
-    reviews: 298,
-    features: ['Overwater Bungalow', 'All-Inclusive', 'Halal Dining', 'Diving'],
-    category: 'top-destination',
-    description: 'Unwind in an overwater villa surrounded by the turquoise Indian Ocean with fully halal all-inclusive dining.',
-    highlights: [
-      'Private overwater bungalow',
-      'All-inclusive halal meals',
-      'Sunset dolphin cruise',
-      'Coral reef snorkelling',
-      'Couples spa treatment'
-    ],
-    included: [
-      'Round-trip flights',
-      '4 nights overwater bungalow',
-      'All meals and soft drinks',
-      'Seaplane transfers',
-      'Snorkelling gear',
-      'Daily guided activities'
-    ],
-    itinerary: []
-  },
-  {
-    id: 'pkg-022',
-    name: 'Bosnia Emerald Landscapes & Heritage',
-    destination: 'Sarajevo, Mostar & Una',
-    country: 'Bosnia Herzegovina',
-    duration: '7 Days / 6 Nights',
-    price: 3800,
-    currency: 'SAR',
-    image: '/images/packages/bosnia-nature.jpg',
-    halalRating: 5,
-    rating: 4.9,
-    reviews: 163,
-    features: ['Nature & Adventure', 'Ottoman Heritage', 'Halal Food', 'River Rafting'],
-    category: 'top-destination',
-    description: 'Combine Sarajevo\'s Ottoman charm with the emerald rivers of Una National Park and the iconic Mostar bridge.',
-    highlights: [
-      'Mostar Stari Most bridge',
-      'Sarajevo Bascarsija',
-      'Una National Park rafting',
-      'Blagaj Tekke monastery',
-      'Traditional Bosnian food'
-    ],
-    included: [
-      'Round-trip flights',
-      '6 nights guesthouses',
-      'Daily breakfast and 3 dinners',
-      'Rafting experience',
-      'All tours with guide',
-      'Transfers'
-    ],
-    itinerary: []
-  },
-
-  // --- Additional Family Packages ---
-  {
-    id: 'pkg-023',
-    name: 'Türkiye Antalya Family Beach Holiday',
-    destination: 'Antalya & Side',
-    country: 'Turkey',
-    duration: '7 Days / 6 Nights',
     price: 4200,
-    originalPrice: 4900,
+    originalPrice: 5000,
     currency: 'SAR',
-    image: '/images/packages/antalya.jpg',
-    halalRating: 5,
-    rating: 4.8,
-    reviews: 342,
-    features: ['All-Inclusive', 'Beach Resort', 'Kids Club', 'Water Park'],
+    image: 'https://picsum.photos/seed/barcelona-park-guell-family/800/600',
+    halalRating: 4,
+    features: ['Halal Food', 'Family Friendly', 'Gaudí Architecture', 'Montserrat Cable Car', 'Gothic Quarter'],
     category: 'family',
-    description: 'Perfect family beach holiday on the stunning Turquoise Coast with all-inclusive halal-friendly resorts and activities for all ages.',
+    description: "An action-packed family city break in Barcelona — Gaudí's magical buildings, a cable-car adventure to Montserrat Monastery, a free day for the family, and halal dining throughout.",
     highlights: [
-      'Beachfront all-inclusive resort',
-      'On-site waterpark',
-      'Supervised kids club',
-      'Boat trip to Sunken City',
-      'Aspendos Roman theatre'
+      "Sagrada Família — Gaudí's awe-inspiring basilica",
+      'Casa Batlló & La Pedrera on the famous Paseo de Gràcia',
+      'Montserrat Mountain cable car ride — stunning family experience',
+      'Gothic Quarter evening walking tour',
+      'Las Ramblas and Barcelona waterfront',
     ],
     included: [
-      'Round-trip flights',
-      '6 nights all-inclusive resort',
-      'All meals and snacks',
-      'Kids club access',
-      'Water park entry',
-      'Airport transfers'
+      'Return international flights',
+      '4 nights hotel accommodation in Barcelona',
+      'Daily halal breakfast',
+      'Private airport transfers',
+      'Expert private guide for city tour (Day 2)',
+      'Montserrat day trip with cable car or cog train',
+      'Travel insurance',
     ],
-    itinerary: []
+    itinerary: [
+      {
+        day: 1,
+        title: 'Arrival in Barcelona',
+        description: 'Private transfer, hotel check-in, and an evening walking tour of the Gothic Quarter and Las Ramblas.',
+        activities: ['Private airport transfer', 'Hotel check-in', 'Evening walk: Las Ramblas, Gothic Quarter, Cathedral of Santa Eulalia'],
+      },
+      {
+        day: 2,
+        title: 'Gaudí Masterpieces & City Tour',
+        description: "Full guided day — Sagrada Família, Casa Batlló, La Pedrera, Montjuïc panorama, and the waterfront.",
+        activities: ['Halal breakfast', 'Sagrada Família visit', 'Paseo de Gràcia: Casa Batlló & La Pedrera', 'Montjuïc Mountain & city panorama', 'Barceloneta & Arc de Triomf'],
+      },
+      {
+        day: 3,
+        title: 'Montserrat Mountains',
+        description: 'Dramatic day trip to Montserrat — cable car or cog train to the monastery and mountain viewpoints.',
+        activities: ['Halal breakfast', 'Transfer to Montserrat', 'Cable car or cog train ride', 'Monastery guided tour', 'Mountain free time', 'Return to Barcelona'],
+      },
+      {
+        day: 4,
+        title: 'Free Day in Barcelona',
+        description: 'Full free day — Park Güell, beaches, shopping, or a Camp Nou stadium tour.',
+        activities: ['Halal breakfast', 'Free day at leisure', 'Optional: Park Güell, Tibidabo, Camp Nou, shopping'],
+      },
+      {
+        day: 5,
+        title: 'Departure',
+        description: 'Final breakfast, check out, and private transfer to Barcelona Airport.',
+        activities: ['Halal breakfast', 'Check-out', 'Private transfer to Barcelona Airport'],
+      },
+    ],
   },
-  {
-    id: 'pkg-024',
-    name: 'Malaysia Langkawi Family Adventure',
-    destination: 'Langkawi',
-    country: 'Malaysia',
-    duration: '6 Days / 5 Nights',
-    price: 3500,
-    currency: 'SAR',
-    image: '/images/packages/langkawi.jpg',
-    halalRating: 5,
-    rating: 4.7,
-    reviews: 217,
-    features: ['Family Beach', 'Halal Food', 'Cable Car', 'Island Hopping'],
-    category: 'family',
-    description: 'Tropical family paradise with pristine beaches, cable car adventures, and some of the best halal seafood in Asia.',
-    highlights: [
-      'SkyCab cable car panorama',
-      'Underwater World aquarium',
-      'Island hopping tour',
-      'Mangrove boat safari',
-      'Halal seafood feast'
-    ],
-    included: [
-      'Round-trip flights',
-      '5 nights beach resort',
-      'Daily breakfast',
-      'Island hopping tour',
-      'Cable car tickets',
-      'All transfers'
-    ],
-    itinerary: []
-  }
+
 ]
 
 // Helper functions to get packages by category
-export const getBestPackages = () => 
+export const getBestPackages = () =>
   featuredPackages.filter(pkg => pkg.category === 'best')
 
-export const getPopularPackages = () => 
+export const getPopularPackages = () =>
   featuredPackages.filter(pkg => pkg.category === 'popular')
 
-export const getTopDestinationPackages = () => 
+export const getTopDestinationPackages = () =>
   featuredPackages.filter(pkg => pkg.category === 'top-destination')
 
-export const getFamilyPackages = () => 
+export const getFamilyPackages = () =>
   featuredPackages.filter(pkg => pkg.category === 'family')
 
-export const getPackageById = (id: string) => 
+export const getPackageById = (id: string) =>
   featuredPackages.find(pkg => pkg.id === id)

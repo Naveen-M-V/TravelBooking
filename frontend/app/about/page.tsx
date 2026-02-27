@@ -3,49 +3,49 @@ import Link from 'next/link'
 import { ShieldCheck, Globe, Heart, Star, Users, Plane, ArrowRight, BadgeCheck } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'About Us | Halal Travels',
-  description: 'Learn about Halal Travels — our mission, values, and commitment to exceptional halal-friendly travel experiences.',
+  title: 'About Us | Halal Travels Club',
+  description: 'Halal Travels Club — the world\'s leading platform for halal tourism. Discover our mission, real tour packages across Spain, Greece, Tanzania, Sri Lanka, and more.',
 }
 
 const values = [
   {
-    Icon: ShieldCheck,
-    title: 'Halal Certified',
-    desc: 'Every flight route, hotel, and package is rigorously vetted to meet halal standards — so you travel with complete peace of mind.',
-  },
-  {
-    Icon: BadgeCheck,
-    title: 'Transparency',
-    desc: 'No hidden fees. No surprises. Clear pricing, honest policies, and straightforward booking from first search to final confirmation.',
+    Icon: Globe,
+    title: 'Global Reach',
+    desc: 'Muslim-friendly services across the world\'s most popular tourist destinations — from Europe\'s Islamic heritage cities to the beaches of Zanzibar.',
   },
   {
     Icon: Heart,
-    title: 'Traveller First',
-    desc: 'We listen, adapt, and go the extra mile. Every decision we make is driven by what matters most to our travellers.',
+    title: 'Customised Experience',
+    desc: 'Halal-friendly accommodations, dining, and guided tours — every part of your trip is tailored to your religious needs and personal preferences.',
   },
   {
-    Icon: Globe,
-    title: 'Global Reach',
-    desc: 'From Makkah to the Maldives, Istanbul to Kuala Lumpur — 50+ halal-friendly destinations across four continents.',
+    Icon: BadgeCheck,
+    title: 'Trusted Brand',
+    desc: 'Committed to transparency and trust. We deliver reliable, authentic halal-friendly travel experiences that Muslims can book with complete confidence.',
+  },
+  {
+    Icon: ShieldCheck,
+    title: 'Halal Verified',
+    desc: 'Every package, hotel, and dining experience is carefully vetted for halal compliance — so you focus on the journey, not the research.',
   },
   {
     Icon: Users,
-    title: 'Expert Concierge',
-    desc: 'Our specialist team is available around the clock to assist with itineraries, enquiries, and last-minute changes.',
+    title: 'Expert Guidance',
+    desc: 'Our specialist travel team provides end-to-end support — from itinerary planning and visa assistance to on-the-ground local guides.',
   },
   {
     Icon: Star,
-    title: 'Premium Experience',
-    desc: 'Curated packages, premium cabin upgrades, and bespoke itineraries crafted for discerning Muslim travellers.',
+    title: 'Premium Experiences',
+    desc: 'Luxury safari lodges, private guides, Islamic heritage tours, and bespoke couple and family packages crafted for discerning Muslim travellers.',
   },
 ]
 
 const milestones = [
-  { year: '2019', event: 'Halal Travels founded with a vision to simplify halal-friendly travel.' },
-  { year: '2021', event: 'Expanded to 20+ destinations across Asia, the Middle East, and Europe.' },
-  { year: '2023', event: 'Launched our proprietary booking platform with live flight search.' },
-  { year: '2024', event: 'Surpassed 5,000 verified bookings with a 4.9-star customer rating.' },
-  { year: '2026', event: 'Now serving travellers in 50+ cities with round-the-clock concierge support.' },
+  { year: 'Our Mission', event: 'To become the World\'s Leading Platform for Halal Tourism, providing high-quality, ethically sound travel experiences for Muslims worldwide.' },
+  { year: '$200B+', event: 'The global halal travel market is worth over $200 billion — with Muslim travellers projected to represent 10% of global tourism by 2025.' },
+  { year: '9.1%', event: 'Annual growth rate of the halal travel sector, with halal-friendly services growing at 11.3% year-on-year.' },
+  { year: '$300B', event: 'The halal travel market is expected to reach $300 billion by 2026 — Halal Travels Club is positioned at the forefront of this growth.' },
+  { year: '#HTC', event: 'Destination Discoveries FZCO — trading as Halal Travels Club — is committed to being the most trusted name in halal tourism globally.' },
 ]
 
 export default function AboutPage() {
@@ -64,15 +64,15 @@ export default function AboutPage() {
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
-            Travel with{' '}
-            <span className="italic font-serif text-teal-300">purpose</span>
-            {' '}and <br className="hidden md:block" />
-            peace of mind
+            The World&apos;s Leading{' '}
+            <span className="italic font-serif text-teal-300">Halal</span>
+            {' '}Travel <br className="hidden md:block" />
+            Platform
           </h1>
 
           <p className="text-white/55 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
-            Halal Travels was founded with a single belief: that Muslim travellers deserve 
-            a booking experience built entirely around their values, lifestyle, and faith.
+            Halal Travels Club was founded with a single vision: to become the world&apos;s leading platform 
+            for halal tourism — delivering high-quality, ethically sound travel experiences for Muslims worldwide.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
@@ -99,9 +99,9 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 py-10">
           <div className="grid grid-cols-3 max-w-2xl mx-auto text-center divide-x divide-white/10">
             {[
-              { value: '5,000+', label: 'Verified Bookings' },
-              { value: '50+',    label: 'Destinations' },
-              { value: '4.9★',   label: 'Avg. Rating' },
+              { value: '$200B+', label: 'Global Halal Travel Market' },
+              { value: '9.1%',   label: 'Annual Growth Rate' },
+              { value: '$300B',  label: 'Projected by 2026' },
             ].map(({ value, label }) => (
               <div key={label} className="px-6 py-4">
                 <div className="text-3xl font-bold text-teal-300 mb-1">{value}</div>
@@ -119,17 +119,17 @@ export default function AboutPage() {
             <p className="text-teal-400 text-xs font-bold uppercase tracking-[0.18em] mb-4">Our Mission</p>
             <h2 className="text-4xl font-bold mb-6 leading-tight">
               Making halal travel <br />
-              <span className="text-teal-300">simple, accessible,</span><br />
-              and premium
+              <span className="text-teal-300">simple, authentic,</span><br />
+              and world-class
             </h2>
             <p className="text-white/55 leading-relaxed mb-6">
-              We set out to solve a problem every Muslim traveller knows: the exhausting research 
-              required to verify that every component of a trip — the flights, the hotels, the 
-              food, the experiences — truly aligns with Islamic values.
+              We set out to solve a challenge every Muslim traveller faces: the exhausting research 
+              required to verify that every part of a trip — the flights, the hotels, the food, 
+              the experiences — truly aligns with Islamic values.
             </p>
             <p className="text-white/55 leading-relaxed">
-              Our platform brings all of that together, thoroughly verified, beautifully presented, 
-              and supported by a team that understands what halal travel really means.
+              Halal Travels Club brings it all together — thoroughly verified, beautifully presented, 
+              and supported by a team that genuinely understands what halal travel means.
             </p>
           </div>
 
@@ -139,16 +139,24 @@ export default function AboutPage() {
               <div>
                 <p className="text-teal-400 text-xs font-bold uppercase tracking-[0.18em] mb-2">Vision</p>
                 <p className="text-white/80 leading-relaxed">
-                  To become the world&apos;s most trusted halal travel platform — where every Muslim 
-                  family books with complete confidence.
+                  To become the World&apos;s Leading Platform for Halal Tourism — providing high-quality, 
+                  ethically sound travel experiences for Muslims worldwide.
                 </p>
               </div>
               <div className="h-px bg-white/10" />
               <div>
-                <p className="text-teal-400 text-xs font-bold uppercase tracking-[0.18em] mb-2">Promise</p>
+                <p className="text-teal-400 text-xs font-bold uppercase tracking-[0.18em] mb-2">Why HTC</p>
                 <p className="text-white/80 leading-relaxed">
-                  Every listing on Halal Travels is reviewed against our halal compliance criteria 
-                  before it appears on our platform. No exceptions.
+                  Global reach, customised halal experiences, and a trusted brand — committed to 
+                  transparency and delivering authentic halal-friendly travel that Muslims can rely on.
+                </p>
+              </div>
+              <div className="h-px bg-white/10" />
+              <div>
+                <p className="text-teal-400 text-xs font-bold uppercase tracking-[0.18em] mb-2">Contact</p>
+                <p className="text-white/80 text-sm leading-relaxed">
+                  sales@halaltravelsclub.com<br />
+                  +965 91100975
                 </p>
               </div>
             </div>
@@ -184,8 +192,8 @@ export default function AboutPage() {
       {/* ── Story / Timeline ── */}
       <section className="container mx-auto px-4 py-24 max-w-3xl">
         <div className="text-center mb-16">
-          <p className="text-teal-400 text-xs font-bold uppercase tracking-[0.18em] mb-3">Our Journey</p>
-          <h2 className="text-4xl font-bold">How We Got Here</h2>
+          <p className="text-teal-400 text-xs font-bold uppercase tracking-[0.18em] mb-3">The Halal Travel Market</p>
+          <h2 className="text-4xl font-bold">Why Halal Tourism Matters</h2>
         </div>
 
         <div className="relative">
