@@ -1,16 +1,13 @@
 'use client'
 
-import { useState } from 'react'
 import { BadgeCheck, Headphones, Lock, Plane } from 'lucide-react'
 import { SearchHero } from '@/components/search/SearchHero'
 import { PackageCarousel } from '@/components/packages/PackageCarousel'
-import { PackageDetailsModal } from '@/components/packages/PackageDetailsModal'
 import { 
   getBestPackages, 
   getPopularPackages, 
   getTopDestinationPackages, 
   getFamilyPackages,
-  type FeaturedPackage
 } from '@/mocks/featured-packages'
 
 // TODO: Fetch dynamic backgrounds from backend
@@ -22,19 +19,6 @@ const heroBackgrounds = [
 ]
 
 export default function Home() {
-  const [selectedPackage, setSelectedPackage] = useState<FeaturedPackage | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const handlePackageClick = (pkg: FeaturedPackage) => {
-    setSelectedPackage(pkg)
-    setIsModalOpen(true)
-  }
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false)
-    setTimeout(() => setSelectedPackage(null), 300) // Delay to allow modal animation
-  }
-
   return (
     <div className="bg-gray-50">
       {/* Hero Search Section */}
@@ -76,14 +60,12 @@ export default function Home() {
           <PackageCarousel
             title="Our Best Tour Packages"
             packages={getBestPackages()}
-            onPackageClick={handlePackageClick}
           />
 
           {/* New & Most Popular Tours */}
           <PackageCarousel
             title="New &amp; Most Popular Tours"
             packages={getPopularPackages()}
-            onPackageClick={handlePackageClick}
             reverse
           />
 
@@ -91,25 +73,16 @@ export default function Home() {
           <PackageCarousel
             title="Top Destinations"
             packages={getTopDestinationPackages()}
-            onPackageClick={handlePackageClick}
           />
 
           {/* Family Destinations */}
           <PackageCarousel
             title="Family Destinations"
             packages={getFamilyPackages()}
-            onPackageClick={handlePackageClick}
             reverse
           />
         </div>
       </section>
-
-      {/* Package Details Modal */}
-      <PackageDetailsModal
-        package={selectedPackage}
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-      />
 
       {/* CTA Section */}
       <section className="py-24 px-4 bg-[#0B6E63] text-white relative overflow-hidden">

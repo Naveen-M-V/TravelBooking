@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Card, CardContent } from '@/components/ui/card'
 import { HalalRatingBadge } from '@/components/ui/halal-rating-badge'
 import { ChevronLeft, ChevronRight, Calendar, Heart } from 'lucide-react'
@@ -14,11 +15,12 @@ const AUTO_INTERVAL_MS = 3800
 interface PackageCarouselProps {
   title: string
   packages: FeaturedPackage[]
-  onPackageClick: (pkg: FeaturedPackage) => void
+  onPackageClick?: (pkg: FeaturedPackage) => void
   reverse?: boolean
 }
 
-export function PackageCarousel({ title, packages, onPackageClick, reverse = false }: PackageCarouselProps) {
+export function PackageCarousel({ title, packages, reverse = false }: PackageCarouselProps) {
+  const router    = useRouter()
   const trackRef  = useRef<HTMLDivElement>(null)
   const pausedRef = useRef(false)
   const timerRef  = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -128,7 +130,7 @@ export function PackageCarousel({ title, packages, onPackageClick, reverse = fal
               <div key={`${pkg.id}-${index}`} className="w-72 flex-shrink-0">
                 <Card
                   className="overflow-hidden cursor-pointer group border-0 shadow-[0_12px_30px_rgba(17,24,39,0.10)] hover:shadow-[0_22px_60px_rgba(17,24,39,0.18)] transition-all duration-300 rounded-3xl bg-white h-full flex flex-col"
-                  onClick={() => onPackageClick(pkg)}
+                  onClick={() => router.push(`/packages/${pkg.id}`)}
                 >
                   {/* Image */}
                   <div className="relative h-48 overflow-hidden isolate">
