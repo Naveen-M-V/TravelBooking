@@ -30,14 +30,14 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
       <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(80%_60%_at_20%_0%,rgba(20,184,166,0.05),transparent_55%)]" />
       <div className="grid grid-cols-1 md:grid-cols-12">
         {/* Image */}
-        <div className="relative md:col-span-5 h-64 md:h-full">
+        <div className="relative md:col-span-5 h-64 md:h-full overflow-hidden isolate">
           <Image
             src={images[0] || '/placeholder-hotel.jpg'}
             alt={hotelName}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+            className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-[1.08]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/0 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/15 transition-all duration-500 group-hover:from-black/75 group-hover:via-black/10" />
 
           <div className="absolute left-5 top-5 flex items-center gap-2">
             <div className="rounded-full bg-white/90 px-3 py-1.5 shadow-sm ring-1 ring-white/40">

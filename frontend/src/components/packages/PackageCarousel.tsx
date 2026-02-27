@@ -131,18 +131,19 @@ export function PackageCarousel({ title, packages, onPackageClick, reverse = fal
                   onClick={() => onPackageClick(pkg)}
                 >
                   {/* Image */}
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden isolate">
                     <img
                       src={`https://picsum.photos/seed/${encodeURIComponent(pkg.destination + pkg.id)}/600/450`}
                       alt={pkg.destination}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
+                      className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-[1.08]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                    {/* Gradient — deepens on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent transition-all duration-500 group-hover:from-black/90 group-hover:via-black/25" />
 
                     <button
                       type="button"
                       onClick={(e) => e.stopPropagation()}
-                      className="absolute top-3 right-3 grid place-items-center h-10 w-10 rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur-sm text-white transition-all hover:bg-white/20 hover:scale-105"
+                      className="absolute top-3 right-3 grid place-items-center h-9 w-9 rounded-full bg-black/25 ring-1 ring-white/20 backdrop-blur-sm text-white transition-all duration-200 hover:bg-black/45 hover:scale-110"
                       aria-label="Save package"
                     >
                       <Heart className="h-4 w-4" />
@@ -152,9 +153,17 @@ export function PackageCarousel({ title, packages, onPackageClick, reverse = fal
                       <HalalRatingBadge rating={{ score: pkg.halalRating, features: pkg.features.slice(0, 2) }} />
                     </div>
 
-                    <div className="absolute inset-x-0 bottom-0 p-4">
+                    {/* View Details pill — fades in on hover */}
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <span className="rounded-full bg-white/15 ring-1 ring-white/35 backdrop-blur-sm px-4 py-1.5 text-xs font-semibold text-white tracking-wide">
+                        View Details →
+                      </span>
+                    </div>
+
+                    {/* Title — slides up slightly on hover */}
+                    <div className="absolute inset-x-0 bottom-0 p-4 translate-y-0.5 transition-transform duration-300 ease-out group-hover:-translate-y-0.5">
                       <h3 className="text-white font-extrabold text-lg leading-tight line-clamp-1">{pkg.destination}</h3>
-                      <p className="text-white/70 text-sm">{pkg.country}</p>
+                      <p className="text-white/70 text-sm transition-colors duration-300 group-hover:text-white/90">{pkg.country}</p>
                     </div>
                   </div>
 
