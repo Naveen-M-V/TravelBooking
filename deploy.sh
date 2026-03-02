@@ -62,14 +62,14 @@ ODIS_PASSWORD=""
 CCAVENUE_MERCHANT_ID=""
 CCAVENUE_ACCESS_CODE=""
 CCAVENUE_WORKING_KEY=""
-CCAVENUE_REDIRECT_URL="https://api.halaltravelsclub.com/api/payments/callback"
-CCAVENUE_CANCEL_URL="https://halaltravelsclub.com/payment/failed"
-ALLOWED_ORIGINS="https://halaltravelsclub.com,https://www.halaltravelsclub.com"
+CCAVENUE_REDIRECT_URL="https://halal.athryan.com/api/payments/callback"
+CCAVENUE_CANCEL_URL="https://halal.athryan.com/payment/failed"
+ALLOWED_ORIGINS="https://halal.athryan.com"
 MOCK_FLIGHTS=false
 PORT=5000
 NODE_ENV=production
 JWT_SECRET="CHANGE_THIS_TO_A_LONG_RANDOM_SECRET"
-FRONTEND_URL="https://halaltravelsclub.com"
+FRONTEND_URL="https://halal.athryan.com"
 SMTP_HOST="smtp.gmail.com"
 SMTP_PORT=587
 SMTP_USER=""
@@ -97,7 +97,7 @@ cd "$FRONTEND_DIR"
 if [ ! -f .env.local ]; then
   warn ".env.local not found in frontend/. Creating from template..."
   cat > .env.local <<'EOF'
-NEXT_PUBLIC_API_URL=https://halaltravelsclub.com/api
+NEXT_PUBLIC_API_URL=https://halal.athryan.com/api
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 EOF
@@ -141,12 +141,12 @@ echo ""
 # =============================================================================
 log "Deployment complete!"
 echo ""
-echo "  Backend  → http://localhost:5000"
-echo "  Frontend → http://localhost:3000"
+echo "  Backend  → http://localhost:5000  (https://halal.athryan.com/api)"
+echo "  Frontend → http://localhost:3000  (https://halal.athryan.com)"
 echo ""
 echo "  Point your Nginx reverse proxy:"
-echo "    /     → http://localhost:3000   (Next.js frontend)"
-echo "    /api/ → http://localhost:5000/api/  (Express backend)"
+echo "    /     → http://localhost:3000        (Next.js frontend)"
+echo "    /api/ → http://localhost:5000/api/   (Express backend)"
 echo ""
 echo "  Check logs:  pm2 logs"
 echo "  Status:      pm2 status"
