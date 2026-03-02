@@ -2,94 +2,95 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Refund & Cancellation Policy | Halal Travels',
-  description: 'Understand the refund and cancellation terms for flights and holiday packages booked through Halal Travels.',
+  title: 'Refund & Cancellation Policy | Halal Travels Club',
+  description: 'Refund and Cancellation Policy for Destination Discoveries FZCO / Halal Travels Club.',
 }
 
 const sections = [
   {
-    title: '1. Overview',
-    body: `Halal Travels acts as an intermediary between travellers and service providers (airlines, hotels, and package operators). Refund and cancellation eligibility depends on the specific fare rules, hotel policies, and package terms applicable to your booking.`,
+    title: 'Introduction',
+    body: `At Halal Travels Club, we strive to make your travel experience seamless. However, we understand that plans may change, so please read our Refund & Cancellation Policy carefully before booking.`,
   },
   {
-    title: '2. Flight Cancellations',
-    body: `Cancellation eligibility and refund amounts for flights are governed by the fare rules set by the airline at the time of booking. Non-refundable fares will not be eligible for a cash refund but may be eligible for a credit or date change depending on the carrier. A Halal Travels service fee may apply to all cancellation requests.`,
+    title: '1. Time Limit for Refunds',
+    body: `\u2022 Most bookings are non-refundable.\n\u2022 Refunds, if any, are considered case-by-case.\n\u2022 There is no fixed automatic refund period (e.g., 24 or 48 hours).`,
   },
   {
-    title: '3. Flight Date Changes',
-    body: `Date changes are subject to airline change fees plus any fare difference. Requests must be submitted at least 24 hours before departure. Halal Travels will facilitate the change request on your behalf but cannot guarantee availability on the requested date.`,
+    title: '2. Tour & Activity Bookings',
+    body: `\u2022 Full Refund: Rare and approved in exceptional cases.\n\u2022 Partial Refund: Case-by-case before the service date.\n\u2022 No Refund: Cancellations close to the service date or in case of a no-show.`,
   },
   {
-    title: '4. Holiday Package Cancellations',
-    body: `Holiday packages are subject to the following cancellation schedule:\n\n• More than 45 days before departure: Full refund minus deposit\n• 30–44 days before departure: 50% refund\n• 15–29 days before departure: 25% refund\n• Less than 14 days before departure: No refund\n\nCertain peak-season packages may carry different terms, which will be clearly stated at the time of booking.`,
+    title: '3. Airport Transfers & Chauffeur Services',
+    body: `\u2022 Full Refund: Rare, only if approved.\n\u2022 Partial Refund: Case-by-case.\n\u2022 No Refund: Within 24 hours of pickup or in case of no-show.`,
   },
   {
-    title: '5. Hotel Cancellations',
-    body: `Hotel cancellation policies vary by property and rate type. Free cancellation is available on eligible rates up to the deadline specified at booking. Non-refundable rates will not be eligible for a refund under any circumstances.`,
+    title: '4. Ticketing Refunds & Cancellations',
+    body: `\u2022 Airline tickets and transport bookings are subject to the fare rules and refund policies of the respective airline or carrier.\n\u2022 Most airline tickets are non-refundable or may carry cancellation penalties.\n\u2022 Refund eligibility, if any, depends entirely on airline approval.\n\u2022 Service charges, administrative fees, payment gateway fees, and transaction charges are non-refundable.\n\u2022 Destination Discoveries FZCO / Halal Travels Club acts only as a facilitator and is not responsible for airline refund delays, rejections, or policy changes.\n\u2022 Refunds (if approved by the airline) are processed only after confirmation is received from the airline.`,
   },
   {
-    title: '6. Refund Processing',
-    body: `Approved refunds will be processed to the original payment method within 7–14 business days. The exact timeline depends on your bank or card issuer. Halal Travels is not responsible for delays caused by financial institutions.`,
+    title: '5. Hotel & Package Bookings',
+    body: `\u2022 Refunds subject to individual hotel/partner policy.\n\u2022 Ground arrangements, hotels, transfers, and tours are generally non-refundable unless approved.`,
   },
   {
-    title: '7. No-Show Policy',
-    body: `Failure to check in for a flight or hotel without prior cancellation (no-show) will result in forfeiture of the full booking amount. No refund will be issued in such cases.`,
+    title: '6. Event & Corporate Bookings',
+    body: `Cancellation policies are communicated separately for group or corporate bookings.`,
   },
   {
-    title: '8. Force Majeure',
-    body: `In the event of circumstances beyond our control (natural disasters, government restrictions, pandemics, etc.), Halal Travels will work with service providers to offer rebooking options or credits. Refunds in force majeure situations are subject to the individual supplier's policy.`,
+    title: '7. Payment & Transaction Charges',
+    body: `\u2022 UAE Cards: 2.30%\n\u2022 International Cards: 2.75%\n\u2022 Transaction Fee: AED 1 per transaction\n\u2022 One-Time Setup Fee: AED 5,000 (if applicable)\n\nNote: Transaction fees are non-refundable.`,
   },
   {
-    title: '9. How to Request a Cancellation',
-    body: `To cancel or amend a booking, please log into your account and visit "My Bookings", or contact our support team at support@halaltravels.com with your booking reference. Requests are processed within 2 business days.`,
+    title: '8. Refund Process',
+    body: `\u2022 Refunds are processed within 14\u201330 working days after approval.\n\u2022 Refunds are issued via the original payment method.\n\u2022 Requests should be submitted to info@halaltravelsclub.com with booking details.`,
+  },
+  {
+    title: '9. Force Majeure & Exceptional Cases',
+    body: `In events like extreme weather, government restrictions, or emergencies, we may offer:\n\u2022 Alternative bookings\n\u2022 Partial refunds\n\u2022 Case-by-case solutions`,
+  },
+  {
+    title: '10. Important Notes',
+    body: `\u2022 Most services are non-refundable.\n\u2022 Refunds are subject to third-party confirmation and company discretion.\n\u2022 Flight bookings are not currently included.`,
   },
 ]
 
 function LegalPage({
   title,
+  breadcrumb,
   updated,
   sections,
 }: {
   title: string
+  breadcrumb: string
   updated: string
   sections: { title: string; body: string }[]
 }) {
   return (
-    <div className="bg-slate-950 text-white min-h-screen">
-      <div className="pointer-events-none h-px bg-gradient-to-r from-transparent via-teal-400/40 to-transparent" />
-
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(20,184,166,0.12),transparent)]" />
-        <div className="relative container mx-auto px-4 pt-16 pb-12 max-w-3xl">
-          <div className="inline-flex items-center gap-2 rounded-full bg-teal-500/10 border border-teal-400/20 px-4 py-2 mb-6">
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-400" />
-            <span className="text-teal-300 text-xs font-bold uppercase tracking-[0.18em]">Legal</span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">{title}</h1>
-          <p className="text-white/35 text-sm">Last updated: {updated}</p>
+    <div className="bg-white text-gray-900 min-h-screen">
+      <section className="bg-gradient-to-br from-[#0B1F3A] via-teal-800 to-[#0B2040] text-white py-16 px-4">
+        <div className="container mx-auto max-w-3xl">
+          <p className="text-teal-300 text-xs font-bold uppercase tracking-[0.18em] mb-2">
+            Halal Travels Club › {breadcrumb}
+          </p>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2">{title}</h1>
+          <p className="text-white/50 text-sm">Last updated: {updated}</p>
         </div>
-      </div>
-
-      <div className="container mx-auto px-4 pb-28 max-w-3xl">
-        <div className="rounded-3xl border border-white/10 bg-white/[0.02] p-8 md:p-12 space-y-10">
+      </section>
+      <div className="container mx-auto px-4 py-14 max-w-3xl">
+        <div className="space-y-8">
           {sections.map(({ title: st, body }) => (
-            <div key={st}>
-              <h2 className="text-white font-semibold text-lg mb-3">{st}</h2>
-              <p className="text-white/55 leading-relaxed whitespace-pre-line">{body}</p>
+            <div key={st} className="border-b border-gray-100 pb-8 last:border-0">
+              <h2 className="text-base font-bold text-gray-900 mb-3">{st}</h2>
+              <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">{body}</p>
             </div>
           ))}
         </div>
-
-        {/* Contact CTA */}
-        <div className="mt-8 rounded-2xl border border-teal-500/20 bg-teal-500/5 p-6 text-center">
-          <p className="text-white/60 text-sm mb-3">
-            Questions about your booking or a specific policy?
-          </p>
+        <div className="mt-10 rounded-2xl border border-teal-200 bg-teal-50 p-6 text-center">
+          <p className="text-gray-600 text-sm mb-3">Questions about a refund or cancellation?</p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-teal-500 text-white px-6 py-2.5 text-sm font-semibold hover:bg-teal-400 transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-teal-600 text-white px-6 py-2.5 text-sm font-semibold hover:bg-teal-700 transition-colors"
           >
-            Contact Support
+            Contact Us
           </Link>
         </div>
       </div>
@@ -98,5 +99,5 @@ function LegalPage({
 }
 
 export default function RefundPolicyPage() {
-  return <LegalPage title="Refund & Cancellation Policy" updated="1 January 2026" sections={sections} />
+  return <LegalPage title="Refund & Cancellation Policy" breadcrumb="Refund & Cancellation Policy" updated="1 January 2026" sections={sections} />
 }

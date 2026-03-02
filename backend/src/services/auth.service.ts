@@ -66,6 +66,35 @@ export class AuthService {
     })
   }
 
+  static async updateProfile(userId: string, data: { firstName?: string; lastName?: string; telephone?: string; nationality?: string; residency?: string }) {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data,
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        role: true,
+        telephone: true,
+        nationality: true,
+        residency: true,
+      },
+    })
+    return user
+  }
+
+  static async changePassword(userId: string, currentPassword: string, newPassword: string) {
+    const user = await prisma.user.findUnique({ where: { id: userId } })
+    if (!user || !user.passwordHash) throw new Error('User not found')
+
+    const valid = await bcrypt.compare(currentPassword, user.passwordHash)
+    if (!valid) throw new Error('Current password is incorrect')
+
+    const passwordHash = await bcrypt.hash(newPassword, 10)
+    await prisma.user.update({ where: { id: userId }, data: { passwordHash } })
+  }
+
   static verifyToken(token: string): AuthPayload {
     return jwt.verify(token, config.jwtSecret as string) as AuthPayload
   }

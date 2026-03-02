@@ -39,6 +39,82 @@ model User {
 }
 
 // ============================================================================
+// Tour Packages (admin-managed, used on landing page + detail pages)
+// ============================================================================
+
+model Package {
+  id              String    @id @default(uuid())
+  name            String
+  destination     String
+  country         String
+  duration        String           // e.g. "8 Days / 7 Nights"
+  price           Decimal   @db.Decimal(10, 2)
+  originalPrice   Decimal?  @db.Decimal(10, 2)
+  currency        String    @default("SAR")
+  category        String    @default("best") // best | popular | top-destination | family
+  description     String    @db.Text
+  highlights      Json      @default("[]")   // string[]
+  included        Json      @default("[]")   // string[]
+  itinerary       Json      @default("[]")   // {day,title,description,activities}[]
+  features        Json      @default("[]")   // string[]
+  images          Json      @default("[]")   // URL string[]
+  coverImage      String    @default("")
+  isActive        Boolean   @default(true)
+  sortOrder       Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([category])
+  @@index([isActive])
+  @@map("packages")
+}
+
+// ============================================================================
+// Coupons (for flights and packages)
+// ============================================================================
+
+model Coupon {
+  id              String    @id @default(uuid())
+  code            String    @unique
+  description     String    @default("")
+  type            String    @default("PACKAGE") // PACKAGE | FLIGHT | BOTH
+  discountType    String    @default("PERCENT")  // PERCENT | FIXED
+  discountValue   Decimal   @db.Decimal(10, 2)
+  minOrderValue   Decimal?  @db.Decimal(10, 2)
+  maxDiscount     Decimal?  @db.Decimal(10, 2)  // cap for PERCENT coupons
+  usageLimit      Int?                           // null = unlimited
+  usageCount      Int       @default(0)
+  perUserLimit    Int       @default(1)
+  isActive        Boolean   @default(true)
+  validFrom       DateTime  @default(now())
+  validUntil      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([code])
+  @@index([isActive])
+  @@map("coupons")
+}
+
+// ============================================================================
+// Hero / Banner Images (landing page search-box background)
+// ============================================================================
+
+model HeroImage {
+  id          String    @id @default(uuid())
+  url         String                          // Supabase Storage public URL
+  altText     String    @default("")
+  caption     String    @default("")
+  sortOrder   Int       @default(0)
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([isActive])
+  @@map("hero_images")
+}
+
+// ============================================================================
 // Package Enquiry System
 // ============================================================================
 

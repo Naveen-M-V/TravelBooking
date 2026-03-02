@@ -55,7 +55,7 @@ export function SearchHero() {
           </div>
           
           <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
-            Elevate Your <span className="italic font-serif text-teal-200">Journey</span>
+            Go Explore, <span className="italic font-serif text-teal-200">It&apos;s a Big World</span> Out There!
           </h1>
         </div>
 

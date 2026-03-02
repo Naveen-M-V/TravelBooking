@@ -1,6 +1,6 @@
 'use client'
 
-import { BadgeCheck, Headphones, Lock, Plane } from 'lucide-react'
+import { BadgeCheck, Headphones, Lock, Plane, XCircle, BookOpen, Compass, MapPin, Utensils } from 'lucide-react'
 import { SearchHero } from '@/components/search/SearchHero'
 import { PackageCarousel } from '@/components/packages/PackageCarousel'
 import { 
@@ -81,6 +81,40 @@ export default function Home() {
             packages={getFamilyPackages()}
             reverse
           />
+        </div>
+      </section>
+
+      {/* #HTC Muslim Friendly Services */}
+      <section className="py-20 px-4 bg-blue-50">
+        <div className="container mx-auto max-w-5xl">
+          <div className="text-center mb-14">
+            <span className="inline-flex items-center gap-2 rounded-full bg-teal-100 border border-teal-200 px-4 py-1.5 mb-4">
+              <span className="h-1.5 w-1.5 rounded-full bg-teal-600" />
+              <span className="text-teal-700 text-xs font-bold uppercase tracking-[0.18em]">#HTC</span>
+            </span>
+            <h2 className="text-3xl font-extrabold text-gray-900 mt-2 mb-3">Halal / Muslim Friendly Services</h2>
+            <div className="w-12 h-1 bg-teal-600 rounded-full mx-auto mb-4" />
+            <p className="text-gray-500 text-base max-w-xl mx-auto">
+              Every detail of your stay is carefully managed to meet your Halal travel needs
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {[
+              { Icon: XCircle,   title: 'Mini Bar Removal in Hotel Rooms',      desc: 'No liquor or alcohol-related items in mini bars.' },
+              { Icon: BookOpen,  title: 'Prayer Mat in Hotel Rooms',             desc: 'Availability of Prayer Mat in Hotel Rooms.' },
+              { Icon: Compass,   title: 'Qiblah Direction Clearly Indicated',   desc: 'Hotel rooms feature a clearly marked Qiblah direction for convenient prayer.' },
+              { Icon: MapPin,    title: 'Nearby Mosques',                        desc: 'Information on Nearby Mosques for ease of access to prayer facilities if available.' },
+              { Icon: Utensils,  title: 'Muslim-Friendly Restaurant',            desc: 'Information of closest Muslim Owned Restaurants if available.' },
+            ].map(({ Icon, title, desc }) => (
+              <div key={title} className="rounded-2xl bg-white border border-gray-200 p-7 shadow-sm hover:shadow-md hover:border-teal-200 transition-all group">
+                <div className="h-11 w-11 rounded-xl bg-teal-50 ring-1 ring-teal-100 flex items-center justify-center mb-4 group-hover:bg-teal-100 transition-colors">
+                  <Icon className="h-5 w-5 text-teal-600" />
+                </div>
+                <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

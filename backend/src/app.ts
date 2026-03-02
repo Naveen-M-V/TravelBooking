@@ -12,6 +12,8 @@ import paymentRoutes from './routes/payment.routes'
 import flightRoutes from './routes/flight.routes'
 import hotelRoutes from './routes/hotel.routes'
 import enquiryRoutes from './routes/enquiry.routes'
+import couponRoutes from './routes/coupon.routes'
+import heroImageRoutes from './routes/heroImage.routes'
 
 const app: Application = express()
 
@@ -37,6 +39,8 @@ app.use('/api/payments', paymentRoutes)
 app.use('/api/flights', flightRoutes)
 app.use('/api/hotels', hotelRoutes)
 app.use('/api/enquiries', enquiryRoutes)
+app.use('/api/coupons', couponRoutes)
+app.use('/api/hero-images', heroImageRoutes)
 
 // Error handler (must be last)
 app.use(errorHandler)

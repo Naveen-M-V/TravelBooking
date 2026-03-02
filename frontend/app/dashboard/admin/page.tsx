@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { Card, CardContent } from '@/components/ui/card'
-import { MessageSquare, Users, Package, BarChart2, ArrowRight } from 'lucide-react'
+import { MessageSquare, Users, Package, BarChart2, ArrowRight, Tag, Image, UserCircle } from 'lucide-react'
 
 export default function AdminDashboard() {
   const { user, loading, isAdmin } = useAuth()
@@ -18,11 +18,29 @@ export default function AdminDashboard() {
 
   const cards = [
     {
-      title: 'Package Enquiries',
+      title: 'Enquiries',
       description: 'Review customer enquiries, send price quotes and track bookings.',
-      icon: <MessageSquare className="w-8 h-8 text-primary" />,
+      icon: <MessageSquare className="w-8 h-8 text-teal-600" />,
       href: '/dashboard/admin/enquiries',
       highlight: true,
+    },
+    {
+      title: 'Packages',
+      description: 'Create, edit and manage all tour packages shown on the site.',
+      icon: <Package className="w-8 h-8 text-orange-500" />,
+      href: '/dashboard/admin/packages',
+    },
+    {
+      title: 'Coupons',
+      description: 'Create discount codes for flights and package bookings.',
+      icon: <Tag className="w-8 h-8 text-purple-500" />,
+      href: '/dashboard/admin/coupons',
+    },
+    {
+      title: 'Hero Images',
+      description: 'Upload and manage the background images on the landing page.',
+      icon: <Image className="w-8 h-8 text-sky-500" />,
+      href: '/dashboard/admin/hero-images',
     },
     {
       title: 'Users',
@@ -31,16 +49,16 @@ export default function AdminDashboard() {
       href: '/dashboard/admin/users',
     },
     {
-      title: 'Packages',
-      description: 'Manage holiday packages and pricing.',
-      icon: <Package className="w-8 h-8 text-orange-500" />,
-      href: '/dashboard/admin/packages',
-    },
-    {
       title: 'Reports',
       description: 'View system reports and analytics.',
       icon: <BarChart2 className="w-8 h-8 text-green-500" />,
       href: '/dashboard/admin/reports',
+    },
+    {
+      title: 'My Profile',
+      description: 'Update your name, contact details and password.',
+      icon: <UserCircle className="w-8 h-8 text-gray-500" />,
+      href: '/dashboard/admin/profile',
     },
   ]
 
@@ -55,7 +73,7 @@ export default function AdminDashboard() {
         {cards.map((card) => (
           <Card
             key={card.href}
-            className={`cursor-pointer hover:shadow-md transition-shadow group ${card.highlight ? 'border-primary/30 bg-primary-50/30' : ''}`}
+            className={`cursor-pointer hover:shadow-md transition-shadow group ${card.highlight ? 'border-teal-200 bg-teal-50/30' : ''}`}
             onClick={() => router.push(card.href)}
           >
             <CardContent className="p-6 flex items-start gap-4">
@@ -64,7 +82,7 @@ export default function AdminDashboard() {
                 <h3 className="font-semibold text-gray-900">{card.title}</h3>
                 <p className="text-sm text-gray-500 mt-1">{card.description}</p>
               </div>
-              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors flex-shrink-0 mt-0.5" />
+              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-teal-600 transition-colors flex-shrink-0 mt-0.5" />
             </CardContent>
           </Card>
         ))}
@@ -72,4 +90,5 @@ export default function AdminDashboard() {
     </div>
   )
 }
+
 

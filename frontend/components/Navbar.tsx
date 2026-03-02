@@ -16,6 +16,8 @@ export default function Navbar() {
   const navItems = [
     { href: '/flights', label: 'Flights' },
     { href: '/packages', label: 'Packages' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' },
   ]
 
   return (

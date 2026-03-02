@@ -44,4 +44,34 @@ export class AuthController {
       res.status(500).json({ error: 'Failed to get user' })
     }
   }
+
+  static async updateProfile(req: Request, res: Response) {
+    try {
+      const userId = (req as any).user?.userId
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' })
+      const { firstName, lastName, telephone, nationality, residency } = req.body
+      const user = await AuthService.updateProfile(userId, { firstName, lastName, telephone, nationality, residency })
+      res.status(200).json({ success: true, user })
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || 'Failed to update profile' })
+    }
+  }
+
+  static async changePassword(req: Request, res: Response) {
+    try {
+      const userId = (req as any).user?.userId
+      if (!userId) return res.status(401).json({ error: 'Unauthorized' })
+      const { currentPassword, newPassword } = req.body
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({ error: 'Current password and new password are required' })
+      }
+      if (newPassword.length < 8) {
+        return res.status(400).json({ error: 'New password must be at least 8 characters' })
+      }
+      await AuthService.changePassword(userId, currentPassword, newPassword)
+      res.status(200).json({ success: true, message: 'Password changed successfully' })
+    } catch (error: any) {
+      res.status(400).json({ error: error.message || 'Failed to change password' })
+    }
+  }
 }

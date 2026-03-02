@@ -4,7 +4,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
 import {
   LayoutDashboard, MessageSquare, Plane, User, LogOut,
-  Package, Users, BarChart2, CreditCard, ChevronRight
+  Package, Users, BarChart2, CreditCard, ChevronRight,
+  Tag, Image, UserCircle
 } from 'lucide-react'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -18,11 +19,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   const adminLinks = [
-    { href: '/dashboard/admin',            label: 'Overview',   icon: LayoutDashboard },
-    { href: '/dashboard/admin/enquiries',  label: 'Enquiries',  icon: MessageSquare },
-    { href: '/dashboard/admin/packages',   label: 'Packages',   icon: Package },
-    { href: '/dashboard/admin/users',      label: 'Users',      icon: Users },
-    { href: '/dashboard/admin/reports',    label: 'Reports',    icon: BarChart2 },
+    { href: '/dashboard/admin',              label: 'Overview',     icon: LayoutDashboard },
+    { href: '/dashboard/admin/enquiries',    label: 'Enquiries',    icon: MessageSquare },
+    { href: '/dashboard/admin/packages',     label: 'Packages',     icon: Package },
+    { href: '/dashboard/admin/coupons',      label: 'Coupons',      icon: Tag },
+    { href: '/dashboard/admin/hero-images',  label: 'Hero Images',  icon: Image },
+    { href: '/dashboard/admin/users',        label: 'Users',        icon: Users },
+    { href: '/dashboard/admin/reports',      label: 'Reports',      icon: BarChart2 },
+    { href: '/dashboard/admin/profile',      label: 'My Profile',   icon: UserCircle },
   ]
 
   const customerLinks = [
