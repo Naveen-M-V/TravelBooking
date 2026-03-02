@@ -142,4 +142,54 @@ export class EmailService {
       `,
     })
   }
+
+  /** Send email verification link to newly registered user */
+  static async sendVerificationEmail(email: string, firstName: string, token: string) {
+    const verifyLink = `${FRONTEND_URL}/verify-email?token=${token}`
+    await sendMail({
+      from: `"Halal Travels" <noreply@halaltravels.com>`,
+      to: email,
+      subject: 'Verify your Halal Travels account',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #0d9488;">Welcome to Halal Travels! 🌍</h2>
+          <p>Hi ${firstName},</p>
+          <p>Thanks for signing up. Please verify your email address by clicking the button below.</p>
+          <p style="margin: 28px 0;">
+            <a href="${verifyLink}" style="background:#0d9488; color:white; padding:14px 28px; text-decoration:none; border-radius:8px; display:inline-block; font-weight:bold;">
+              Verify Email Address
+            </a>
+          </p>
+          <p style="color:#6b7280; font-size:13px;">This link expires in 24 hours. If you didn't create an account, you can safely ignore this email.</p>
+          <hr style="border:none; border-top:1px solid #e5e7eb; margin:20px 0;">
+          <p style="color:#9ca3af; font-size:12px;">Or copy this link: ${verifyLink}</p>
+        </div>
+      `,
+    })
+  }
+
+  /** Send admin invite email with set-password link */
+  static async sendAdminInviteEmail(email: string, token: string) {
+    const inviteLink = `${FRONTEND_URL}/invite?token=${token}`
+    await sendMail({
+      from: `"Halal Travels" <noreply@halaltravels.com>`,
+      to: email,
+      subject: `You've been invited as a Halal Travels Admin`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #0d9488;">Admin Invitation – Halal Travels</h2>
+          <p>You have been invited to manage the Halal Travels platform as an <strong>Admin</strong>.</p>
+          <p>Click the button below to set your password and activate your account.</p>
+          <p style="margin: 28px 0;">
+            <a href="${inviteLink}" style="background:#0d9488; color:white; padding:14px 28px; text-decoration:none; border-radius:8px; display:inline-block; font-weight:bold;">
+              Accept Invitation &amp; Set Password
+            </a>
+          </p>
+          <p style="color:#6b7280; font-size:13px;">This invite link expires in 48 hours.</p>
+          <hr style="border:none; border-top:1px solid #e5e7eb; margin:20px 0;">
+          <p style="color:#9ca3af; font-size:12px;">Or copy this link: ${inviteLink}</p>
+        </div>
+      `,
+    })
+  }
 }

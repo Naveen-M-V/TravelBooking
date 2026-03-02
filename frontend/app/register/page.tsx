@@ -1,24 +1,26 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useAuth } from '@/context/AuthContext'
+import { authAPI } from '@/lib/api/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Loader2, User, UserPlus, Mail, Lock, Phone } from 'lucide-react'
+import { Loader2, User, UserPlus, Mail, Lock, Phone, MailCheck, RefreshCw } from 'lucide-react'
 import Link from 'next/link'
 
 export default function RegisterPage() {
   const { signUp } = useAuth()
-  const router = useRouter()
 
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', password: '', telephone: '',
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [verificationSent, setVerificationSent] = useState(false)
+  const [resending, setResending] = useState(false)
+  const [resent, setResent] = useState(false)
 
   const update = (field: string, value: string) =>
     setForm(prev => ({ ...prev, [field]: value }))
@@ -28,13 +30,68 @@ export default function RegisterPage() {
     setLoading(true)
     setError(null)
     try {
-      await signUp({ ...form, role: 'customer' })
-      router.push('/dashboard/customer')
+      const result = await signUp({ ...form, role: 'customer' })
+      if (result.requiresVerification) {
+        setVerificationSent(true)
+      }
     } catch (err: any) {
       setError(err.response?.data?.error || err.message || 'Registration failed')
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleResend = async () => {
+    setResending(true)
+    try {
+      await authAPI.resendVerification(form.email)
+      setResent(true)
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to resend')
+    } finally {
+      setResending(false)
+    }
+  }
+
+  // â”€â”€ Check-email success state â”€â”€
+  if (verificationSent) {
+    return (
+      <div className="relative min-h-screen bg-gray-50 flex items-center justify-center px-4 py-16">
+        <div className="w-full max-w-md text-center">
+          <div className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 ring-2 ring-teal-200">
+            <MailCheck className="h-8 w-8 text-teal-600" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Check your inbox</h1>
+          <p className="text-gray-500 mb-2">
+            We sent a verification link to{' '}
+            <span className="font-semibold text-gray-700">{form.email}</span>.
+          </p>
+          <p className="text-gray-400 text-sm mb-8">
+            Click the link in the email to activate your account. The link expires in 24 hours.
+          </p>
+          {error && (
+            <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
+          )}
+          {resent ? (
+            <p className="text-sm text-teal-600 font-medium">âœ“ Verification email resent!</p>
+          ) : (
+            <Button
+              variant="outline"
+              onClick={handleResend}
+              disabled={resending}
+              className="gap-2"
+            >
+              {resending ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+              Resend verification email
+            </Button>
+          )}
+          <p className="text-center text-sm text-gray-400 mt-6">
+            Already verified?{' '}
+            <Link href="/login" className="text-teal-600 hover:text-teal-500 font-semibold">Sign in</Link>
+          </p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -144,15 +201,9 @@ export default function RegisterPage() {
 
               <Button type="submit" className="w-full h-11 gap-2 bg-teal-600 hover:bg-teal-500" disabled={loading}>
                 {loading ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Creating account...
-                  </>
+                  <><Loader2 className="h-4 w-4 animate-spin" />Creating account...</>
                 ) : (
-                  <>
-                    <UserPlus className="h-4 w-4" />
-                    Create Account
-                  </>
+                  <><UserPlus className="h-4 w-4" />Create Account</>
                 )}
               </Button>
             </form>

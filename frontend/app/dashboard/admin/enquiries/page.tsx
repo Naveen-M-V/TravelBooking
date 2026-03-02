@@ -44,8 +44,8 @@ export default function AdminEnquiriesPage() {
       const params = statusFilter !== 'all' ? { status: statusFilter } : {}
       const res = await enquiryAPI.getAll(params)
       setEnquiries(res.enquiries || [])
-    } catch {
-      // Backend unavailable — show empty state gracefully
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to load enquiries. Please check your connection.')
       setEnquiries([])
     } finally {
       setLoading(false)

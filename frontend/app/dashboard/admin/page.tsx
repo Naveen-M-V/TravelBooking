@@ -1,20 +1,42 @@
-'use client'
+﻿'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '@/context/AuthContext'
+import { authAPI } from '@/lib/api/auth'
 import { Card, CardContent } from '@/components/ui/card'
-import { MessageSquare, Users, Package, BarChart2, ArrowRight, Tag, Image, UserCircle, TrendingUp } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { MessageSquare, Users, Package, BarChart2, ArrowRight, Tag, Image, UserCircle, TrendingUp, ShieldPlus, Loader2, CheckCircle, X } from 'lucide-react'
 
 export default function AdminDashboard() {
   const { user, loading, isAdmin } = useAuth()
   const router = useRouter()
+
+  const [showInvite, setShowInvite] = useState(false)
+  const [inviteEmail, setInviteEmail] = useState('')
+  const [inviting, setInviting] = useState(false)
+  const [inviteSuccess, setInviteSuccess] = useState(false)
+  const [inviteError, setInviteError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) router.push('/login')
   }, [loading, user, isAdmin])
 
   if (loading || !user) return null
+
+  const handleInvite = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setInviting(true); setInviteError(null)
+    try {
+      await authAPI.inviteAdmin(inviteEmail)
+      setInviteSuccess(true)
+    } catch (err: any) {
+      setInviteError(err.response?.data?.error || 'Failed to send invite')
+    } finally {
+      setInviting(false)
+    }
+  }
 
   const cards = [
     {
@@ -70,10 +92,73 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-        <p className="text-gray-500 mt-1">Manage the Halal Travels platform</p>
+      <div className="mb-6 flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
+          <p className="text-gray-500 mt-1">Manage the Halal Travels platform</p>
+        </div>
+        <Button
+          onClick={() => { setShowInvite(true); setInviteSuccess(false); setInviteError(null); setInviteEmail('') }}
+          className="gap-2 bg-teal-600 hover:bg-teal-500"
+        >
+          <ShieldPlus className="h-4 w-4" />
+          Invite Admin
+        </Button>
       </div>
+
+      {/* Invite Admin modal */}
+      {showInvite && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="relative w-full max-w-sm rounded-2xl border border-gray-200 bg-white shadow-2xl p-6">
+            <button
+              onClick={() => setShowInvite(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {inviteSuccess ? (
+              <div className="text-center py-4">
+                <CheckCircle className="h-12 w-12 text-emerald-500 mx-auto mb-3" />
+                <h2 className="text-lg font-bold text-gray-900 mb-1">Invite sent!</h2>
+                <p className="text-sm text-gray-500">
+                  An invite link was emailed to <strong>{inviteEmail}</strong>. They'll set their password using that link.
+                </p>
+                <Button className="mt-4 w-full" variant="outline" onClick={() => setShowInvite(false)}>Close</Button>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="h-10 w-10 rounded-xl bg-teal-50 flex items-center justify-center">
+                    <ShieldPlus className="h-5 w-5 text-teal-600" />
+                  </div>
+                  <div>
+                    <h2 className="font-bold text-gray-900">Invite Admin</h2>
+                    <p className="text-xs text-gray-500">They'll receive an email to set their password.</p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleInvite} className="space-y-3">
+                  <Input
+                    type="email"
+                    placeholder="admin@example.com"
+                    value={inviteEmail}
+                    onChange={(e) => setInviteEmail(e.target.value)}
+                    required
+                    className="h-11"
+                  />
+                  {inviteError && (
+                    <p className="text-sm text-red-600">{inviteError}</p>
+                  )}
+                  <Button type="submit" disabled={inviting} className="w-full h-11 bg-teal-600 hover:bg-teal-500 gap-2">
+                    {inviting ? <><Loader2 className="h-4 w-4 animate-spin" /> Sendingâ€¦</> : <><ShieldPlus className="h-4 w-4" /> Send Invite</>}
+                  </Button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {cards.map((card) => (
@@ -96,5 +181,3 @@ export default function AdminDashboard() {
     </div>
   )
 }
-
-

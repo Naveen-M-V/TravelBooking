@@ -1,14 +1,38 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { BadgeCheck, Headphones, Lock, Plane, XCircle, BookOpen, Compass, MapPin, Utensils } from 'lucide-react'
 import { SearchHero } from '@/components/search/SearchHero'
 import { PackageCarousel } from '@/components/packages/PackageCarousel'
-import { 
-  getBestPackages, 
-  getPopularPackages, 
-  getTopDestinationPackages, 
+import {
+  getBestPackages,
+  getPopularPackages,
+  getTopDestinationPackages,
   getFamilyPackages,
+  type FeaturedPackage,
 } from '@/mocks/featured-packages'
+import { packagesAPI } from '@/lib/api/packages'
+
+function normalizePackage(p: any): FeaturedPackage {
+  return {
+    id:            p.id,
+    name:          p.name,
+    destination:   p.destination,
+    country:       p.country,
+    duration:      p.duration,
+    price:         Number(p.price),
+    originalPrice: p.originalPrice ? Number(p.originalPrice) : undefined,
+    currency:      p.currency ?? 'SAR',
+    image:         p.coverImage || p.images?.[0] || `https://picsum.photos/seed/${encodeURIComponent(p.id)}/800/600`,
+    halalRating:   4,
+    features:      Array.isArray(p.features)   ? p.features   : [],
+    category:      (p.category ?? 'best') as FeaturedPackage['category'],
+    description:   p.description ?? '',
+    highlights:    Array.isArray(p.highlights)  ? p.highlights  : [],
+    included:      Array.isArray(p.included)    ? p.included    : [],
+    itinerary:     Array.isArray(p.itinerary)   ? p.itinerary   : [],
+  }
+}
 
 // TODO: Fetch dynamic backgrounds from backend
 const heroBackgrounds = [
@@ -19,6 +43,28 @@ const heroBackgrounds = [
 ]
 
 export default function Home() {
+  const [bestPkgs,    setBestPkgs]    = useState<FeaturedPackage[]>(getBestPackages())
+  const [popularPkgs, setPopularPkgs] = useState<FeaturedPackage[]>(getPopularPackages())
+  const [topDestPkgs, setTopDestPkgs] = useState<FeaturedPackage[]>(getTopDestinationPackages())
+  const [familyPkgs,  setFamilyPkgs]  = useState<FeaturedPackage[]>(getFamilyPackages())
+
+  useEffect(() => {
+    packagesAPI.getAll({ isActive: true })
+      .then((res) => {
+        const pkgs = (res.packages || []).map(normalizePackage)
+        const by = (cat: string) => pkgs.filter((p: FeaturedPackage) => p.category === cat)
+        const best    = by('best')
+        const popular = by('popular')
+        const topDest = by('top-destination')
+        const family  = by('family')
+        if (best.length)    setBestPkgs(best)
+        if (popular.length) setPopularPkgs(popular)
+        if (topDest.length) setTopDestPkgs(topDest)
+        if (family.length)  setFamilyPkgs(family)
+      })
+      .catch(() => {}) // keep mocks if API unavailable
+  }, [])
+
   return (
     <div className="bg-gray-50">
       {/* Hero Search Section */}
@@ -59,26 +105,26 @@ export default function Home() {
           {/* Our Best Tour Packages */}
           <PackageCarousel
             title="Our Best Tour Packages"
-            packages={getBestPackages()}
+            packages={bestPkgs}
           />
 
           {/* New & Most Popular Tours */}
           <PackageCarousel
             title="New &amp; Most Popular Tours"
-            packages={getPopularPackages()}
+            packages={popularPkgs}
             reverse
           />
 
           {/* Top Destinations */}
           <PackageCarousel
             title="Top Destinations"
-            packages={getTopDestinationPackages()}
+            packages={topDestPkgs}
           />
 
           {/* Family Destinations */}
           <PackageCarousel
             title="Family Destinations"
-            packages={getFamilyPackages()}
+            packages={familyPkgs}
             reverse
           />
         </div>

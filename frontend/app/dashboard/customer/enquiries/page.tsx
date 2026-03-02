@@ -37,8 +37,8 @@ export default function CustomerEnquiriesPage() {
     try {
       const res = await enquiryAPI.getMine()
       setEnquiries(res.enquiries || [])
-    } catch {
-      // Backend unavailable — show empty state gracefully
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to load your enquiries. Please try again.')
       setEnquiries([])
     } finally {
       setLoading(false)

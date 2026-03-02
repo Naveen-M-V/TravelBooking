@@ -13,7 +13,7 @@ import type { FeaturedPackage } from '@/mocks/featured-packages'
 import { useAuth } from '@/context/AuthContext'
 
 interface EnquiryFormModalProps {
-  package: FeaturedPackage | null
+  package: any
   isOpen: boolean
   onClose: () => void
 }
@@ -59,11 +59,11 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
         children: Number(form.children),
         infants: Number(form.infants),
       })
-    } catch {
-      // Backend unavailable — show success anyway for demo/offline mode
+      setSubmitted(true)
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to submit enquiry. Please try again.')
     } finally {
       setSubmitting(false)
-      setSubmitted(true)
     }
   }
 

@@ -6,7 +6,7 @@ export const apiClient = axios.create({
   baseURL: API_URL,
   headers: { 'Content-Type': 'application/json' },
   withCredentials: false,
-  timeout: 5000, // fail fast so demo fallbacks activate quickly
+  timeout: 15000, // 15 seconds
 })
 
 // Attach token from localStorage on every request

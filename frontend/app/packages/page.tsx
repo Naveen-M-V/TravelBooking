@@ -1,16 +1,51 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { PackageResultCard } from '@/components/packages/PackageResultCard'
 import { EnquiryFormModal } from '@/components/packages/EnquiryFormModal'
 import { Slider } from '@/components/ui/slider'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Filter, SlidersHorizontal, MapPin, ShieldCheck, Calendar, X } from 'lucide-react'
-import { mockPackages } from '@/data/mockPackages'
+import { Filter, SlidersHorizontal, MapPin, ShieldCheck, Calendar, X, Loader2 } from 'lucide-react'
+import { packagesAPI } from '@/lib/api/packages'
+
+/** Normalize a backend Package record to the shape PackageResultCard + EnquiryFormModal expect */
+function normalizePackage(p: any) {
+  const imagesArr = [p.coverImage, ...(p.images ?? [])].filter(Boolean)
+  const priceNum  = Number(p.price)
+  const currency  = p.currency ?? 'SAR'
+  const nightsMatch = (p.duration ?? '').match(/(\d+)\s*[Nn]ight/)
+  const nights = nightsMatch ? parseInt(nightsMatch[1], 10) : 7
+  return {
+    // Enquiry-modal fields
+    id:          p.id,
+    name:        p.name,
+    destination: p.destination,
+    country:     p.country,
+    duration:    p.duration,
+    description: p.description ?? '',
+    features:    Array.isArray(p.features)  ? p.features  : [],
+    highlights:  Array.isArray(p.highlights) ? p.highlights : [],
+    included:    Array.isArray(p.included)  ? p.included  : [],
+    itinerary:   Array.isArray(p.itinerary) ? p.itinerary : [],
+    // Card-specific fields
+    hotelName:   p.name,
+    location:    p.destination,
+    halalRating: 4,
+    nights,
+    price:       { total: priceNum, currency, base: priceNum, tax: 0 },
+    images:      imagesArr.length ? imagesArr : [`https://picsum.photos/seed/${encodeURIComponent(p.id)}/800/600`],
+    amenities:   Array.isArray(p.features) ? p.features : [],
+    roomType:    p.category ?? '',
+    boardType:   '',
+    checkIn:     'Flexible Dates',
+    checkOut:    'Flexible Dates',
+  }
+}
 
 export default function PackagesPage() {
-  const [packages] = useState(mockPackages)
+  const [packages, setPackages] = useState<any[]>([])
+  const [pkgLoading, setPkgLoading] = useState(true)
   const [priceRange, setPriceRange] = useState([0, 10000])
   const [selectedLocations, setSelectedLocations] = useState<string[]>([])
   const [selectedHalalRatings, setSelectedHalalRatings] = useState<number[]>([])
@@ -18,7 +53,13 @@ export default function PackagesPage() {
   const [showFilters, setShowFilters] = useState(false)
   const [enquiryPackage, setEnquiryPackage] = useState<any>(null)
 
-  const locations = Array.from(new Set(mockPackages.map(p => p.location)))
+  useEffect(() => {
+    packagesAPI.getAll({ isActive: true })
+      .then((res) => setPackages((res.packages || []).map(normalizePackage)))
+      .catch(() => setPackages([]))
+      .finally(() => setPkgLoading(false))
+  }, [])
+  const locations = Array.from(new Set(packages.map((p: any) => p.location)))
   
   const filteredPackages = packages
     .filter(pkg => {
@@ -204,6 +245,12 @@ export default function PackagesPage() {
 
           {/* Results */}
           <main className={showFilters ? 'lg:col-span-9' : 'lg:col-span-12'}>
+            {pkgLoading ? (
+              <div className="flex items-center justify-center py-20">
+                <Loader2 className="h-8 w-8 animate-spin text-teal-600 mr-3" />
+                <span className="text-gray-500">Loading packages…</span>
+              </div>
+            ) : (
             <div className="space-y-5">
               {filteredPackages.map(pkg => (
                 <PackageResultCard
@@ -225,6 +272,7 @@ export default function PackagesPage() {
                 </div>
               )}
             </div>
+            )}
           </main>
         </div>
       </div>

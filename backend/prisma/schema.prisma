@@ -25,7 +25,12 @@ model User {
   telephone     String?
   nationality   String?
   residency     String?
-  role          String    @default("customer") // customer, vendor, admin
+  role                      String    @default("customer") // customer, vendor, admin
+  emailVerified             Boolean   @default(false)
+  verificationToken         String?   @unique
+  verificationTokenExpiry   DateTime?
+  inviteToken               String?   @unique
+  inviteTokenExpiry         DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
