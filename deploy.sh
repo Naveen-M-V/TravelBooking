@@ -83,6 +83,8 @@ EOF
 fi
 
 npm install
+log "Generating Prisma client..."
+npx prisma generate
 log "Running Prisma migrations..."
 npx prisma migrate deploy
 log "Building backend TypeScript..."
