@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -14,17 +14,68 @@ import {
   MessageSquare,
   ShieldCheck,
   Plane,
+  Loader2,
 } from 'lucide-react'
-import { getPackageById } from '@/mocks/featured-packages'
+import { getPackageById, type FeaturedPackage } from '@/mocks/featured-packages'
+import { packagesAPI } from '@/lib/api/packages'
 import { HalalRatingBadge } from '@/components/ui/halal-rating-badge'
 import { EnquiryFormModal } from '@/components/packages/EnquiryFormModal'
+
+/** Normalize backend Package API response → FeaturedPackage shape */
+function normalizeApiPackage(data: any): FeaturedPackage {
+  return {
+    id:            data.id,
+    name:          data.name,
+    destination:   data.destination,
+    country:       data.country,
+    duration:      data.duration,
+    price:         Number(data.price),
+    originalPrice: data.originalPrice ? Number(data.originalPrice) : undefined,
+    currency:      data.currency ?? 'SAR',
+    image:         data.coverImage || (Array.isArray(data.images) && data.images[0]) || 'https://picsum.photos/seed/halal-package/800/600',
+    halalRating:   4,
+    features:      Array.isArray(data.features)   ? data.features   : [],
+    category:      (data.category ?? 'best') as FeaturedPackage['category'],
+    description:   data.description ?? '',
+    highlights:    Array.isArray(data.highlights)  ? data.highlights  : [],
+    included:      Array.isArray(data.included)    ? data.included    : [],
+    itinerary:     Array.isArray(data.itinerary)   ? data.itinerary   : [],
+  }
+}
 
 export default function PackageDetailPage() {
   const params = useParams()
   const router = useRouter()
-  const pkg = getPackageById(params.id as string)
+  const id = params.id as string
+
+  const [pkg, setPkg] = useState<FeaturedPackage | null>(null)
+  const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'overview' | 'itinerary' | 'included' | 'highlights'>('overview')
   const [showEnquiry, setShowEnquiry] = useState(false)
+
+  useEffect(() => {
+    if (!id) return
+    packagesAPI.getById(id)
+      .then((res) => {
+        // API may return { package: {...} } or the object directly
+        const raw = res?.package ?? res
+        setPkg(normalizeApiPackage(raw))
+      })
+      .catch(() => {
+        // Fall back to mock data (covers legacy mock IDs like 'pkg-001')
+        const mock = getPackageById(id)
+        setPkg(mock ?? null)
+      })
+      .finally(() => setLoading(false))
+  }, [id])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-teal-600" />
+      </div>
+    )
+  }
 
   if (!pkg) {
     return (

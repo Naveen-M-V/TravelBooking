@@ -115,6 +115,25 @@ model HeroImage {
 }
 
 // ============================================================================
+// Flight Markup (admin sets profit margin on top of Almosafer prices)
+// ============================================================================
+
+model FlightMarkup {
+  id            String    @id @default(uuid())
+  name          String    @default("Default Markup")  // Label for admin reference
+  markupType    String    @default("PERCENT")          // PERCENT | FIXED
+  markupValue   Decimal   @db.Decimal(10, 2)           // % or fixed amount
+  currency      String    @default("SAR")              // Only used for FIXED type
+  isActive      Boolean   @default(true)               // Only one active at a time
+  notes         String    @default("")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([isActive])
+  @@map("flight_markups")
+}
+
+// ============================================================================
 // Package Enquiry System
 // ============================================================================
 

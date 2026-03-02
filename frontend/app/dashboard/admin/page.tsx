@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { Card, CardContent } from '@/components/ui/card'
-import { MessageSquare, Users, Package, BarChart2, ArrowRight, Tag, Image, UserCircle } from 'lucide-react'
+import { MessageSquare, Users, Package, BarChart2, ArrowRight, Tag, Image, UserCircle, TrendingUp } from 'lucide-react'
 
 export default function AdminDashboard() {
   const { user, loading, isAdmin } = useAuth()
@@ -41,6 +41,12 @@ export default function AdminDashboard() {
       description: 'Upload and manage the background images on the landing page.',
       icon: <Image className="w-8 h-8 text-sky-500" />,
       href: '/dashboard/admin/hero-images',
+    },
+    {
+      title: 'Flight Markup',
+      description: 'Set a profit margin added on top of all flight prices shown to customers.',
+      icon: <TrendingUp className="w-8 h-8 text-emerald-600" />,
+      href: '/dashboard/admin/flight-markup',
     },
     {
       title: 'Users',

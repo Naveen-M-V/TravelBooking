@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { FlightService } from '../services/flight.service'
+import { FlightMarkupService } from '../services/flightMarkup.service'
 
 export class FlightController {
   /**
@@ -22,7 +23,8 @@ export class FlightController {
     try {
       const { sId } = req.body
       const result = await FlightService.searchPolling(sId)
-      res.status(200).json({ success: true, data: result })
+      const patched = await FlightMarkupService.applyMarkupToResults(result)
+      res.status(200).json({ success: true, data: patched })
     } catch (error: any) {
       console.error('[FlightController] Search polling failed:', error)
       res.status(500).json({ success: false, error: error.message || 'Failed to poll search' })
@@ -50,7 +52,8 @@ export class FlightController {
     try {
       const { sId, itineraryId, fareFamilyId } = req.body
       const result = await FlightService.getPricing(sId, itineraryId, fareFamilyId)
-      res.status(200).json({ success: true, data: result })
+      const patched = await FlightMarkupService.applyMarkupToResults(result)
+      res.status(200).json({ success: true, data: patched })
     } catch (error: any) {
       console.error('[FlightController] Get pricing failed:', error)
       res.status(500).json({ success: false, error: error.message || 'Failed to get pricing' })
