@@ -14,13 +14,19 @@ import {
 } from 'lucide-react'
 import { createClient } from '@supabase/supabase-js'
 
-// Supabase client for direct storage uploads (public bucket: hero-images)
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-)
-
 const BUCKET = 'hero-images'
+
+// NEXT_PUBLIC_* vars are inlined at build time — safe to read on the client.
+const SUPABASE_CONFIGURED = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+
+// Lazily create the Supabase client only when an upload is triggered (client
+// side), so this module is safe to import during Next.js static prerendering.
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  if (!url || !key) throw new Error('Supabase is not configured — add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to your environment.')
+  return createClient(url, key)
+}
 
 const EMPTY_FORM = { url: '', altText: '', caption: '', sortOrder: '0', isActive: true }
 type FormState = typeof EMPTY_FORM
@@ -39,7 +45,8 @@ export default function AdminHeroImagesPage() {
   const [deleting, setDeleting] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
-  const [inputMode, setInputMode] = useState<'url' | 'upload'>('upload')
+  // Default to URL mode when Supabase storage isn't configured yet
+  const [inputMode, setInputMode] = useState<'url' | 'upload'>(SUPABASE_CONFIGURED ? 'upload' : 'url')
 
   useEffect(() => {
     if (!authLoading) {
@@ -88,11 +95,12 @@ export default function AdminHeroImagesPage() {
 
     setUploading(true); setUploadError(null)
     try {
+      const sb = getSupabase()
       const ext = file.name.split('.').pop()
       const path = `hero/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-      const { error } = await supabase.storage.from(BUCKET).upload(path, file, { cacheControl: '3600', upsert: false })
+      const { error } = await sb.storage.from(BUCKET).upload(path, file, { cacheControl: '3600', upsert: false })
       if (error) throw error
-      const { data } = supabase.storage.from(BUCKET).getPublicUrl(path)
+      const { data } = sb.storage.from(BUCKET).getPublicUrl(path)
       setField('url', data.publicUrl)
     } catch (err: any) {
       setUploadError(err.message || 'Upload failed')
@@ -164,14 +172,27 @@ export default function AdminHeroImagesPage() {
           </CardHeader>
           <CardContent className="space-y-5">
 
-            {/* Upload vs URL toggle */}
+            {/* Supabase not-configured notice */}
+            {!SUPABASE_CONFIGURED && (
+              <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-amber-500" />
+                <div>
+                  <p className="font-semibold">Supabase storage not configured</p>
+                  <p className="text-amber-700 mt-0.5">File upload is disabled. You can still add images by pasting a public URL below. To enable uploads, add <code className="bg-amber-100 px-1 rounded">NEXT_PUBLIC_SUPABASE_URL</code> and <code className="bg-amber-100 px-1 rounded">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> to your environment variables.</p>
+                </div>
+              </div>
+            )}
+
+            {/* Upload vs URL toggle — only show Upload tab when Supabase is ready */}
             <div className="flex rounded-xl overflow-hidden border border-gray-200 w-fit">
-              <button
-                onClick={() => setInputMode('upload')}
-                className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${inputMode === 'upload' ? 'bg-teal-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
-              >
-                <Upload className="w-4 h-4" /> Upload File
-              </button>
+              {SUPABASE_CONFIGURED && (
+                <button
+                  onClick={() => setInputMode('upload')}
+                  className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${inputMode === 'upload' ? 'bg-teal-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
+                >
+                  <Upload className="w-4 h-4" /> Upload File
+                </button>
+              )}
               <button
                 onClick={() => setInputMode('url')}
                 className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${inputMode === 'url' ? 'bg-teal-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}
