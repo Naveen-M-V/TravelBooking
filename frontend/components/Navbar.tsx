@@ -1,17 +1,27 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, LayoutDashboard, LogOut, User } from 'lucide-react'
+import { useAuth } from '@/context/AuthContext'
 
 export default function Navbar() {
   const pathname = usePathname()
+  const router = useRouter()
+  const { user, loading, signOut } = useAuth()
   const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
+
+  const handleLogout = () => {
+    signOut()
+    router.push('/')
+  }
+
+  const dashboardHref = user?.role === 'admin' ? '/dashboard/admin' : '/dashboard/customer'
 
   const navItems = [
     { href: '/flights', label: 'Flights' },
@@ -54,12 +64,33 @@ export default function Navbar() {
                 )
               })}
 
-              <Link
-                href="/login"
-                className="ml-2 inline-flex items-center justify-center rounded-full bg-teal-600 text-white px-5 py-2 text-sm font-semibold shadow-sm hover:bg-teal-500 transition-colors"
-              >
-                Login
-              </Link>
+              {!loading && (
+                user ? (
+                  <div className="ml-2 flex items-center gap-2">
+                    <Link
+                      href={dashboardHref}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 text-teal-700 px-4 py-2 text-sm font-medium ring-1 ring-teal-200 hover:bg-teal-100 transition-colors"
+                    >
+                      <LayoutDashboard className="h-3.5 w-3.5" />
+                      {user.firstName || 'Dashboard'}
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-gray-100 text-gray-600 px-4 py-2 text-sm font-medium hover:bg-gray-200 transition-colors"
+                    >
+                      <LogOut className="h-3.5 w-3.5" />
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <Link
+                    href="/login"
+                    className="ml-2 inline-flex items-center justify-center rounded-full bg-teal-600 text-white px-5 py-2 text-sm font-semibold shadow-sm hover:bg-teal-500 transition-colors"
+                  >
+                    Login
+                  </Link>
+                )
+              )}
             </nav>
 
             <button
@@ -91,13 +122,34 @@ export default function Navbar() {
                     </Link>
                   )
                 })}
-                <div className="p-2">
-                  <Link
-                    href="/login"
-                    className="flex items-center justify-center rounded-xl bg-teal-600 text-white px-4 py-3 text-sm font-semibold hover:bg-teal-500 transition-colors"
-                  >
-                    Login
-                  </Link>
+                <div className="p-2 flex flex-col gap-2">
+                  {!loading && (
+                    user ? (
+                      <>
+                        <Link
+                          href={dashboardHref}
+                          className="flex items-center gap-2 rounded-xl bg-teal-50 text-teal-700 px-4 py-3 text-sm font-semibold ring-1 ring-teal-200 hover:bg-teal-100 transition-colors"
+                        >
+                          <LayoutDashboard className="h-4 w-4" />
+                          {user.firstName ? `${user.firstName}'s Dashboard` : 'Dashboard'}
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="flex items-center gap-2 rounded-xl bg-gray-100 text-gray-700 px-4 py-3 text-sm font-semibold hover:bg-gray-200 transition-colors"
+                        >
+                          <LogOut className="h-4 w-4" />
+                          Logout
+                        </button>
+                      </>
+                    ) : (
+                      <Link
+                        href="/login"
+                        className="flex items-center justify-center rounded-xl bg-teal-600 text-white px-4 py-3 text-sm font-semibold hover:bg-teal-500 transition-colors"
+                      >
+                        Login
+                      </Link>
+                    )
+                  )}
                 </div>
               </div>
             </div>
