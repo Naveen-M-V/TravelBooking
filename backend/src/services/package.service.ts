@@ -10,11 +10,15 @@ export class PackageService {
         ...(filters?.isActive !== undefined ? { isActive: filters.isActive } : {}),
       },
       orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
+      include: { supplier: { select: { id: true, name: true } } }, // Include supplier but only ID and name (no email/contact)
     })
   }
 
   static async getPackageById(id: string) {
-    return prisma.package.findUnique({ where: { id } })
+    return prisma.package.findUnique({
+      where: { id },
+      include: { supplier: { select: { id: true, name: true } } },
+    })
   }
 
   static async createPackage(data: {
@@ -33,6 +37,7 @@ export class PackageService {
     features?: string[]
     images?: string[]
     coverImage?: string
+    supplierId?: string
     isActive?: boolean
     sortOrder?: number
   }) {
@@ -48,6 +53,7 @@ export class PackageService {
         category: data.category ?? 'best',
         description: data.description,
         highlights: data.highlights ?? [],
+        supplierId: data.supplierId ?? null,
         included: data.included ?? [],
         itinerary: data.itinerary ?? [],
         features: data.features ?? [],
@@ -56,11 +62,16 @@ export class PackageService {
         isActive: data.isActive ?? true,
         sortOrder: data.sortOrder ?? 0,
       },
+      include: { supplier: { select: { id: true, name: true } } },
     })
   }
 
   static async updatePackage(id: string, data: any) {
-    return prisma.package.update({ where: { id }, data })
+    return prisma.package.update({
+      where: { id },
+      data,
+      include: { supplier: { select: { id: true, name: true } } },
+    })
   }
 
   static async deletePackage(id: string) {

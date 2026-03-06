@@ -64,6 +64,11 @@ model Package {
   features        Json      @default("[]")   // string[]
   images          Json      @default("[]")   // URL string[]
   coverImage      String    @default("")
+  
+  // Supplier / Vendor
+  supplierId      String?   // Link to Supplier (optional for phase 2)
+  supplier        Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  
   isActive        Boolean   @default(true)
   sortOrder       Int       @default(0)
   createdAt       DateTime  @default(now())
@@ -71,8 +76,10 @@ model Package {
 
   @@index([category])
   @@index([isActive])
+  @@index([supplierId])
   @@map("packages")
 }
+
 
 // ============================================================================
 // Coupons (for flights and packages)
@@ -116,6 +123,9 @@ model Supplier {
   isActive      Boolean   @default(true)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  // Relations
+  packages      Package[]
 
   @@index([isActive])
   @@map("suppliers")

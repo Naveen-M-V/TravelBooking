@@ -35,9 +35,18 @@ export class EnquiryService {
       },
     })
 
-    // Fire-and-forget emails
+    // Fire-and-forget emails to admin and customer
     EmailService.sendEnquiryNotificationToAdmin(enquiry).catch(console.error)
     EmailService.sendEnquiryConfirmation(enquiry).catch(console.error)
+
+    // Auto-send to supplier if package has one (fire-and-forget)
+    const pkg = await prisma.package.findUnique({
+      where: { id: data.packageId },
+      include: { supplier: true },
+    })
+    if (pkg?.supplier) {
+      EmailService.sendSupplierInquiry(pkg.supplier.email, pkg.supplier.name, enquiry).catch(console.error)
+    }
 
     return enquiry
   }
