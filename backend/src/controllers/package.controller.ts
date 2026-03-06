@@ -5,10 +5,11 @@ export class PackageController {
   static async getAllPackages(req: Request, res: Response) {
     try {
       const { category, isActive } = req.query
+      const includeSupplierPrivate = req.user?.role === 'admin'
       const packages = await PackageService.getAllPackages({
         category: category as string | undefined,
         isActive: isActive !== undefined ? isActive === 'true' : undefined,
-      })
+      }, includeSupplierPrivate)
       res.json({ success: true, packages })
     } catch (error: any) {
       res.status(500).json({ error: error.message || 'Failed to get packages' })
@@ -17,7 +18,8 @@ export class PackageController {
 
   static async getPackageById(req: Request, res: Response) {
     try {
-      const pkg = await PackageService.getPackageById(req.params.id)
+      const includeSupplierPrivate = req.user?.role === 'admin'
+      const pkg = await PackageService.getPackageById(req.params.id, includeSupplierPrivate)
       if (!pkg) return res.status(404).json({ error: 'Package not found' })
       res.json({ success: true, package: pkg })
     } catch (error: any) {

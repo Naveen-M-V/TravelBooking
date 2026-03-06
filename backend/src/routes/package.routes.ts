@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import { PackageController } from '../controllers/package.controller'
-import { authMiddleware } from '../middleware/auth.middleware'
+import { authMiddleware, optionalAuth } from '../middleware/auth.middleware'
 import { roleMiddleware } from '../middleware/role.middleware'
 
 const router = Router()
 
-router.get('/', PackageController.getAllPackages)
-router.get('/:id', PackageController.getPackageById)
+router.get('/', optionalAuth, PackageController.getAllPackages)
+router.get('/:id', optionalAuth, PackageController.getPackageById)
 
 router.use(authMiddleware)
 

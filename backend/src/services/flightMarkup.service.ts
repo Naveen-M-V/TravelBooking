@@ -127,7 +127,7 @@ export class FlightMarkupService {
     }
 
     // Tag so the frontend knows markup was applied
-    patched._markupApplied = { type: markup.markupType, value }
+    patched._markupApplied = { type: 'PERCENT', value: percentage }
 
     return patched
   }

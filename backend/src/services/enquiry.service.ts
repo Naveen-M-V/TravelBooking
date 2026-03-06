@@ -39,15 +39,6 @@ export class EnquiryService {
     EmailService.sendEnquiryNotificationToAdmin(enquiry).catch(console.error)
     EmailService.sendEnquiryConfirmation(enquiry).catch(console.error)
 
-    // Auto-send to supplier if package has one (fire-and-forget)
-    const pkg = await prisma.package.findUnique({
-      where: { id: data.packageId },
-      include: { supplier: true },
-    })
-    if (pkg?.supplier) {
-      EmailService.sendSupplierInquiry(pkg.supplier.email, pkg.supplier.name, enquiry).catch(console.error)
-    }
-
     return enquiry
   }
 
@@ -151,15 +142,23 @@ export class EnquiryService {
   }
 
   /** Admin: send inquiry to supplier (without customer personal info) */
-  static async sendToSupplier(enquiryId: string, supplierId: string) {
+  static async sendToSupplier(enquiryId: string) {
     const enquiry = await prisma.packageEnquiry.findUnique({ where: { id: enquiryId } })
     if (!enquiry) throw new Error('Enquiry not found')
 
-    const supplier = await prisma.supplier.findUnique({ where: { id: supplierId } })
-    if (!supplier) throw new Error('Supplier not found')
+    const pkg = await prisma.package.findUnique({ where: { id: enquiry.packageId } })
+    if (!pkg) throw new Error('Package not found for this enquiry')
+
+    const supplierName = pkg.supplierName?.trim()
+    const supplierEmail = pkg.supplierEmail?.trim()
+
+    if (!supplierName || !supplierEmail) {
+      throw new Error('Supplier name/email not set on this package. Please edit package and add supplier details first.')
+    }
 
     // Send email without customer personal information
-    EmailService.sendSupplierInquiry(supplier.email, supplier.name, enquiry).catch(console.error)
+    EmailService.sendSupplierInquiry(supplierEmail, supplierName, enquiry).catch(console.error)
 
-    return { success: true, message: `Inquiry sent to ${supplier.name}` }
+    return { message: `Inquiry sent to ${supplierName}` }
   }
+}

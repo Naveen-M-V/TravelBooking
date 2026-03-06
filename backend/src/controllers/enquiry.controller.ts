@@ -112,13 +112,10 @@ export class EnquiryController {
   /** POST /api/enquiries/:id/send-to-supplier — Admin: send inquiry to supplier */
   static async sendToSupplier(req: Request, res: Response) {
     try {
-      const { supplierId } = req.body
-      if (!supplierId) {
-        return res.status(400).json({ error: 'supplierId is required' })
-      }
-      const result = await EnquiryService.sendToSupplier(req.params.id, supplierId)
+      const result = await EnquiryService.sendToSupplier(req.params.id)
       res.json({ success: true, ...result })
     } catch (error: any) {
       res.status(400).json({ error: error.message || 'Failed to send to supplier' })
     }
   }
+}

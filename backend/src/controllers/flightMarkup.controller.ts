@@ -22,18 +22,22 @@ export class FlightMarkupController {
     }
   }
 
-  /** POST /api/flight-markup — Admin: create a new markup rule */
+  /** POST /api/flight-markup — Admin: create a new markup rule (percentage only) */
   static async create(req: Request, res: Response) {
     try {
-      const { name, markupType, markupValue, currency, notes, isActive } = req.body
-      if (!markupType || markupValue == null) {
-        return res.status(400).json({ error: 'markupType and markupValue are required' })
+      const { name, percentageValue, notes, isActive } = req.body
+      if (percentageValue == null) {
+        return res.status(400).json({ error: 'percentageValue is required' })
       }
-      if (!['PERCENT', 'FIXED'].includes(markupType)) {
-        return res.status(400).json({ error: 'markupType must be PERCENT or FIXED' })
+      const numeric = parseFloat(percentageValue)
+      if (Number.isNaN(numeric) || numeric < 0) {
+        return res.status(400).json({ error: 'percentageValue must be a valid non-negative number' })
       }
       const rule = await FlightMarkupService.create({
-        name, markupType, markupValue: parseFloat(markupValue), currency, notes, isActive,
+        name,
+        percentageValue: numeric,
+        notes,
+        isActive,
       })
       res.status(201).json({ success: true, rule })
     } catch (error: any) {
@@ -44,12 +48,10 @@ export class FlightMarkupController {
   /** PUT /api/flight-markup/:id — Admin: update a markup rule */
   static async update(req: Request, res: Response) {
     try {
-      const { name, markupType, markupValue, currency, notes, isActive } = req.body
+      const { name, percentageValue, notes, isActive } = req.body
       const rule = await FlightMarkupService.update(req.params.id, {
         name,
-        markupType,
-        markupValue: markupValue != null ? parseFloat(markupValue) : undefined,
-        currency,
+        percentageValue: percentageValue != null ? parseFloat(percentageValue) : undefined,
         notes,
         isActive,
       })

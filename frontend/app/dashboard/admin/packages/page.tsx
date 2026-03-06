@@ -24,6 +24,7 @@ const EMPTY_FORM = {
   name: '', destination: '', country: '', duration: '',
   price: '', originalPrice: '', currency: 'SAR', category: 'best',
   description: '', coverImage: '',
+  supplierName: '', supplierEmail: '',
   features: '',     // newline-separated for UI
   highlights: '',
   included: '',
@@ -81,6 +82,8 @@ export default function AdminPackagesPage() {
       category: pkg.category ?? 'best',
       description: pkg.description ?? '',
       coverImage: pkg.coverImage ?? '',
+      supplierName: pkg.supplierName ?? '',
+      supplierEmail: pkg.supplierEmail ?? '',
       features: (pkg.features ?? []).join('\n'),
       highlights: (pkg.highlights ?? []).join('\n'),
       included: (pkg.included ?? []).join('\n'),
@@ -134,6 +137,8 @@ export default function AdminPackagesPage() {
         category: form.category,
         description: form.description,
         coverImage: form.coverImage,
+        supplierName: form.supplierName || null,
+        supplierEmail: form.supplierEmail || null,
         features: lines(form.features),
         highlights: lines(form.highlights),
         included: lines(form.included),
@@ -270,6 +275,28 @@ export default function AdminPackagesPage() {
             <div className="space-y-1.5">
               <Label>Description *</Label>
               <Textarea rows={3} placeholder="A brief overview of this package…" value={form.description} onChange={e => setField('description', e.target.value)} />
+            </div>
+
+            {/* Supplier (Phase 1 manual input) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <Label>Supplier Name</Label>
+                <Input
+                  placeholder="e.g. Al Noor Travels LLC"
+                  value={form.supplierName}
+                  onChange={e => setField('supplierName', e.target.value)}
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Supplier Email</Label>
+                <Input
+                  type="email"
+                  placeholder="supplier@example.com"
+                  value={form.supplierEmail}
+                  onChange={e => setField('supplierEmail', e.target.value)}
+                />
+                <p className="text-xs text-gray-500">Used only when admin clicks "Send to Supplier" on enquiries.</p>
+              </div>
             </div>
 
             {/* Lists */}

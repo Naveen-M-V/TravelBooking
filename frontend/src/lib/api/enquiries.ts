@@ -38,6 +38,10 @@ export const enquiryAPI = {
   submitQuote: (id: string, data: { basePrice: number; markupPercentage: number; adminNotes?: string }) =>
     apiClient.post(`/enquiries/${id}/quote`, data).then((r) => r.data),
 
+  /** Admin: send enquiry to package supplier */
+  sendToSupplier: (id: string) =>
+    apiClient.post(`/enquiries/${id}/send-to-supplier`).then((r) => r.data),
+
   /** Customer: accept a quote */
   acceptQuote: (id: string) =>
     apiClient.post(`/enquiries/${id}/accept`).then((r) => r.data),

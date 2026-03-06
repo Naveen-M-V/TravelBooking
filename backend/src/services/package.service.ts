@@ -3,21 +3,82 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export class PackageService {
-  static async getAllPackages(filters?: { category?: string; isActive?: boolean }) {
+  static async getAllPackages(
+    filters?: { category?: string; isActive?: boolean },
+    includeSupplierPrivate = false
+  ) {
     return prisma.package.findMany({
       where: {
         ...(filters?.category ? { category: filters.category } : {}),
         ...(filters?.isActive !== undefined ? { isActive: filters.isActive } : {}),
       },
       orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
-      include: { supplier: { select: { id: true, name: true } } }, // Include supplier but only ID and name (no email/contact)
+      select: {
+        id: true,
+        name: true,
+        destination: true,
+        country: true,
+        duration: true,
+        price: true,
+        originalPrice: true,
+        currency: true,
+        category: true,
+        description: true,
+        highlights: true,
+        included: true,
+        itinerary: true,
+        features: true,
+        images: true,
+        coverImage: true,
+        isActive: true,
+        sortOrder: true,
+        createdAt: true,
+        updatedAt: true,
+        ...(includeSupplierPrivate
+          ? {
+              supplierName: true,
+              supplierEmail: true,
+              supplierId: true,
+              supplier: { select: { id: true, name: true } },
+            }
+          : {}),
+      },
     })
   }
 
-  static async getPackageById(id: string) {
+  static async getPackageById(id: string, includeSupplierPrivate = false) {
     return prisma.package.findUnique({
       where: { id },
-      include: { supplier: { select: { id: true, name: true } } },
+      select: {
+        id: true,
+        name: true,
+        destination: true,
+        country: true,
+        duration: true,
+        price: true,
+        originalPrice: true,
+        currency: true,
+        category: true,
+        description: true,
+        highlights: true,
+        included: true,
+        itinerary: true,
+        features: true,
+        images: true,
+        coverImage: true,
+        isActive: true,
+        sortOrder: true,
+        createdAt: true,
+        updatedAt: true,
+        ...(includeSupplierPrivate
+          ? {
+              supplierName: true,
+              supplierEmail: true,
+              supplierId: true,
+              supplier: { select: { id: true, name: true } },
+            }
+          : {}),
+      },
     })
   }
 
@@ -37,6 +98,8 @@ export class PackageService {
     features?: string[]
     images?: string[]
     coverImage?: string
+    supplierName?: string
+    supplierEmail?: string
     supplierId?: string
     isActive?: boolean
     sortOrder?: number
@@ -53,6 +116,8 @@ export class PackageService {
         category: data.category ?? 'best',
         description: data.description,
         highlights: data.highlights ?? [],
+        supplierName: data.supplierName?.trim() || null,
+        supplierEmail: data.supplierEmail?.trim() || null,
         supplierId: data.supplierId ?? null,
         included: data.included ?? [],
         itinerary: data.itinerary ?? [],
@@ -62,15 +127,23 @@ export class PackageService {
         isActive: data.isActive ?? true,
         sortOrder: data.sortOrder ?? 0,
       },
-      include: { supplier: { select: { id: true, name: true } } },
     })
   }
 
   static async updatePackage(id: string, data: any) {
+    const normalized = {
+      ...data,
+      ...(Object.prototype.hasOwnProperty.call(data, 'supplierName')
+        ? { supplierName: data.supplierName?.trim() || null }
+        : {}),
+      ...(Object.prototype.hasOwnProperty.call(data, 'supplierEmail')
+        ? { supplierEmail: data.supplierEmail?.trim() || null }
+        : {}),
+    }
+
     return prisma.package.update({
       where: { id },
-      data,
-      include: { supplier: { select: { id: true, name: true } } },
+      data: normalized,
     })
   }
 

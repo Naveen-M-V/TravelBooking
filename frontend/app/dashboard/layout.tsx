@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext'
 import {
   LayoutDashboard, MessageSquare, Plane, User, LogOut,
   Package, Users, BarChart2, CreditCard, ChevronRight,
-  Tag, Image, UserCircle, TrendingUp
+  Tag, Image, UserCircle, TrendingUp, Building2, Lock
 } from 'lucide-react'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -22,6 +22,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { href: '/dashboard/admin',              label: 'Overview',     icon: LayoutDashboard },
     { href: '/dashboard/admin/enquiries',    label: 'Enquiries',    icon: MessageSquare },
     { href: '/dashboard/admin/packages',     label: 'Packages',     icon: Package },
+    { href: '/dashboard/admin/suppliers',    label: 'Suppliers',    icon: Building2, locked: true },
     { href: '/dashboard/admin/coupons',      label: 'Coupons',      icon: Tag },
     { href: '/dashboard/admin/hero-images',  label: 'Hero Images',  icon: Image },
     { href: '/dashboard/admin/flight-markup', label: 'Flight Markup', icon: TrendingUp },
@@ -86,20 +87,24 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <p className="px-3 mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400">
               {isAdmin ? 'Admin Panel' : 'My Account'}
             </p>
-            {links.map(({ href, label, icon: Icon }) => {
+            {links.map(({ href, label, icon: Icon, locked }: any) => {
               const isActive = pathname === href
               return (
                 <button
                   key={href}
-                  onClick={() => router.push(href)}
+                  onClick={() => !locked && router.push(href)}
                   className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
                     isActive
                       ? 'bg-teal-50 text-teal-700 ring-1 ring-teal-200'
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                      : locked
+                        ? 'text-gray-400 bg-gray-50 cursor-not-allowed'
+                        : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                   }`}
+                  disabled={!!locked}
                 >
                   <Icon className="w-4 h-4 flex-shrink-0" />
                   {label}
+                  {locked && <Lock className="w-3.5 h-3.5 ml-auto text-gray-400" />}
                   {isActive && <ChevronRight className="w-3.5 h-3.5 ml-auto text-teal-600" />}
                 </button>
               )

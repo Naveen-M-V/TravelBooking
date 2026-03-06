@@ -36,6 +36,7 @@ export default function AdminEnquiriesPage() {
   const [quoteForms, setQuoteForms] = useState<Record<string, { basePrice: string; markup: string; notes: string }>>({})
   const [submitting, setSubmitting] = useState<string | null>(null)
   const [cancelling, setCancelling] = useState<string | null>(null)
+  const [sendingToSupplier, setSendingToSupplier] = useState<string | null>(null)
 
   const load = async () => {
     setLoading(true)
@@ -108,6 +109,18 @@ export default function AdminEnquiriesPage() {
       alert(err.response?.data?.error || 'Failed to cancel')
     } finally {
       setCancelling(null)
+    }
+  }
+
+  const handleSendToSupplier = async (id: string) => {
+    setSendingToSupplier(id)
+    try {
+      const res = await enquiryAPI.sendToSupplier(id)
+      alert(res.message || 'Enquiry sent to supplier')
+    } catch (err: any) {
+      alert(err.response?.data?.error || 'Failed to send enquiry to supplier')
+    } finally {
+      setSendingToSupplier(null)
     }
   }
 
@@ -296,6 +309,20 @@ export default function AdminEnquiriesPage() {
                   {/* Expanded content + Quote form */}
                   {isExpanded && (
                     <div className="border-t pt-4 mt-2 space-y-4">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          className="gap-2"
+                          onClick={() => handleSendToSupplier(enq.id)}
+                          disabled={sendingToSupplier === enq.id}
+                        >
+                          {sendingToSupplier === enq.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                          Send to Supplier
+                        </Button>
+                        <p className="text-xs text-gray-500">Sends package enquiry to supplier email configured in package. No customer personal info is included.</p>
+                      </div>
+
                       {/* Package snapshot details */}
                       <div>
                         <h4 className="font-semibold text-sm mb-2">Package Details</h4>
