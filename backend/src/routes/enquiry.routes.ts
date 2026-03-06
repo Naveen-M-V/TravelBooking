@@ -19,10 +19,6 @@ router.get('/:id', authMiddleware, EnquiryController.getOne)
 // Admin: submit quote
 router.post('/:id/quote', authMiddleware, requireRole('admin'), EnquiryController.submitQuote)
 
-// Customer: accept quote
-router.post('/:id/accept', optionalAuth, EnquiryController.acceptQuote)
+// Admin: send inquiry to supplier (without customer personal info)
+router.post('/:id/send-to-supplier', authMiddleware, requireRole('admin'), EnquiryController.sendToSupplier)
 
-// Admin: cancel enquiry
-router.post('/:id/cancel', authMiddleware, requireRole('admin'), EnquiryController.cancel)
-
-export default router

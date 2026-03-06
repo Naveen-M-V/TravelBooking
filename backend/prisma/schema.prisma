@@ -102,6 +102,26 @@ model Coupon {
 }
 
 // ============================================================================
+// Package Suppliers / Vendors
+// ============================================================================
+
+model Supplier {
+  id            String    @id @default(uuid())
+  name          String    @unique
+  email         String    @unique
+  phone         String?
+  contactPerson String?
+  website       String?
+  notes         String?
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([isActive])
+  @@map("suppliers")
+}
+
+// ============================================================================
 // Hero / Banner Images (landing page search-box background)
 // ============================================================================
 
@@ -120,19 +140,17 @@ model HeroImage {
 }
 
 // ============================================================================
-// Flight Markup (admin sets profit margin on top of Almosafer prices)
+// Flight Markup (admin sets profit margin percentage on all flights globally)
 // ============================================================================
 
 model FlightMarkup {
-  id            String    @id @default(uuid())
-  name          String    @default("Default Markup")  // Label for admin reference
-  markupType    String    @default("PERCENT")          // PERCENT | FIXED
-  markupValue   Decimal   @db.Decimal(10, 2)           // % or fixed amount
-  currency      String    @default("SAR")              // Only used for FIXED type
-  isActive      Boolean   @default(true)               // Only one active at a time
-  notes         String    @default("")
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id              String    @id @default(uuid())
+  name            String    @default("Flight Markup")
+  percentageValue Decimal   @db.Decimal(5, 2)           // Percentage (e.g., 10.00 for 10%)
+  isActive        Boolean   @default(true)              // Only one active at a time
+  notes           String    @default("")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   @@index([isActive])
   @@map("flight_markups")

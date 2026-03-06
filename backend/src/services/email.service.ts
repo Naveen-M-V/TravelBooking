@@ -192,4 +192,39 @@ export class EmailService {
       `,
     })
   }
-}
+
+  /** Send supplier inquiry (without customer personal details) */
+  static async sendSupplierInquiry(
+    supplierEmail: string,
+    supplierName: string,
+    enquiry: any
+  ) {
+    await sendMail({
+      from: `"Halal Travels" <noreply@halaltravels.com>`,
+      to: supplierEmail,
+      subject: `Package Inquiry: ${enquiry.packageName}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h2 style="color: #2563eb;">New Package Inquiry</h2>
+          <p>Hi ${supplierName},</p>
+          <p>We have received an inquiry for <strong>${enquiry.packageName}</strong> to <strong>${enquiry.packageDestination}</strong>.</p>
+          
+          <div style="background:#f3f4f6; border-left:4px solid #2563eb; padding:16px; margin:20px 0; border-radius:4px;">
+            <p style="margin:0 0 8px 0;"><strong>Destination:</strong> ${enquiry.packageDestination}</p>
+            <p style="margin:0 0 8px 0;"><strong>Travel Date:</strong> ${enquiry.travelDate ? new Date(enquiry.travelDate).toLocaleDateString() : 'Flexible'}</p>
+            <p style="margin:0 0 8px 0;"><strong>Travelers:</strong> ${enquiry.adults} Adults, ${enquiry.children} Children, ${enquiry.infants} Infants</p>
+            <p style="margin:0;"><strong>Total Persons:</strong> ${enquiry.adults + enquiry.children + enquiry.infants}</p>
+          </div>
+
+          <p style="color:#6b7280; font-size:13px;">
+            <strong>Inquiry Reference:</strong> ${enquiry.id.slice(0, 8).toUpperCase()}
+          </p>
+          <p style="color:#6b7280; font-size:13px;">
+            Please provide your quotation for this package. Reply to this email with your cost estimate.
+          </p>
+          <hr style="border:none; border-top:1px solid #e5e7eb; margin:20px 0;">
+          <p style="color:#9ca3af; font-size:12px;">This is an automated email. Do not reply with customer information.</p>
+        </div>
+      `,
+    })
+  }

@@ -140,4 +140,17 @@ export class EnquiryService {
       data: { status: 'CANCELLED' },
     })
   }
-}
+
+  /** Admin: send inquiry to supplier (without customer personal info) */
+  static async sendToSupplier(enquiryId: string, supplierId: string) {
+    const enquiry = await prisma.packageEnquiry.findUnique({ where: { id: enquiryId } })
+    if (!enquiry) throw new Error('Enquiry not found')
+
+    const supplier = await prisma.supplier.findUnique({ where: { id: supplierId } })
+    if (!supplier) throw new Error('Supplier not found')
+
+    // Send email without customer personal information
+    EmailService.sendSupplierInquiry(supplier.email, supplier.name, enquiry).catch(console.error)
+
+    return { success: true, message: `Inquiry sent to ${supplier.name}` }
+  }

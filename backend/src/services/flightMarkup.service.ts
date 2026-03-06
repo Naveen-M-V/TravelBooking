@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 export class FlightMarkupService {
-  /** Get the currently active markup rule (returns null if none set) */
+  /** Get the currently active markup (percentage-only, only one active at a time) */
   static async getActive() {
     return prisma.flightMarkup.findFirst({ where: { isActive: true }, orderBy: { updatedAt: 'desc' } })
   }
@@ -13,28 +13,31 @@ export class FlightMarkupService {
     return prisma.flightMarkup.findMany({ orderBy: { createdAt: 'desc' } })
   }
 
-  /** Create a new markup rule (optionally deactivate all others first) */
+  /** Create a new markup (percentage only, deactivates others if this is active) */
   static async create(data: {
     name?: string
-    markupType: 'PERCENT' | 'FIXED'
-    markupValue: number
-    currency?: string
+    percentageValue: number // e.g., 10 for 10%
     notes?: string
     isActive?: boolean
   }) {
     if (data.isActive) {
-      // Only one active rule at a time
+      // Only one active markup at a time
       await prisma.flightMarkup.updateMany({ data: { isActive: false } })
     }
-    return prisma.flightMarkup.create({ data: { ...data } })
+    return prisma.flightMarkup.create({ 
+      data: { 
+        name: data.name || 'Flight Markup',
+        percentageValue: data.percentageValue,
+        notes: data.notes || '',
+        isActive: data.isActive ?? false,
+      } 
+    })
   }
 
-  /** Update an existing markup rule */
+  /** Update an existing markup */
   static async update(id: string, data: Partial<{
     name: string
-    markupType: string
-    markupValue: number
-    currency: string
+    percentageValue: number
     notes: string
     isActive: boolean
   }>) {
@@ -44,48 +47,40 @@ export class FlightMarkupService {
     return prisma.flightMarkup.update({ where: { id }, data })
   }
 
-  /** Activate a specific rule (deactivates all others) */
+  /** Activate a specific markup (deactivates all others) */
   static async activate(id: string) {
     await prisma.flightMarkup.updateMany({ data: { isActive: false } })
     return prisma.flightMarkup.update({ where: { id }, data: { isActive: true } })
   }
 
-  /** Delete a markup rule */
+  /** Delete a markup */
   static async delete(id: string) {
     return prisma.flightMarkup.delete({ where: { id } })
   }
 
   /**
-   * Apply the active markup to a price.
+   * Apply the active markup percentage to a base price.
    * Returns the marked-up price (original + profit).
    */
   static async applyMarkup(originalPrice: number): Promise<{
     originalPrice: number
+    markupPercentage: number
     markupAmount: number
     finalPrice: number
-    markupType: string
-    markupValue: number
   }> {
     const markup = await this.getActive()
     if (!markup) {
-      return { originalPrice, markupAmount: 0, finalPrice: originalPrice, markupType: 'PERCENT', markupValue: 0 }
+      return { originalPrice, markupPercentage: 0, markupAmount: 0, finalPrice: originalPrice }
     }
 
-    const value = Number(markup.markupValue)
-    let markupAmount = 0
-
-    if (markup.markupType === 'PERCENT') {
-      markupAmount = (originalPrice * value) / 100
-    } else {
-      markupAmount = value
-    }
+    const percentage = Number(markup.percentageValue)
+    const markupAmount = (originalPrice * percentage) / 100
 
     return {
       originalPrice,
+      markupPercentage: percentage,
       markupAmount: Math.round(markupAmount * 100) / 100,
       finalPrice: Math.round((originalPrice + markupAmount) * 100) / 100,
-      markupType: markup.markupType,
-      markupValue: value,
     }
   }
 
@@ -95,11 +90,11 @@ export class FlightMarkupService {
    */
   static async applyMarkupToResults(results: any): Promise<any> {
     const markup = await this.getActive()
-    if (!markup || Number(markup.markupValue) === 0) return results
+    if (!markup || Number(markup.percentageValue) === 0) return results
 
-    const value = Number(markup.markupValue)
+    const percentage = Number(markup.percentageValue)
     const apply = (price: number) => {
-      const extra = markup.markupType === 'PERCENT' ? (price * value) / 100 : value
+      const extra = (price * percentage) / 100
       return Math.round((price + extra) * 100) / 100
     }
 
