@@ -5,8 +5,10 @@ import { PackageResultCard } from '@/components/packages/PackageResultCard'
 import { EnquiryFormModal } from '@/components/packages/EnquiryFormModal'
 import { Slider } from '@/components/ui/slider'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Filter, SlidersHorizontal, MapPin, ShieldCheck, Calendar, X, Loader2 } from 'lucide-react'
+import { Filter, SlidersHorizontal, MapPin, ShieldCheck, Calendar, X, Loader2, Users, BedDouble, Plus, Minus, Info } from 'lucide-react'
 import { packagesAPI } from '@/lib/api/packages'
 
 /** Normalize a backend Package record to the shape PackageResultCard + EnquiryFormModal expect */
@@ -48,9 +50,15 @@ function normalizePackage(p: any) {
 }
 
 export default function PackagesPage() {
+  const maxChildrenForAdults = (adults: number) => Math.max(0, 4 - adults)
+
   const [packages, setPackages] = useState<any[]>([])
   const [pkgLoading, setPkgLoading] = useState(true)
   const [priceRange, setPriceRange] = useState([0, 10000])
+  const [searchLocation, setSearchLocation] = useState('')
+  const [searchNights, setSearchNights] = useState('')
+  const [searchDate, setSearchDate] = useState('')
+  const [rooms, setRooms] = useState<Array<{ adults: number; children: number }>>([{ adults: 2, children: 0 }])
   const [selectedLocations, setSelectedLocations] = useState<string[]>([])
   const [selectedHalalRatings, setSelectedHalalRatings] = useState<number[]>([])
   const [sortBy, setSortBy] = useState('recommended')
@@ -63,14 +71,55 @@ export default function PackagesPage() {
       .catch(() => setPackages([]))
       .finally(() => setPkgLoading(false))
   }, [])
+
+  const totalAdults = rooms.reduce((sum, room) => sum + room.adults, 0)
+  const totalChildren = rooms.reduce((sum, room) => sum + room.children, 0)
+  const totalGuests = totalAdults + totalChildren
+  const totalRooms = rooms.length
+
+  const updateRoomAdults = (index: number, nextAdults: number) => {
+    const boundedAdults = Math.max(1, Math.min(3, nextAdults))
+    setRooms(prev => prev.map((room, i) => {
+      if (i !== index) return room
+      const nextChildrenCap = maxChildrenForAdults(boundedAdults)
+      return {
+        adults: boundedAdults,
+        children: Math.min(room.children, nextChildrenCap),
+      }
+    }))
+  }
+
+  const updateRoomChildren = (index: number, nextChildren: number) => {
+    setRooms(prev => prev.map((room, i) => {
+      if (i !== index) return room
+      const childCap = maxChildrenForAdults(room.adults)
+      return {
+        ...room,
+        children: Math.max(0, Math.min(childCap, nextChildren)),
+      }
+    }))
+  }
+
+  const addRoom = () => {
+    setRooms(prev => [...prev, { adults: 1, children: 0 }])
+  }
+
+  const removeRoom = (index: number) => {
+    setRooms(prev => prev.length === 1 ? prev : prev.filter((_, i) => i !== index))
+  }
+
   const locations = Array.from(new Set(packages.map((p: any) => p.location)))
   
   const filteredPackages = packages
     .filter(pkg => {
       const withinPrice = pkg.price.total >= priceRange[0] && pkg.price.total <= priceRange[1]
+      const searchLocationValue = searchLocation.trim().toLowerCase()
+      const matchSearchLocation = !searchLocationValue || pkg.location.toLowerCase().includes(searchLocationValue)
+      const parsedSearchNights = searchNights ? parseInt(searchNights, 10) : null
+      const matchNights = !parsedSearchNights || pkg.nights === parsedSearchNights
       const matchLocation = selectedLocations.length === 0 || selectedLocations.includes(pkg.location)
       const matchHalal = selectedHalalRatings.length === 0 || selectedHalalRatings.includes(pkg.halalRating)
-      return withinPrice && matchLocation && matchHalal
+      return withinPrice && matchSearchLocation && matchNights && matchLocation && matchHalal
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -113,6 +162,180 @@ export default function PackagesPage() {
                 <Calendar className="h-4 w-4 text-teal-500" />
                 <span className="text-gray-700">Flexible Booking</span>
               </div>
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-3xl border border-gray-200 bg-white p-4 md:p-5 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 mb-1.5">Location</p>
+                <Input
+                  value={searchLocation}
+                  onChange={(e) => setSearchLocation(e.target.value)}
+                  placeholder="e.g. Barcelona"
+                  className="h-10"
+                />
+              </div>
+
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 mb-1.5">Number of Nights</p>
+                <Input
+                  type="number"
+                  min={1}
+                  value={searchNights}
+                  onChange={(e) => setSearchNights(e.target.value)}
+                  placeholder="e.g. 7"
+                  className="h-10"
+                />
+              </div>
+
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 mb-1.5">When</p>
+                <Input
+                  type="date"
+                  value={searchDate}
+                  onChange={(e) => setSearchDate(e.target.value)}
+                  className="h-10"
+                />
+              </div>
+
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 mb-1.5">Guests and Rooms</p>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button className="h-10 w-full rounded-md border border-gray-200 bg-white px-3 text-left text-sm text-gray-700 hover:bg-gray-50">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Users className="h-4 w-4 text-teal-500" />
+                        {totalGuests} Guest{totalGuests !== 1 ? 's' : ''} · {totalRooms} Room{totalRooms !== 1 ? 's' : ''}
+                      </span>
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[360px] p-4" align="end">
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-sm font-semibold text-gray-900">Guests and Rooms</p>
+                        <p className="text-xs text-gray-500">Adult 12+ · Children (Age 0-12)</p>
+                      </div>
+
+                      {rooms.map((room, idx) => {
+                        const childCap = maxChildrenForAdults(room.adults)
+                        const reachedChildCap = room.children >= childCap
+
+                        return (
+                          <div key={idx} className="rounded-xl border border-gray-200 p-3 space-y-3">
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-semibold text-gray-800 inline-flex items-center gap-1.5">
+                                <BedDouble className="h-4 w-4 text-teal-500" />
+                                Room {idx + 1}
+                              </span>
+                              {rooms.length > 1 && (
+                                <button
+                                  type="button"
+                                  onClick={() => removeRoom(idx)}
+                                  className="text-xs text-gray-500 hover:text-red-600"
+                                >
+                                  Remove
+                                </button>
+                              )}
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-3">
+                              <div>
+                                <p className="text-xs text-gray-500 mb-1">Adults</p>
+                                <div className="flex items-center justify-between rounded-md border border-gray-200 px-2 py-1.5">
+                                  <button
+                                    type="button"
+                                    onClick={() => updateRoomAdults(idx, room.adults - 1)}
+                                    className="p-1 text-gray-600 hover:text-teal-600"
+                                    disabled={room.adults <= 1}
+                                  >
+                                    <Minus className="h-3.5 w-3.5" />
+                                  </button>
+                                  <span className="text-sm font-semibold">{room.adults}</span>
+                                  <button
+                                    type="button"
+                                    onClick={() => updateRoomAdults(idx, room.adults + 1)}
+                                    className="p-1 text-gray-600 hover:text-teal-600"
+                                    disabled={room.adults >= 3}
+                                  >
+                                    <Plus className="h-3.5 w-3.5" />
+                                  </button>
+                                </div>
+                              </div>
+
+                              <div>
+                                <div className="flex items-center gap-1 mb-1">
+                                  <p className="text-xs text-gray-500">Children</p>
+                                  {reachedChildCap && (
+                                    <span
+                                      className="inline-flex text-amber-500"
+                                      title="Add another room to add more guests"
+                                    >
+                                      <Info className="h-3.5 w-3.5" />
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="flex items-center justify-between rounded-md border border-gray-200 px-2 py-1.5">
+                                  <button
+                                    type="button"
+                                    onClick={() => updateRoomChildren(idx, room.children - 1)}
+                                    className="p-1 text-gray-600 hover:text-teal-600"
+                                    disabled={room.children <= 0}
+                                  >
+                                    <Minus className="h-3.5 w-3.5" />
+                                  </button>
+                                  <span className="text-sm font-semibold">{room.children}</span>
+                                  <button
+                                    type="button"
+                                    onClick={() => updateRoomChildren(idx, room.children + 1)}
+                                    className="p-1 text-gray-600 hover:text-teal-600"
+                                    disabled={room.children >= childCap}
+                                  >
+                                    <Plus className="h-3.5 w-3.5" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+                            <p className="text-[11px] text-gray-500">
+                              Max 4 members per room. Adults: 1-3. Children allowed now: 0-{childCap}.
+                            </p>
+                            {reachedChildCap && (
+                              <p className="text-[11px] text-amber-600">Add another room to add more guests.</p>
+                            )}
+                          </div>
+                        )
+                      })}
+
+                      <button
+                        type="button"
+                        onClick={addRoom}
+                        className="w-full rounded-md border border-dashed border-teal-300 py-2 text-sm font-medium text-teal-700 hover:bg-teal-50"
+                      >
+                        Add Room
+                      </button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
+
+            <div className="mt-3 flex items-center justify-between">
+              <p className="text-xs text-gray-500">
+                {searchDate ? `Travel date selected: ${searchDate}` : 'Pick your travel date to help planning your package.'}
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchLocation('')
+                  setSearchNights('')
+                  setSearchDate('')
+                  setRooms([{ adults: 2, children: 0 }])
+                }}
+                className="text-xs font-medium text-gray-500 hover:text-teal-700"
+              >
+                Reset search
+              </button>
             </div>
           </div>
         </div>

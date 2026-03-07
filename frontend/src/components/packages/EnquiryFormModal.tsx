@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
-import { Loader2, CheckCircle, MapPin, Calendar, Users } from 'lucide-react'
+import { Loader2, CheckCircle, MapPin, Calendar, Users, BedDouble, Plus, Minus, Info } from 'lucide-react'
 import { enquiryAPI } from '@/lib/api/enquiries'
 import type { FeaturedPackage } from '@/mocks/featured-packages'
 import { useAuth } from '@/context/AuthContext'
@@ -20,6 +20,7 @@ interface EnquiryFormModalProps {
 
 export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormModalProps) {
   const { user } = useAuth()
+  const maxChildrenForAdults = (adults: number) => Math.max(0, 4 - adults)
 
   const [form, setForm] = useState({
     customerName: user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : '',
@@ -28,9 +29,7 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
     nationality: '',
     travelDate: '',
     flexibleDates: false,
-    adults: 2,
-    children: 0,
-    infants: 0,
+    rooms: [{ adults: 2, children: 0 }],
     specialRequests: '',
   })
 
@@ -41,6 +40,41 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
   const update = (field: string, value: any) =>
     setForm(prev => ({ ...prev, [field]: value }))
 
+  const totalAdults = form.rooms.reduce((sum, room) => sum + room.adults, 0)
+  const totalChildren = form.rooms.reduce((sum, room) => sum + room.children, 0)
+
+  const updateRoomAdults = (index: number, nextAdults: number) => {
+    const boundedAdults = Math.max(1, Math.min(3, nextAdults))
+    update('rooms', form.rooms.map((room, i) => {
+      if (i !== index) return room
+      const nextChildrenCap = maxChildrenForAdults(boundedAdults)
+      return {
+        adults: boundedAdults,
+        children: Math.min(room.children, nextChildrenCap),
+      }
+    }))
+  }
+
+  const updateRoomChildren = (index: number, nextChildren: number) => {
+    update('rooms', form.rooms.map((room, i) => {
+      if (i !== index) return room
+      const childCap = maxChildrenForAdults(room.adults)
+      return {
+        ...room,
+        children: Math.max(0, Math.min(childCap, nextChildren)),
+      }
+    }))
+  }
+
+  const addRoom = () => {
+    update('rooms', [...form.rooms, { adults: 1, children: 0 }])
+  }
+
+  const removeRoom = (index: number) => {
+    if (form.rooms.length === 1) return
+    update('rooms', form.rooms.filter((_, i) => i !== index))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!pkg) return
@@ -49,15 +83,32 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
     setError(null)
 
     try {
+      const guestSummary = form.rooms
+        .map((room, i) => `Room ${i + 1}: ${room.adults} Adult(s), ${room.children} Children`)
+        .join(' | ')
+
+      const mergedSpecialRequests = form.specialRequests
+        ? `Rooms: ${guestSummary}\n${form.specialRequests}`
+        : `Rooms: ${guestSummary}`
+
       await enquiryAPI.submit({
         packageId: pkg.id,
         packageName: pkg.name,
         packageDestination: pkg.destination,
-        packageDetails: pkg as any,
+        packageDetails: {
+          ...(pkg as any),
+          enquiryGuests: {
+            rooms: form.rooms,
+            totalAdults,
+            totalChildren,
+            totalGuests: totalAdults + totalChildren,
+          },
+        },
         ...form,
-        adults: Number(form.adults),
-        children: Number(form.children),
-        infants: Number(form.infants),
+        adults: totalAdults,
+        children: totalChildren,
+        infants: 0,
+        specialRequests: mergedSpecialRequests,
       })
       setSubmitted(true)
     } catch (err: any) {
@@ -197,40 +248,100 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
               <h4 className="font-semibold mb-3 flex items-center gap-2">
                 <Users className="w-4 h-4 text-primary" /> Travelers
               </h4>
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <Label htmlFor="adults">Adults</Label>
-                  <Input
-                    id="adults"
-                    type="number"
-                    min={1}
-                    max={20}
-                    value={form.adults}
-                    onChange={e => update('adults', e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="children">Children</Label>
-                  <Input
-                    id="children"
-                    type="number"
-                    min={0}
-                    max={10}
-                    value={form.children}
-                    onChange={e => update('children', e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="infants">Infants</Label>
-                  <Input
-                    id="infants"
-                    type="number"
-                    min={0}
-                    max={5}
-                    value={form.infants}
-                    onChange={e => update('infants', e.target.value)}
-                  />
-                </div>
+              <div className="space-y-3">
+                {form.rooms.map((room, idx) => {
+                  const childCap = maxChildrenForAdults(room.adults)
+                  const reachedChildCap = room.children >= childCap
+
+                  return (
+                    <div key={idx} className="rounded-lg border border-gray-200 p-3 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-semibold text-gray-800 inline-flex items-center gap-1.5">
+                          <BedDouble className="h-4 w-4 text-primary" /> Room {idx + 1}
+                        </span>
+                        {form.rooms.length > 1 && (
+                          <button
+                            type="button"
+                            onClick={() => removeRoom(idx)}
+                            className="text-xs text-gray-500 hover:text-red-600"
+                          >
+                            Remove
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <Label>Adults (12+)</Label>
+                          <div className="mt-1 flex items-center justify-between rounded-md border border-gray-200 px-2 py-1.5">
+                            <button
+                              type="button"
+                              onClick={() => updateRoomAdults(idx, room.adults - 1)}
+                              className="p-1 text-gray-600 hover:text-primary"
+                              disabled={room.adults <= 1}
+                            >
+                              <Minus className="h-3.5 w-3.5" />
+                            </button>
+                            <span className="text-sm font-semibold">{room.adults}</span>
+                            <button
+                              type="button"
+                              onClick={() => updateRoomAdults(idx, room.adults + 1)}
+                              className="p-1 text-gray-600 hover:text-primary"
+                              disabled={room.adults >= 3}
+                            >
+                              <Plus className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div>
+                          <div className="flex items-center gap-1">
+                            <Label>Children (0-12)</Label>
+                            {reachedChildCap && (
+                              <span className="inline-flex text-amber-500" title="Add another room to add more guests">
+                                <Info className="h-3.5 w-3.5" />
+                              </span>
+                            )}
+                          </div>
+                          <div className="mt-1 flex items-center justify-between rounded-md border border-gray-200 px-2 py-1.5">
+                            <button
+                              type="button"
+                              onClick={() => updateRoomChildren(idx, room.children - 1)}
+                              className="p-1 text-gray-600 hover:text-primary"
+                              disabled={room.children <= 0}
+                            >
+                              <Minus className="h-3.5 w-3.5" />
+                            </button>
+                            <span className="text-sm font-semibold">{room.children}</span>
+                            <button
+                              type="button"
+                              onClick={() => updateRoomChildren(idx, room.children + 1)}
+                              className="p-1 text-gray-600 hover:text-primary"
+                              disabled={room.children >= childCap}
+                            >
+                              <Plus className="h-3.5 w-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <p className="text-[11px] text-gray-500">Max 4 members per room. Adults: 1-3. Children allowed now: 0-{childCap}.</p>
+                      {reachedChildCap && <p className="text-[11px] text-amber-600">Add another room to add more guests.</p>}
+                    </div>
+                  )
+                })}
+
+                <button
+                  type="button"
+                  onClick={addRoom}
+                  className="w-full rounded-md border border-dashed border-primary/40 py-2 text-sm font-medium text-primary hover:bg-primary/5"
+                >
+                  Add Room
+                </button>
+
+                <p className="text-xs text-gray-500">
+                  Total: {totalAdults} Adult(s), {totalChildren} Children · {form.rooms.length} Room(s)
+                </p>
               </div>
             </div>
 
