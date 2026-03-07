@@ -9,9 +9,11 @@ interface PackageResultCardProps {
   package: any
   onSelect: (pkg: any) => void
   onViewDetails: (pkg: any) => void
+  onToggleWishlist: (pkg: any) => void
+  isWishlisted: boolean
 }
 
-export function PackageResultCard({ package: pkg, onSelect, onViewDetails }: PackageResultCardProps) {
+export function PackageResultCard({ package: pkg, onSelect, onViewDetails, onToggleWishlist, isWishlisted }: PackageResultCardProps) {
   const {
     hotelName,
     location,
@@ -48,10 +50,11 @@ export function PackageResultCard({ package: pkg, onSelect, onViewDetails }: Pac
 
           <button
             type="button"
+            onClick={() => onToggleWishlist(pkg)}
             className="absolute right-5 top-5 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/90 shadow-sm ring-1 ring-white/40 transition-colors hover:bg-white"
-            aria-label="Save package"
+            aria-label={isWishlisted ? 'Remove from wishlist' : 'Save package'}
           >
-            <Heart className="h-5 w-5 text-slate-700 transition-all group-hover:text-red-500 group-hover:fill-red-500" />
+            <Heart className={`h-5 w-5 transition-all ${isWishlisted ? 'text-red-500 fill-red-500' : 'text-slate-700 group-hover:text-red-500 group-hover:fill-red-500'}`} />
           </button>
 
           <div className="absolute bottom-5 left-5 right-5">

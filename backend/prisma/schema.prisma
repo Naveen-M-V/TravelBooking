@@ -39,6 +39,7 @@ model User {
   flightSearches   FlightSearch[]
   hotelBookings    HotelBooking[]
   packageEnquiries PackageEnquiry[]
+  wishlistItems    WishlistItem[]
 
   @@map("users")
 }
@@ -79,6 +80,8 @@ model Package {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
+  wishlistItems   WishlistItem[]
+
   @@index([category])
   @@index([isActive])
   @@index([supplierEmail])
@@ -86,6 +89,20 @@ model Package {
   @@map("packages")
 }
 
+model WishlistItem {
+  id        String   @id @default(uuid())
+  userId    String
+  packageId String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  package   Package  @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, packageId])
+  @@index([userId])
+  @@index([packageId])
+  @@map("wishlist_items")
+}
 
 // ============================================================================
 // Coupons (for flights and packages)

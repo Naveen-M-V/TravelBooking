@@ -12,6 +12,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Filter, SlidersHorizontal, MapPin, ShieldCheck, Calendar, X, Loader2, Users, BedDouble, Plus, Minus, Info } from 'lucide-react'
 import { packagesAPI } from '@/lib/api/packages'
+import { wishlistAPI } from '@/lib/api/wishlist'
+import { useAuth } from '@/context/AuthContext'
 
 /** Normalize a backend Package record to the shape PackageResultCard + EnquiryFormModal expect */
 function normalizePackage(p: any) {
@@ -53,9 +55,11 @@ function normalizePackage(p: any) {
 
 export default function PackagesPage() {
   const router = useRouter()
+  const { user } = useAuth()
   const maxChildrenForAdults = (adults: number) => Math.max(0, 4 - adults)
 
   const [packages, setPackages] = useState<any[]>([])
+  const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set())
   const [pkgLoading, setPkgLoading] = useState(true)
   const [priceRange, setPriceRange] = useState([0, 10000])
   const [searchLocation, setSearchLocation] = useState('')
@@ -75,6 +79,20 @@ export default function PackagesPage() {
       .catch(() => setPackages([]))
       .finally(() => setPkgLoading(false))
   }, [])
+
+  useEffect(() => {
+    if (!user) {
+      setWishlistIds(new Set())
+      return
+    }
+
+    wishlistAPI.getMine()
+      .then((res) => {
+        const ids = new Set<string>((res.items || []).map((item: any) => item.packageId))
+        setWishlistIds(ids)
+      })
+      .catch(() => setWishlistIds(new Set()))
+  }, [user])
 
   const totalAdults = rooms.reduce((sum, room) => sum + room.adults, 0)
   const totalChildren = rooms.reduce((sum, room) => sum + room.children, 0)
@@ -140,6 +158,32 @@ export default function PackagesPage() {
     setPriceRange([0, 10000])
     setSelectedLocations([])
     setSelectedHalalRatings([])
+  }
+
+  const toggleWishlist = async (pkg: any) => {
+    if (!user) {
+      router.push('/login')
+      return
+    }
+
+    const packageId = pkg.id as string
+    const isWishlisted = wishlistIds.has(packageId)
+
+    try {
+      if (isWishlisted) {
+        await wishlistAPI.remove(packageId)
+        setWishlistIds(prev => {
+          const next = new Set(prev)
+          next.delete(packageId)
+          return next
+        })
+      } else {
+        await wishlistAPI.add(packageId)
+        setWishlistIds(prev => new Set([...prev, packageId]))
+      }
+    } catch (error: any) {
+      alert(error?.response?.data?.error || 'Failed to update wishlist')
+    }
   }
 
   const filterSections = (
@@ -570,6 +614,8 @@ export default function PackagesPage() {
                   package={pkg}
                   onSelect={setEnquiryPackage}
                   onViewDetails={(selectedPkg) => router.push(`/packages/${selectedPkg.id}`)}
+                  onToggleWishlist={toggleWishlist}
+                  isWishlisted={wishlistIds.has(pkg.id)}
                 />
               ))}
 

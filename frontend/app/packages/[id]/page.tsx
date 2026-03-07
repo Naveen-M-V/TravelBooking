@@ -22,8 +22,10 @@ import {
 } from 'lucide-react'
 import { getPackageById, type FeaturedPackage } from '@/mocks/featured-packages'
 import { packagesAPI } from '@/lib/api/packages'
+import { wishlistAPI } from '@/lib/api/wishlist'
 import { HalalRatingBadge } from '@/components/ui/halal-rating-badge'
 import { EnquiryFormModal } from '@/components/packages/EnquiryFormModal'
+import { useAuth } from '@/context/AuthContext'
 
 /** Normalize backend Package API response → FeaturedPackage shape */
 function normalizeApiPackage(data: any): FeaturedPackage {
@@ -54,12 +56,15 @@ function normalizeApiPackage(data: any): FeaturedPackage {
 export default function PackageDetailPage() {
   const params = useParams()
   const router = useRouter()
+  const { user } = useAuth()
   const id = params.id as string
 
   const [pkg, setPkg] = useState<FeaturedPackage | null>(null)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'overview' | 'tour-plan' | 'gallery' | 'halal-facilities' | 'inclusions' | 'exclusions' | 'booking-conditions' | 'highlights' | 'testimonials'>('overview')
   const [showEnquiry, setShowEnquiry] = useState(false)
+  const [isWishlisted, setIsWishlisted] = useState(false)
+  const [wishlistLoading, setWishlistLoading] = useState(false)
 
   useEffect(() => {
     if (!id) return
@@ -76,6 +81,17 @@ export default function PackageDetailPage() {
       })
       .finally(() => setLoading(false))
   }, [id])
+
+  useEffect(() => {
+    if (!user || !pkg?.id) {
+      setIsWishlisted(false)
+      return
+    }
+
+    wishlistAPI.check(pkg.id)
+      .then((res) => setIsWishlisted(!!res.inWishlist))
+      .catch(() => setIsWishlisted(false))
+  }, [user, pkg?.id])
 
   if (loading) {
     return (
@@ -123,9 +139,34 @@ export default function PackageDetailPage() {
     { id: 'gallery', label: 'Gallery' },
     { id: 'halal-facilities', label: 'Halal Facilities' },
     { id: 'inclusions',   label: 'Inclusions' },
-    { id: 'exclusions',   label: "What’s Not" },
+    { id: 'exclusions',   label: 'What’s Not' },
     { id: 'booking-conditions', label: 'Booking Conditions' },
-    { id: 'highlights', label: 'Highlights' },    { id: 'testimonials', label: 'Reviews' },  ] as const
+    { id: 'highlights', label: 'Highlights' },
+    { id: 'testimonials', label: 'Reviews' },
+  ] as const
+
+  const toggleWishlist = async () => {
+    if (!pkg?.id) return
+    if (!user) {
+      router.push('/login')
+      return
+    }
+
+    setWishlistLoading(true)
+    try {
+      if (isWishlisted) {
+        await wishlistAPI.remove(pkg.id)
+        setIsWishlisted(false)
+      } else {
+        await wishlistAPI.add(pkg.id)
+        setIsWishlisted(true)
+      }
+    } catch (error: any) {
+      alert(error?.response?.data?.error || 'Failed to update wishlist')
+    } finally {
+      setWishlistLoading(false)
+    }
+  }
 
   return (
     <>
@@ -526,11 +567,12 @@ export default function PackageDetailPage() {
                     Download Itinerary
                   </button>
                   <button
-                    onClick={() => alert('Added to wishlist!')}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 text-gray-600 py-2.5 text-xs font-semibold hover:bg-gray-50 transition-colors"
+                    onClick={toggleWishlist}
+                    disabled={wishlistLoading}
+                    className={`w-full inline-flex items-center justify-center gap-2 rounded-lg border py-2.5 text-xs font-semibold transition-colors disabled:opacity-60 ${isWishlisted ? 'border-red-200 text-red-600 hover:bg-red-50' : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
                   >
-                    <Heart className="h-3.5 w-3.5" />
-                    Save to Wishlist
+                    <Heart className={`h-3.5 w-3.5 ${isWishlisted ? 'fill-red-500 text-red-500' : ''}`} />
+                    {isWishlisted ? 'Remove from Wishlist' : 'Save to Wishlist'}
                   </button>
                 </div>
               </div>

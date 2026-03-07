@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext'
 import {
   LayoutDashboard, MessageSquare, Plane, User, LogOut,
   Package, Users, BarChart2, CreditCard, ChevronRight,
-  Tag, Image, UserCircle, TrendingUp, Building2, Lock
+  Tag, Image, UserCircle, TrendingUp, Building2, Lock, Heart
 } from 'lucide-react'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -34,6 +34,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const customerLinks = [
     { href: '/dashboard/customer',              label: 'Overview',      icon: LayoutDashboard },
     { href: '/dashboard/customer/enquiries',    label: 'My Enquiries',  icon: MessageSquare },
+    { href: '/dashboard/customer/wishlist',     label: 'Wishlist',      icon: Heart },
     { href: '/dashboard/customer/bookings',     label: 'Flights',       icon: Plane },
     { href: '/dashboard/customer/payments',     label: 'Payments',      icon: CreditCard },
     { href: '/dashboard/customer/profile',      label: 'Profile',       icon: User },

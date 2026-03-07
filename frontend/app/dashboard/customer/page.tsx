@@ -6,7 +6,7 @@ import { useAuth } from '@/context/AuthContext'
 import {
   MessageSquare, Plane, User, CreditCard,
   ArrowRight, Sparkles, CheckCircle2, Clock,
-  MapPin, Calendar
+  MapPin, Calendar, Heart
 } from 'lucide-react'
 
 const mockStats = [
@@ -92,6 +92,7 @@ export default function CustomerDashboard() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: 'My Enquiries',    href: '/dashboard/customer/enquiries', icon: MessageSquare, desc: 'Track package quotes' },
+            { label: 'Wishlist',        href: '/dashboard/customer/wishlist',  icon: Heart,         desc: 'Saved packages' },
             { label: 'Flight Bookings', href: '/dashboard/customer/bookings',  icon: Plane,         desc: 'View & manage flights' },
             { label: 'Payments',        href: '/dashboard/customer/payments',  icon: CreditCard,    desc: 'History & receipts' },
             { label: 'My Profile',      href: '/dashboard/customer/profile',   icon: User,          desc: 'Update your details' },

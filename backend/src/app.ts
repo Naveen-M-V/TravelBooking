@@ -16,6 +16,7 @@ import couponRoutes from './routes/coupon.routes'
 import heroImageRoutes from './routes/heroImage.routes'
 import flightMarkupRoutes from './routes/flightMarkup.routes'
 import supplierRoutes from './routes/supplier.routes'
+import wishlistRoutes from './routes/wishlist.routes'
 
 const app: Application = express()
 
@@ -45,6 +46,7 @@ app.use('/api/coupons', couponRoutes)
 app.use('/api/hero-images', heroImageRoutes)
 app.use('/api/flight-markup', flightMarkupRoutes)
 app.use('/api/suppliers', supplierRoutes)
+app.use('/api/wishlist', wishlistRoutes)
 
 // Error handler (must be last)
 app.use(errorHandler)
