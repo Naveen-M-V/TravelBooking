@@ -15,6 +15,10 @@ import {
   ShieldCheck,
   Plane,
   Loader2,
+  MessageCircle,
+  Star,
+  Download,
+  Heart,
 } from 'lucide-react'
 import { getPackageById, type FeaturedPackage } from '@/mocks/featured-packages'
 import { packagesAPI } from '@/lib/api/packages'
@@ -54,7 +58,7 @@ export default function PackageDetailPage() {
 
   const [pkg, setPkg] = useState<FeaturedPackage | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'overview' | 'tour-plan' | 'gallery' | 'halal-facilities' | 'inclusions' | 'exclusions' | 'booking-conditions' | 'highlights'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'tour-plan' | 'gallery' | 'halal-facilities' | 'inclusions' | 'exclusions' | 'booking-conditions' | 'highlights' | 'testimonials'>('overview')
   const [showEnquiry, setShowEnquiry] = useState(false)
 
   useEffect(() => {
@@ -101,6 +105,18 @@ export default function PackageDetailPage() {
   const excluded = pkg.excluded ?? []
   const bookingConditions = pkg.bookingConditions ?? []
 
+  // Mock testimonials - in production, fetch from API
+  const testimonials = [
+    { author: 'Ahmed Al-Rashid', rating: 5, text: 'Excellent halal facilities and amazing itinerary. Highly recommended!' },
+    { author: 'Fatima Khan', rating: 5, text: 'Professional guides and authentic halal dining throughout the tour.' },
+    { author: 'Hassan Malik', rating: 4.5, text: 'Great value for money. The halal certification is very reassuring.' },
+  ]
+
+  const openWhatsApp = () => {
+    const message = `Hi, I'm interested in your ${pkg.name} package. Can you provide more details?`
+    window.open(`https://wa.me/+966500000000?text=${encodeURIComponent(message)}`, '_blank')
+  }
+
   const tabs = [
     { id: 'overview',   label: 'Overview' },
     { id: 'tour-plan',  label: 'Tour Plan' },
@@ -109,8 +125,7 @@ export default function PackageDetailPage() {
     { id: 'inclusions',   label: 'Inclusions' },
     { id: 'exclusions',   label: "What’s Not" },
     { id: 'booking-conditions', label: 'Booking Conditions' },
-    { id: 'highlights', label: 'Highlights' },
-  ] as const
+    { id: 'highlights', label: 'Highlights' },    { id: 'testimonials', label: 'Reviews' },  ] as const
 
   return (
     <>
@@ -269,20 +284,27 @@ export default function PackageDetailPage() {
               {activeTab === 'halal-facilities' && (
                 <div className="space-y-5 animate-in fade-in duration-200">
                   <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                    <h2 className="text-lg font-bold text-gray-900 mb-4">Halal Facilities</h2>
+                    <h2 className="text-lg font-bold text-gray-900 mb-4">Halal Facilities & Services</h2>
                     {halalFacilities.length === 0 ? (
                       <p className="text-gray-400">Halal facility details coming soon</p>
                     ) : (
-                      <ul className="space-y-3">
-                        {halalFacilities.map((item, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <div className="flex-shrink-0 h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5">
-                              <Check className="h-3 w-3 text-emerald-600" />
-                            </div>
-                            <span className="text-gray-600">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="space-y-4">
+                        <ul className="space-y-3">
+                          {halalFacilities.map((item, i) => (
+                            <li key={i} className="flex items-start gap-3">
+                              <div className="flex-shrink-0 h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5">
+                                <Check className="h-3 w-3 text-emerald-600" />
+                              </div>
+                              <span className="text-gray-600">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mt-4">
+                          <p className="text-sm text-teal-900">
+                            <strong>✓ Halal Certified:</strong> All meals, accommodations, and activities comply with Islamic dietary and ethical standards.
+                          </p>
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -365,6 +387,45 @@ export default function PackageDetailPage() {
                   </div>
                 </div>
               )}
+
+              {/* ── Testimonials ── */}
+              {activeTab === 'testimonials' && (
+                <div className="space-y-5 animate-in fade-in duration-200">
+                  <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                    <h2 className="text-lg font-bold text-gray-900 mb-6">Guest Reviews & Testimonials</h2>
+                    <div className="space-y-4">
+                      {testimonials.map((testimonial, idx) => (
+                        <div key={idx} className="border border-gray-100 rounded-xl p-4">
+                          <div className="flex items-start justify-between mb-2">
+                            <div>
+                              <p className="font-semibold text-gray-900">{testimonial.author}</p>
+                              <div className="flex items-center gap-1 mt-1">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className={`h-3.5 w-3.5 ${
+                                      i < Math.floor(testimonial.rating)
+                                        ? 'fill-amber-400 text-amber-400'
+                                        : 'text-gray-300'
+                                    }`}
+                                  />
+                                ))}
+                                <span className="text-xs text-gray-500 ml-1">({testimonial.rating})</span>
+                              </div>
+                            </div>
+                          </div>
+                          <p className="text-sm text-gray-600 italic">"{testimonial.text}"</p>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
+                      <p className="text-sm text-blue-900">
+                        Share your experience! <a href="#contact" className="font-semibold text-blue-700 hover:underline">Leave a review</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* ── Right: Booking widget (sticky on desktop) ── */}
@@ -418,7 +479,7 @@ export default function PackageDetailPage() {
                     </div>
                   </div>
 
-                  <div className="px-5 py-4">
+                  <div className="px-5 py-4 space-y-3">
                     <button
                       onClick={() => setShowEnquiry(true)}
                       className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-teal-600 text-white py-3.5 text-sm font-bold hover:bg-teal-500 active:scale-[0.98] transition-all"
@@ -426,14 +487,21 @@ export default function PackageDetailPage() {
                       <MessageSquare className="h-4 w-4" />
                       Enquire Now
                     </button>
-                    <p className="text-center text-xs text-gray-400 mt-3">
+                    <button
+                      onClick={openWhatsApp}
+                      className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-green-500 text-white py-3 text-sm font-bold hover:bg-green-600 active:scale-[0.98] transition-all"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      WhatsApp Chat
+                    </button>
+                    <p className="text-center text-xs text-gray-400">
                       Free quote within 24 hours · No commitment
                     </p>
                   </div>
                 </div>
 
                 {/* Trust badges */}
-                <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3">
+                <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3 mb-4">
                   {[
                     { icon: ShieldCheck, text: 'Halal certified throughout' },
                     { icon: Check, text: 'Free personalised quote' },
@@ -446,6 +514,24 @@ export default function PackageDetailPage() {
                       {text}
                     </div>
                   ))}
+                </div>
+
+                {/* Additional CTA Buttons */}
+                <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 space-y-3">
+                  <button
+                    onClick={() => alert('Itinerary download coming soon!')}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-lg border border-teal-200 text-teal-600 py-2.5 text-xs font-semibold hover:bg-teal-50 transition-colors"
+                  >
+                    <Download className="h-3.5 w-3.5" />
+                    Download Itinerary
+                  </button>
+                  <button
+                    onClick={() => alert('Added to wishlist!')}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 text-gray-600 py-2.5 text-xs font-semibold hover:bg-gray-50 transition-colors"
+                  >
+                    <Heart className="h-3.5 w-3.5" />
+                    Save to Wishlist
+                  </button>
                 </div>
               </div>
             </div>

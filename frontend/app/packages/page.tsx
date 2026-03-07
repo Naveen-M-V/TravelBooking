@@ -149,6 +149,29 @@ export default function PackagesPage() {
             <p className="text-gray-500 text-base md:text-lg leading-relaxed mb-6">
               Unique stays, thoughtful itineraries, and a seamless halal-friendly experience.
             </p>
+
+            {/* Sort and Filter Controls */}
+            <div className="flex items-center gap-3 flex-wrap mb-6">
+              <Select value={sortBy} onValueChange={setSortBy}>
+                <SelectTrigger className="w-40">
+                  <SelectValue placeholder="Sort by" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="recommended">Recommended</SelectItem>
+                  <SelectItem value="price-low">Price: Low to High</SelectItem>
+                  <SelectItem value="price-high">Price: High to Low</SelectItem>
+                  <SelectItem value="halal">Halal Rating</SelectItem>
+                </SelectContent>
+              </Select>
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                <Filter className="h-4 w-4" />
+                Filters ({selectedLocations.length + selectedHalalRatings.length > 0 ? selectedLocations.length + selectedHalalRatings.length : 0})
+              </button>
+            </div>
+
             <div className="flex flex-wrap gap-3 text-sm">
               <div className="inline-flex items-center gap-2 rounded-full bg-white border border-gray-200 px-4 py-2 shadow-sm">
                 <MapPin className="h-4 w-4 text-teal-500" />
