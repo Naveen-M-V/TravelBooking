@@ -10,7 +10,7 @@ import type { FeaturedPackage } from '@/mocks/featured-packages'
 const CARD_WIDTH = 288  // w-72 = 18rem = 288px
 const CARD_GAP   = 16   // gap-4 = 1rem = 16px
 const CARD_STEP  = CARD_WIDTH + CARD_GAP
-const AUTO_INTERVAL_MS = 3800
+const AUTO_INTERVAL_MS = 3200
 
 interface PackageCarouselProps {
   title: string
@@ -31,14 +31,17 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
   const wrap = () => {
     const el = trackRef.current
     if (!el) return
+
+    // For infinite loop illusion, keep scroll in the "middle" equivalent range.
+    // We always start from one full chunk offset and jump by one chunk when near edges.
     const half = packages.length * CARD_STEP
-    if (el.scrollLeft >= half) {
+    if (el.scrollLeft >= half + CARD_STEP / 2) {
       el.style.scrollBehavior = 'auto'
       el.scrollLeft -= half
       void el.offsetWidth // force reflow so the jump is invisible
       el.style.scrollBehavior = 'smooth'
     }
-    if (el.scrollLeft < 0) {
+    if (el.scrollLeft <= CARD_STEP / 2) {
       el.style.scrollBehavior = 'auto'
       el.scrollLeft += half
       void el.offsetWidth
@@ -54,7 +57,13 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
 
   useEffect(() => {
     const el = trackRef.current
-    if (el) el.style.scrollBehavior = 'smooth'
+    if (el) {
+      const half = packages.length * CARD_STEP
+      el.style.scrollBehavior = 'auto'
+      el.scrollLeft = half
+      void el.offsetWidth
+      el.style.scrollBehavior = 'smooth'
+    }
 
     timerRef.current = setInterval(() => {
       if (!pausedRef.current) advance(reverse ? -1 : 1)
@@ -112,12 +121,12 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
 
       {/* Scrolling track — left/right fade masks */}
       <div className="relative">
-        <div className="pointer-events-none absolute left-0 inset-y-0 w-16 bg-gradient-to-r from-gray-50 to-transparent z-10" />
-        <div className="pointer-events-none absolute right-0 inset-y-0 w-16 bg-gradient-to-l from-gray-50 to-transparent z-10" />
+        <div className="pointer-events-none absolute left-0 inset-y-0 w-10 bg-gradient-to-r from-gray-50/85 via-gray-50/35 to-transparent z-10" />
+        <div className="pointer-events-none absolute right-0 inset-y-0 w-10 bg-gradient-to-l from-gray-50/85 via-gray-50/35 to-transparent z-10" />
 
         <div
           ref={trackRef}
-          className="pkg-carousel-track overflow-x-scroll"
+          className="pkg-carousel-track overflow-x-scroll snap-x snap-mandatory"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
           onMouseEnter={() => { pausedRef.current = true }}
           onMouseLeave={() => { pausedRef.current = false }}
@@ -127,7 +136,7 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
 
           <div className="flex gap-4" style={{ width: 'max-content' }}>
             {doubled.map((pkg, index) => (
-              <div key={`${pkg.id}-${index}`} className="w-72 flex-shrink-0">
+              <div key={`${pkg.id}-${index}`} className="w-72 flex-shrink-0 snap-start">
                 <Card
                   className="overflow-hidden cursor-pointer group border-0 shadow-[0_12px_30px_rgba(17,24,39,0.10)] hover:shadow-[0_22px_60px_rgba(17,24,39,0.18)] transition-all duration-300 rounded-3xl bg-white h-full flex flex-col"
                   onClick={() => router.push(`/packages/${pkg.id}`)}
