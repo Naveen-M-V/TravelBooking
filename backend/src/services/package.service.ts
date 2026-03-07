@@ -26,8 +26,11 @@ export class PackageService {
         description: true,
         highlights: true,
         included: true,
+        excluded: true,
+        bookingConditions: true,
         itinerary: true,
         features: true,
+        halalFacilities: true,
         images: true,
         coverImage: true,
         isActive: true,
@@ -42,7 +45,7 @@ export class PackageService {
               supplier: { select: { id: true, name: true } },
             }
           : {}),
-      },
+      } as any,
     })
   }
 
@@ -62,8 +65,11 @@ export class PackageService {
         description: true,
         highlights: true,
         included: true,
+        excluded: true,
+        bookingConditions: true,
         itinerary: true,
         features: true,
+        halalFacilities: true,
         images: true,
         coverImage: true,
         isActive: true,
@@ -78,7 +84,7 @@ export class PackageService {
               supplier: { select: { id: true, name: true } },
             }
           : {}),
-      },
+      } as any,
     })
   }
 
@@ -94,8 +100,11 @@ export class PackageService {
     description: string
     highlights?: string[]
     included?: string[]
+    excluded?: string[]
+    bookingConditions?: string[]
     itinerary?: object[]
     features?: string[]
+    halalFacilities?: string[]
     images?: string[]
     coverImage?: string
     supplierName?: string
@@ -116,17 +125,20 @@ export class PackageService {
         category: data.category ?? 'best',
         description: data.description,
         highlights: data.highlights ?? [],
+        excluded: data.excluded ?? [],
+        bookingConditions: data.bookingConditions ?? [],
         supplierName: data.supplierName?.trim() || null,
         supplierEmail: data.supplierEmail?.trim() || null,
         supplierId: data.supplierId ?? null,
         included: data.included ?? [],
         itinerary: data.itinerary ?? [],
         features: data.features ?? [],
+        halalFacilities: data.halalFacilities ?? [],
         images: data.images ?? [],
         coverImage: data.coverImage ?? '',
         isActive: data.isActive ?? true,
         sortOrder: data.sortOrder ?? 0,
-      },
+      } as any,
     })
   }
 

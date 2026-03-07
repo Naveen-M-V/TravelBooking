@@ -39,6 +39,10 @@ function normalizeApiPackage(data: any): FeaturedPackage {
     description:   data.description ?? '',
     highlights:    Array.isArray(data.highlights)  ? data.highlights  : [],
     included:      Array.isArray(data.included)    ? data.included    : [],
+    excluded:      Array.isArray(data.excluded)    ? data.excluded    : [],
+    bookingConditions: Array.isArray(data.bookingConditions) ? data.bookingConditions : [],
+    halalFacilities: Array.isArray(data.halalFacilities) ? data.halalFacilities : [],
+    gallery:       Array.isArray(data.images) ? data.images : [],
     itinerary:     Array.isArray(data.itinerary)   ? data.itinerary   : [],
   }
 }
@@ -50,7 +54,7 @@ export default function PackageDetailPage() {
 
   const [pkg, setPkg] = useState<FeaturedPackage | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'overview' | 'itinerary' | 'included' | 'highlights'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'tour-plan' | 'gallery' | 'halal-facilities' | 'inclusions' | 'exclusions' | 'booking-conditions' | 'highlights'>('overview')
   const [showEnquiry, setShowEnquiry] = useState(false)
 
   useEffect(() => {
@@ -92,10 +96,19 @@ export default function PackageDetailPage() {
     )
   }
 
+  const gallery = pkg.gallery ?? []
+  const halalFacilities = pkg.halalFacilities ?? []
+  const excluded = pkg.excluded ?? []
+  const bookingConditions = pkg.bookingConditions ?? []
+
   const tabs = [
     { id: 'overview',   label: 'Overview' },
-    { id: 'itinerary',  label: 'Itinerary' },
-    { id: 'included',   label: "What's Included" },
+    { id: 'tour-plan',  label: 'Tour Plan' },
+    { id: 'gallery', label: 'Gallery' },
+    { id: 'halal-facilities', label: 'Halal Facilities' },
+    { id: 'inclusions',   label: 'Inclusions' },
+    { id: 'exclusions',   label: "What’s Not" },
+    { id: 'booking-conditions', label: 'Booking Conditions' },
     { id: 'highlights', label: 'Highlights' },
   ] as const
 
@@ -199,20 +212,20 @@ export default function PackageDetailPage() {
               )}
 
               {/* ── Itinerary ── */}
-              {activeTab === 'itinerary' && (
+              {activeTab === 'tour-plan' && (
                 <div className="space-y-4 animate-in fade-in duration-200">
                   {pkg.itinerary.length === 0 ? (
                     <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center shadow-sm">
                       <Calendar className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                      <p className="text-gray-400">Detailed itinerary coming soon</p>
+                      <p className="text-gray-400">Tour plan coming soon</p>
                     </div>
                   ) : (
                     pkg.itinerary.map((day) => (
                       <div key={day.day} className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
                         {/* Day header */}
                         <div className="flex items-center gap-3 bg-teal-600 px-5 py-3">
-                          <div className="flex-shrink-0 h-8 w-8 rounded-full bg-white/20 ring-2 ring-white/30 flex items-center justify-center text-white font-bold text-sm">
-                            {day.day}
+                          <div className="flex-shrink-0 rounded-full bg-white/20 ring-2 ring-white/30 px-3 py-1 text-white font-bold text-xs tracking-wide">
+                            Day {day.day}
                           </div>
                           <h3 className="text-white font-semibold">{day.title}</h3>
                         </div>
@@ -235,10 +248,51 @@ export default function PackageDetailPage() {
               )}
 
               {/* ── Included ── */}
-              {activeTab === 'included' && (
+              {activeTab === 'gallery' && (
+                <div className="space-y-5 animate-in fade-in duration-200">
+                  {gallery.length === 0 ? (
+                    <div className="bg-white rounded-2xl border border-gray-200 p-12 text-center shadow-sm">
+                      <p className="text-gray-400">Gallery images coming soon</p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {gallery.map((image, idx) => (
+                        <div key={`${image}-${idx}`} className="bg-white rounded-2xl border border-gray-200 p-2 shadow-sm">
+                          <img src={image} alt={`${pkg.name} gallery ${idx + 1}`} className="w-full h-56 object-cover rounded-xl" />
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === 'halal-facilities' && (
                 <div className="space-y-5 animate-in fade-in duration-200">
                   <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                    <h2 className="text-lg font-bold text-emerald-600 mb-4">✓ Included</h2>
+                    <h2 className="text-lg font-bold text-gray-900 mb-4">Halal Facilities</h2>
+                    {halalFacilities.length === 0 ? (
+                      <p className="text-gray-400">Halal facility details coming soon</p>
+                    ) : (
+                      <ul className="space-y-3">
+                        {halalFacilities.map((item, i) => (
+                          <li key={i} className="flex items-start gap-3">
+                            <div className="flex-shrink-0 h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5">
+                              <Check className="h-3 w-3 text-emerald-600" />
+                            </div>
+                            <span className="text-gray-600">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* ── Included ── */}
+              {activeTab === 'inclusions' && (
+                <div className="space-y-5 animate-in fade-in duration-200">
+                  <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                    <h2 className="text-lg font-bold text-emerald-600 mb-4">✓ Inclusions</h2>
                     <ul className="space-y-3">
                       {pkg.included.map((item, i) => (
                         <li key={i} className="flex items-start gap-3">
@@ -250,16 +304,45 @@ export default function PackageDetailPage() {
                       ))}
                     </ul>
                   </div>
+                </div>
+              )}
+
+              {activeTab === 'exclusions' && (
+                <div className="space-y-5 animate-in fade-in duration-200">
                   <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                    <h2 className="text-lg font-bold text-rose-500 mb-4">✕ Not Included</h2>
-                    <ul className="space-y-3">
-                      {['Personal expenses and shopping', 'Tips and gratuities', 'Travel visa fees (if applicable)', 'Optional activities not listed above'].map((item, i) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <span className="flex-shrink-0 text-rose-400 font-bold mt-0.5">✕</span>
-                          <span className="text-gray-500">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <h2 className="text-lg font-bold text-rose-500 mb-4">✕ What&apos;s Not Included</h2>
+                    {excluded.length === 0 ? (
+                      <p className="text-gray-400">No exclusions specified yet.</p>
+                    ) : (
+                      <ul className="space-y-3">
+                        {excluded.map((item, i) => (
+                          <li key={i} className="flex items-start gap-3">
+                            <span className="flex-shrink-0 text-rose-400 font-bold mt-0.5">✕</span>
+                            <span className="text-gray-500">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {activeTab === 'booking-conditions' && (
+                <div className="space-y-5 animate-in fade-in duration-200">
+                  <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                    <h2 className="text-lg font-bold text-gray-900 mb-4">Booking Conditions</h2>
+                    {bookingConditions.length === 0 ? (
+                      <p className="text-gray-400">Booking conditions will be shared soon.</p>
+                    ) : (
+                      <ul className="space-y-3">
+                        {bookingConditions.map((condition, i) => (
+                          <li key={i} className="flex items-start gap-3">
+                            <span className="text-teal-600 font-semibold mt-0.5">•</span>
+                            <span className="text-gray-600">{condition}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
               )}

@@ -16,6 +16,10 @@ export interface FeaturedPackage {
   description: string
   highlights: string[]
   included: string[]
+  excluded?: string[]
+  bookingConditions?: string[]
+  halalFacilities?: string[]
+  gallery?: string[]
   itinerary: {
     day: number
     title: string

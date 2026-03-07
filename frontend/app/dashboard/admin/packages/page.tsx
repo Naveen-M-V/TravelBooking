@@ -25,9 +25,12 @@ const EMPTY_FORM = {
   price: '', originalPrice: '', currency: 'SAR', category: 'best',
   description: '', coverImage: '',
   supplierName: '', supplierEmail: '',
+  halalFacilities: '',
   features: '',     // newline-separated for UI
   highlights: '',
   included: '',
+  excluded: '',
+  bookingConditions: '',
   images: '',       // newline-separated URLs
   isActive: true, sortOrder: '0',
   itinerary: [] as { day: number; title: string; description: string; activities: string }[],
@@ -84,9 +87,12 @@ export default function AdminPackagesPage() {
       coverImage: pkg.coverImage ?? '',
       supplierName: pkg.supplierName ?? '',
       supplierEmail: pkg.supplierEmail ?? '',
+      halalFacilities: (pkg.halalFacilities ?? []).join('\n'),
       features: (pkg.features ?? []).join('\n'),
       highlights: (pkg.highlights ?? []).join('\n'),
       included: (pkg.included ?? []).join('\n'),
+      excluded: (pkg.excluded ?? []).join('\n'),
+      bookingConditions: (pkg.bookingConditions ?? []).join('\n'),
       images: (pkg.images ?? []).join('\n'),
       isActive: pkg.isActive ?? true,
       sortOrder: String(pkg.sortOrder ?? 0),
@@ -139,9 +145,12 @@ export default function AdminPackagesPage() {
         coverImage: form.coverImage,
         supplierName: form.supplierName || null,
         supplierEmail: form.supplierEmail || null,
+        halalFacilities: lines(form.halalFacilities),
         features: lines(form.features),
         highlights: lines(form.highlights),
         included: lines(form.included),
+        excluded: lines(form.excluded),
+        bookingConditions: lines(form.bookingConditions),
         images: lines(form.images),
         isActive: form.isActive,
         sortOrder: parseInt(form.sortOrder) || 0,
@@ -306,17 +315,30 @@ export default function AdminPackagesPage() {
                 <Textarea rows={4} placeholder="Visit Alhambra Palace&#10;Guided tour of the Mezquita" value={form.highlights} onChange={e => setField('highlights', e.target.value)} />
               </div>
               <div className="space-y-1.5">
-                <Label>What's Included <span className="text-gray-400 font-normal">(one per line)</span></Label>
+                <Label>Inclusions <span className="text-gray-400 font-normal">(one per line)</span></Label>
                 <Textarea rows={4} placeholder="Return international flights&#10;7 nights hotel" value={form.included} onChange={e => setField('included', e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>What&apos;s Not Included <span className="text-gray-400 font-normal">(one per line)</span></Label>
+                <Textarea rows={4} placeholder="Visa fees&#10;Personal expenses" value={form.excluded} onChange={e => setField('excluded', e.target.value)} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Halal Facilities <span className="text-gray-400 font-normal">(one per line)</span></Label>
+                <Textarea rows={4} placeholder="Halal-certified meals&#10;Prayer facilities" value={form.halalFacilities} onChange={e => setField('halalFacilities', e.target.value)} />
               </div>
               <div className="space-y-1.5">
                 <Label>Features / Tags <span className="text-gray-400 font-normal">(one per line)</span></Label>
                 <Textarea rows={3} placeholder="Halal Food&#10;Private Guided Tours" value={form.features} onChange={e => setField('features', e.target.value)} />
               </div>
               <div className="space-y-1.5">
-                <Label>Image URLs <span className="text-gray-400 font-normal">(one URL per line)</span></Label>
+                <Label>Gallery Image URLs <span className="text-gray-400 font-normal">(one URL per line)</span></Label>
                 <Textarea rows={3} placeholder="https://…/image1.jpg&#10;https://…/image2.jpg" value={form.images} onChange={e => setField('images', e.target.value)} />
               </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label>Booking Conditions <span className="text-gray-400 font-normal">(one per line)</span></Label>
+              <Textarea rows={3} placeholder="50% advance payment required&#10;Cancellation policy applies as per terms" value={form.bookingConditions} onChange={e => setField('bookingConditions', e.target.value)} />
             </div>
 
             {/* Cover Image */}
@@ -460,6 +482,12 @@ export default function AdminPackagesPage() {
                         <div className="space-y-1">{pkg.itinerary.map((d: any) => (
                           <div key={d.day} className="text-xs"><span className="font-medium text-teal-700">Day {d.day}:</span> {d.title}</div>
                         ))}</div>
+                      </div>
+                    )}
+                    {pkg.bookingConditions?.length > 0 && (
+                      <div>
+                        <p className="font-semibold text-gray-700 mb-1">Booking Conditions</p>
+                        <ul className="list-disc list-inside space-y-0.5">{pkg.bookingConditions.map((c: string, i: number) => <li key={i}>{c}</li>)}</ul>
                       </div>
                     )}
                   </div>

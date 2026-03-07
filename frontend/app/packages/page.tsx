@@ -27,6 +27,10 @@ function normalizePackage(p: any) {
     features:    Array.isArray(p.features)  ? p.features  : [],
     highlights:  Array.isArray(p.highlights) ? p.highlights : [],
     included:    Array.isArray(p.included)  ? p.included  : [],
+    excluded:    Array.isArray(p.excluded)  ? p.excluded  : [],
+    bookingConditions: Array.isArray(p.bookingConditions) ? p.bookingConditions : [],
+    halalFacilities: Array.isArray(p.halalFacilities) ? p.halalFacilities : [],
+    gallery:     Array.isArray(p.images) ? p.images : [],
     itinerary:   Array.isArray(p.itinerary) ? p.itinerary : [],
     // Card-specific fields
     hotelName:   p.name,

@@ -60,8 +60,11 @@ model Package {
   description     String    @db.Text
   highlights      Json      @default("[]")   // string[]
   included        Json      @default("[]")   // string[]
+  excluded        Json      @default("[]")   // string[] (what's not included)
+  bookingConditions Json    @default("[]")   // string[]
   itinerary       Json      @default("[]")   // {day,title,description,activities}[]
   features        Json      @default("[]")   // string[]
+  halalFacilities Json      @default("[]")   // string[]
   images          Json      @default("[]")   // URL string[]
   coverImage      String    @default("")
   
