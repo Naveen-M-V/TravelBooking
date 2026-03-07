@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { PackageResultCard } from '@/components/packages/PackageResultCard'
 import { EnquiryFormModal } from '@/components/packages/EnquiryFormModal'
 import { Slider } from '@/components/ui/slider'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Filter, SlidersHorizontal, MapPin, ShieldCheck, Calendar, X, Loader2, Users, BedDouble, Plus, Minus, Info } from 'lucide-react'
 import { packagesAPI } from '@/lib/api/packages'
@@ -50,6 +52,7 @@ function normalizePackage(p: any) {
 }
 
 export default function PackagesPage() {
+  const router = useRouter()
   const maxChildrenForAdults = (adults: number) => Math.max(0, 4 - adults)
 
   const [packages, setPackages] = useState<any[]>([])
@@ -63,6 +66,7 @@ export default function PackagesPage() {
   const [selectedHalalRatings, setSelectedHalalRatings] = useState<number[]>([])
   const [sortBy, setSortBy] = useState('recommended')
   const [showFilters, setShowFilters] = useState(false)
+  const [showMobileFilters, setShowMobileFilters] = useState(false)
   const [enquiryPackage, setEnquiryPackage] = useState<any>(null)
 
   useEffect(() => {
@@ -130,6 +134,85 @@ export default function PackagesPage() {
       }
     })
 
+  const appliedFilterCount = selectedLocations.length + selectedHalalRatings.length
+
+  const clearAllFilters = () => {
+    setPriceRange([0, 10000])
+    setSelectedLocations([])
+    setSelectedHalalRatings([])
+  }
+
+  const filterSections = (
+    <>
+      {/* Price Range */}
+      <div className="mb-7">
+        <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Price Range (SAR)</p>
+        <Slider
+          min={0}
+          max={10000}
+          step={100}
+          value={priceRange}
+          onValueChange={setPriceRange}
+          className="mb-3"
+        />
+        <div className="flex justify-between text-xs font-semibold text-gray-500">
+          <span>{priceRange[0].toLocaleString()} SAR</span>
+          <span>{priceRange[1].toLocaleString()} SAR</span>
+        </div>
+      </div>
+
+      <div className="h-px bg-gray-100 mb-7" />
+
+      {/* Location */}
+      <div className="mb-7">
+        <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Location</p>
+        <div className="space-y-2.5">
+          {locations.map(location => (
+            <div key={location} className="flex items-center gap-3">
+              <Checkbox
+                id={location}
+                checked={selectedLocations.includes(location)}
+                onCheckedChange={(checked) => {
+                  if (checked) setSelectedLocations([...selectedLocations, location])
+                  else setSelectedLocations(selectedLocations.filter(l => l !== location))
+                }}
+                className="border-white/20 data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500"
+              />
+              <label htmlFor={location} className="text-sm text-gray-600 cursor-pointer hover:text-gray-900 transition-colors">
+                {location}
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="h-px bg-gray-100 mb-7" />
+
+      {/* Halal Rating */}
+      <div>
+        <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Halal Rating</p>
+        <div className="space-y-2.5">
+          {[5, 4, 3].map(rating => (
+            <div key={rating} className="flex items-center gap-3">
+              <Checkbox
+                id={`halal-${rating}`}
+                checked={selectedHalalRatings.includes(rating)}
+                onCheckedChange={(checked) => {
+                  if (checked) setSelectedHalalRatings([...selectedHalalRatings, rating])
+                  else setSelectedHalalRatings(selectedHalalRatings.filter(r => r !== rating))
+                }}
+                className="border-white/20 data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500"
+              />
+              <label htmlFor={`halal-${rating}`} className="text-sm text-gray-600 cursor-pointer">
+                {rating} Stars
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  )
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Header */}
@@ -165,10 +248,17 @@ export default function PackagesPage() {
               </Select>
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                className="hidden md:inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
               >
                 <Filter className="h-4 w-4" />
-                Filters ({selectedLocations.length + selectedHalalRatings.length > 0 ? selectedLocations.length + selectedHalalRatings.length : 0})
+                Filters ({appliedFilterCount})
+              </button>
+              <button
+                onClick={() => setShowMobileFilters(true)}
+                className="inline-flex md:hidden items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                <Filter className="h-4 w-4" />
+                Filters ({appliedFilterCount})
               </button>
             </div>
 
@@ -371,7 +461,7 @@ export default function PackagesPage() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
+                className={`hidden md:inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all ${
                   showFilters
                     ? 'bg-teal-600 text-white'
                     : 'bg-white ring-1 ring-gray-200 text-gray-600 hover:bg-gray-50 hover:text-teal-600'
@@ -379,6 +469,13 @@ export default function PackagesPage() {
               >
                 <Filter className="h-4 w-4" />
                 Filters
+              </button>
+              <button
+                onClick={() => setShowMobileFilters(true)}
+                className="inline-flex md:hidden items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold bg-white ring-1 ring-gray-200 text-gray-600 hover:bg-gray-50 hover:text-teal-600 transition-all"
+              >
+                <Filter className="h-4 w-4" />
+                Filters ({appliedFilterCount})
               </button>
               <span className="text-gray-500 text-sm">
                 <span className="font-semibold text-gray-900">{filteredPackages.length}</span> packages
@@ -402,6 +499,36 @@ export default function PackagesPage() {
         </div>
       </div>
 
+      <Dialog open={showMobileFilters} onOpenChange={setShowMobileFilters}>
+        <DialogContent className="max-w-md w-[95vw] max-h-[85vh] overflow-y-auto md:hidden">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <SlidersHorizontal className="h-4 w-4 text-teal-500" />
+              Filters
+            </DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <button
+              onClick={clearAllFilters}
+              className="text-xs text-gray-500 hover:text-teal-700 inline-flex items-center gap-1"
+            >
+              <X className="h-3 w-3" />
+              Clear all
+            </button>
+
+            {filterSections}
+
+            <button
+              onClick={() => setShowMobileFilters(false)}
+              className="w-full rounded-lg bg-teal-600 text-white py-2.5 text-sm font-semibold hover:bg-teal-500"
+            >
+              Apply Filters ({filteredPackages.length} packages)
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Main Content */}
       <div className="container mx-auto px-4 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -415,7 +542,7 @@ export default function PackagesPage() {
                     Filters
                   </h3>
                   <button
-                    onClick={() => { setPriceRange([0, 10000]); setSelectedLocations([]); setSelectedHalalRatings([]) }}
+                    onClick={clearAllFilters}
                     className="text-xs text-gray-400 hover:text-teal-600 transition-colors flex items-center gap-1"
                   >
                     <X className="h-3 w-3" />
@@ -423,72 +550,7 @@ export default function PackagesPage() {
                   </button>
                 </div>
 
-                {/* Price Range */}
-                <div className="mb-7">
-                  <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Price Range (SAR)</p>
-                  <Slider
-                    min={0}
-                    max={10000}
-                    step={100}
-                    value={priceRange}
-                    onValueChange={setPriceRange}
-                    className="mb-3"
-                  />
-                  <div className="flex justify-between text-xs font-semibold text-gray-500">
-                    <span>{priceRange[0].toLocaleString()} SAR</span>
-                    <span>{priceRange[1].toLocaleString()} SAR</span>
-                  </div>
-                </div>
-
-                <div className="h-px bg-gray-100 mb-7" />
-
-                {/* Location */}
-                <div className="mb-7">
-                  <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Location</p>
-                  <div className="space-y-2.5">
-                    {locations.map(location => (
-                      <div key={location} className="flex items-center gap-3">
-                        <Checkbox
-                          id={location}
-                          checked={selectedLocations.includes(location)}
-                          onCheckedChange={(checked) => {
-                            if (checked) setSelectedLocations([...selectedLocations, location])
-                            else setSelectedLocations(selectedLocations.filter(l => l !== location))
-                          }}
-                          className="border-white/20 data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500"
-                        />
-                        <label htmlFor={location} className="text-sm text-gray-600 cursor-pointer hover:text-gray-900 transition-colors">
-                          {location}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="h-px bg-gray-100 mb-7" />
-
-                {/* Halal Rating */}
-                <div>
-                  <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.18em] mb-4">Halal Rating</p>
-                  <div className="space-y-2.5">
-                    {[5, 4, 3].map(rating => (
-                      <div key={rating} className="flex items-center gap-3">
-                        <Checkbox
-                          id={`halal-${rating}`}
-                          checked={selectedHalalRatings.includes(rating)}
-                          onCheckedChange={(checked) => {
-                            if (checked) setSelectedHalalRatings([...selectedHalalRatings, rating])
-                            else setSelectedHalalRatings(selectedHalalRatings.filter(r => r !== rating))
-                          }}
-                          className="border-white/20 data-[state=checked]:bg-teal-500 data-[state=checked]:border-teal-500"
-                        />
-                        <label htmlFor={`halal-${rating}`} className="text-sm text-gray-600 cursor-pointer">
-                          {rating} Stars
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                {filterSections}
               </div>
             </aside>
           )}
@@ -507,6 +569,7 @@ export default function PackagesPage() {
                   key={pkg.id}
                   package={pkg}
                   onSelect={setEnquiryPackage}
+                  onViewDetails={(selectedPkg) => router.push(`/packages/${selectedPkg.id}`)}
                 />
               ))}
 
@@ -514,7 +577,7 @@ export default function PackagesPage() {
                 <div className="rounded-2xl border border-gray-200 bg-white p-16 text-center shadow-sm">
                   <p className="text-gray-500 mb-5">No packages match your filters.</p>
                   <button
-                    onClick={() => { setPriceRange([0, 10000]); setSelectedLocations([]); setSelectedHalalRatings([]) }}
+                    onClick={clearAllFilters}
                     className="inline-flex items-center gap-2 rounded-full bg-teal-500 text-white px-6 py-2.5 text-sm font-semibold hover:bg-teal-400 transition-colors"
                   >
                     Clear Filters

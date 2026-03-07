@@ -8,9 +8,10 @@ import Image from 'next/image'
 interface PackageResultCardProps {
   package: any
   onSelect: (pkg: any) => void
+  onViewDetails: (pkg: any) => void
 }
 
-export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardProps) {
+export function PackageResultCard({ package: pkg, onSelect, onViewDetails }: PackageResultCardProps) {
   const {
     hotelName,
     location,
@@ -138,7 +139,10 @@ export function PackageResultCard({ package: pkg, onSelect }: PackageResultCardP
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-4 border-t border-gray-200 pt-5">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3 border-t border-gray-200 pt-5">
+                <Button onClick={() => onViewDetails(pkg)} size="lg" variant="outline" className="rounded-2xl h-11 px-5 border-teal-200 text-teal-700 hover:bg-teal-50">
+                  View Details
+                </Button>
                 <Button onClick={() => onSelect(pkg)} size="lg" className="rounded-2xl h-11 px-5 bg-teal-500 text-white hover:bg-teal-400">
                   Enquire Now
                   <ArrowUpRight className="ml-2 h-4 w-4" />
