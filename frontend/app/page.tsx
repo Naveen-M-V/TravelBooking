@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { BadgeCheck, Headphones, Lock, Plane, XCircle, BookOpen, Compass, MapPin, Utensils } from 'lucide-react'
 import { SearchHero } from '@/components/search/SearchHero'
 import { PackageCarousel } from '@/components/packages/PackageCarousel'
@@ -43,6 +44,7 @@ const heroBackgrounds = [
 ]
 
 export default function Home() {
+  const router = useRouter()
   const [bestPkgs,    setBestPkgs]    = useState<FeaturedPackage[]>(getBestPackages())
   const [popularPkgs, setPopularPkgs] = useState<FeaturedPackage[]>(getPopularPackages())
   const [topDestPkgs, setTopDestPkgs] = useState<FeaturedPackage[]>(getTopDestinationPackages())
@@ -184,11 +186,17 @@ export default function Home() {
             Join 5,000+ Muslim travelers who trust Halal Travels for their journeys
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <button className="btn-white-cta bg-white text-[#0B6E63] px-6 sm:px-9 py-3.5 rounded-xl font-bold text-base shadow-lg">
+            <button
+              onClick={() => router.push('/register')}
+              className="btn-white-cta bg-white text-[#0B6E63] px-6 sm:px-9 py-3.5 rounded-xl font-bold text-base shadow-lg"
+            >
               Create Free Account
             </button>
-            <button className="btn-teal-ghost border-2 border-white/50 text-white px-6 sm:px-9 py-3.5 rounded-xl font-bold text-base">
-              Browse Packages
+            <button
+              onClick={() => router.push('/packages')}
+              className="btn-teal-ghost border-2 border-white/50 text-white px-6 sm:px-9 py-3.5 rounded-xl font-bold text-base"
+            >
+              Explore Packages
             </button>
           </div>
         </div>
