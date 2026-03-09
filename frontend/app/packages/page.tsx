@@ -261,7 +261,7 @@ export default function PackagesPage() {
     <div className="min-h-screen bg-gray-50 text-gray-900">
       {/* Header */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(20,184,166,0.08),transparent)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(20,184,166,0.08),transparent)]" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-teal-500/30 to-transparent" />
         <div className="container mx-auto px-4 pt-14 pb-10">
           <div className="max-w-3xl">

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Loader2, User, UserPlus, Mail, Lock, Phone, MailCheck, RefreshCw } from 'lucide-react'
+import { Loader2, User, UserPlus, Mail, Lock, Phone, MailCheck, RefreshCw, Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 
 export default function RegisterPage() {
@@ -21,6 +21,7 @@ export default function RegisterPage() {
   const [verificationSent, setVerificationSent] = useState(false)
   const [resending, setResending] = useState(false)
   const [resent, setResent] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const update = (field: string, value: string) =>
     setForm(prev => ({ ...prev, [field]: value }))
@@ -181,14 +182,22 @@ export default function RegisterPage() {
                   <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                   <Input
                     id="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     value={form.password}
                     onChange={(e) => update('password', e.target.value)}
                     placeholder="Min. 8 characters"
                     required
                     minLength={8}
-                    className="h-11 pl-10"
+                    className="h-11 pl-10 pr-10"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                    tabIndex={-1}
+                  >
+                    {showPassword ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+                  </button>
                 </div>
                 <p className="text-xs text-gray-400">Use at least 8 characters.</p>
               </div>
