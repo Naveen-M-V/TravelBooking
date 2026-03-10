@@ -53,17 +53,17 @@ export default function AboutPage() {
     <div className="bg-white text-gray-900">
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#0B1F3A] via-teal-800 to-[#0B2040] text-white py-24 px-4">
+      <section className="bg-gradient-to-br from-cyan-500 via-teal-500 to-cyan-600 text-white py-24 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2 mb-8">
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-300" />
-            <span className="text-teal-200 text-xs font-bold uppercase tracking-[0.18em]">#HTC Muslim Friendly Destination</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-200" />
+            <span className="text-cyan-100 text-xs font-bold uppercase tracking-[0.18em]">#HTC Muslim Friendly Destination</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
             Welcome to<br />
-            <span className="text-teal-300">Halal Travels Club</span>
+            <span className="text-cyan-100">Halal Travels Club</span>
           </h1>
-          <p className="text-white/70 text-lg max-w-3xl mx-auto leading-relaxed">
+          <p className="text-white/80 text-lg max-w-3xl mx-auto leading-relaxed">
             At Halal Travels Club (#HTC), we are dedicated to delivering personalised Halal travel experiences
             for Muslims around the globe. With a growing number of Muslim travellers seeking vacation experiences
             that align with their religious values, Halal Travels Club provides a trusted platform for all
@@ -138,12 +138,12 @@ export default function AboutPage() {
       </section>
 
       {/* Why Halal Tourism Matters */}
-      <section className="bg-gradient-to-br from-[#0B1F3A] to-teal-800 text-white py-20 px-4">
+      <section className="bg-gradient-to-br from-cyan-600 to-teal-600 text-white py-20 px-4">
         <div className="container mx-auto max-w-5xl">
           <div className="text-center mb-14">
-            <p className="text-teal-300 text-xs font-bold uppercase tracking-[0.18em] mb-3">Market Opportunity</p>
+            <p className="text-cyan-100 text-xs font-bold uppercase tracking-[0.18em] mb-3">Market Opportunity</p>
             <h2 className="text-3xl font-bold">Why Halal Tourism Matters</h2>
-            <p className="text-white/60 mt-4 max-w-2xl mx-auto">
+            <p className="text-white/70 mt-4 max-w-2xl mx-auto">
               Halal tourism is one of the fastest-growing sectors in the global tourism industry.
               This demographic is increasingly looking for services that cater to their religious
               and cultural needs, and Halal Travels Club (#HTC) is here to meet that demand.
@@ -152,8 +152,8 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
             {stats.map(({ value, label }) => (
               <div key={label} className="rounded-2xl bg-white/10 border border-white/15 p-6 text-center">
-                <div className="text-3xl font-bold text-teal-300 mb-2">{value}</div>
-                <div className="text-white/55 text-xs uppercase tracking-wide leading-snug">{label}</div>
+                <div className="text-3xl font-bold text-cyan-100 mb-2">{value}</div>
+                <div className="text-white/65 text-xs uppercase tracking-wide leading-snug">{label}</div>
               </div>
             ))}
           </div>

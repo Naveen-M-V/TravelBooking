@@ -26,14 +26,14 @@ export default function ContactPage() {
     <div className="bg-white text-gray-900 min-h-screen">
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#0B1F3A] via-teal-800 to-[#0B2040] text-white py-20 px-4">
+      <section className="bg-gradient-to-br from-cyan-500 via-teal-500 to-cyan-600 text-white py-20 px-4">
         <div className="container mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-2 mb-6">
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-300" />
-            <span className="text-teal-200 text-xs font-bold uppercase tracking-[0.18em]">Contact Us</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-200" />
+            <span className="text-cyan-100 text-xs font-bold uppercase tracking-[0.18em]">Contact Us</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Need to contact us?</h1>
-          <p className="text-white/65 text-lg">Our team is always happy to help.</p>
+          <p className="text-white/75 text-lg">Our team is always happy to help.</p>
         </div>
       </section>
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Plane, Building2, ShieldCheck, MapPin } from 'lucide-react'
+import { Plane, Building2 } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FlightSearchForm } from './FlightSearchForm'
 import { PackageSearchForm } from './PackageSearchForm'
@@ -24,81 +24,74 @@ export function SearchHero() {
   }, [])
 
   return (
-    <section className="relative min-h-[480px] flex items-center justify-center overflow-hidden px-4 py-10">
-      {/* Background Slideshow */}
-      {HERO_IMAGES.map((src, i) => (
-        <div
-          key={src}
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-[5000ms] ease-out"
-          style={{ 
-            backgroundImage: `url(${src})`, 
-            opacity: i === activeImg ? 1 : 0,
-            transform: i === activeImg ? 'scale(1.05)' : 'scale(1)',
-            transition: 'opacity 1.5s ease-in-out, transform 5s ease-out'
-          }}
-        />
-      ))}
+    <section className="relative w-full bg-gray-50 pt-0">
+      {/* Large Hero Image - Full Width, Bigger */}
+      <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[650px] overflow-hidden">
+        {/* Background Slideshow */}
+        {HERO_IMAGES.map((src, i) => (
+          <div
+            key={src}
+            className="absolute inset-0 bg-cover bg-center transition-all duration-[5000ms]"
+            style={{ 
+              backgroundImage: `url(${src})`, 
+              opacity: i === activeImg ? 1 : 0,
+              transform: i === activeImg ? 'scale(1.05)' : 'scale(1)',
+              transition: 'opacity 1.5s ease-in-out, transform 5s ease-out'
+            }}
+          />
+        ))}
 
-      {/* Premium Overlays */}
-      <div className="absolute inset-0 bg-black/40 backdrop-brightness-90" />
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/60" />
+        {/* Overlay - Lighter gradient to keep image visible */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30" />
 
-      <div className="relative z-10 container mx-auto max-w-5xl">
-        {/* Elite Headline Section */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/20 border border-teal-400/30 backdrop-blur-md mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
-            </span>
-            <span className="text-teal-50 text-[10px] font-bold tracking-[0.2em] uppercase">Premium Halal Concierge</span>
-          </div>
-          
-          <h1 className="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight leading-tight">
-            Go Explore, <span className="italic font-serif text-teal-200">It&apos;s a Big World</span> Out There!
+        {/* Headline Over Image */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight max-w-3xl [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
+            Go Explore, <span className="italic font-serif text-cyan-200">It's a Big World</span> Out There!
           </h1>
         </div>
+      </div>
 
-        {/* --- UNIQUE SEARCH CARD START --- */}
-        <div className="relative group max-w-3xl mx-auto">
-          {/* Decorative Glow */}
-          <div className="absolute -inset-1 bg-gradient-to-r from-teal-500/20 to-emerald-500/20 rounded-[2rem] blur-2xl opacity-50 group-hover:opacity-75 transition duration-1000" />
-          
-          <Tabs defaultValue="flights" className="relative w-full">
-            {/* Unique Floating Tabs */}
-            <div className="flex justify-center -mb-6 relative z-20">
-              <TabsList className="bg-slate-900/80 backdrop-blur-2xl border border-white/10 p-1.5 rounded-2xl h-auto shadow-2xl">
-                <TabsTrigger 
-                  value="flights" 
-                  className="px-4 py-2.5 sm:px-8 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-slate-900 rounded-xl transition-all duration-300 gap-2"
-                >
-                  <Plane className="h-4 w-4" />
-                  <span className="font-bold text-xs uppercase tracking-wider">Book Flights</span>
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="packages" 
-                  className="px-4 py-2.5 sm:px-8 sm:py-3 data-[state=active]:bg-white data-[state=active]:text-slate-900 rounded-xl transition-all duration-300 gap-2"
-                >
-                  <Building2 className="h-4 w-4" />
-                  <span className="font-bold text-xs uppercase tracking-wider hidden sm:inline">Holiday Packages</span>
-                  <span className="font-bold text-xs uppercase tracking-wider sm:hidden">Packages</span>
-                </TabsTrigger>
-              </TabsList>
-            </div>
+      {/* Search Box - Below Hero Image with Better Positioning */}
+      <div className="relative -mt-24 sm:-mt-32 md:-mt-40 mb-12 sm:mb-16 md:mb-20 px-4 z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="relative group">
+            {/* Decorative Glow */}
+            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400/30 to-teal-400/30 rounded-2xl blur-2xl opacity-50 group-hover:opacity-70 transition duration-1000" />
+            
+            <Tabs defaultValue="flights" className="relative w-full">
+              {/* Floating Tabs - Centered Above Card */}
+              <div className="flex justify-center mb-6 relative z-20">
+                <TabsList className="bg-white/80 backdrop-blur-xl border border-white/20 p-1.5 rounded-xl h-auto shadow-2xl">
+                  <TabsTrigger 
+                    value="flights" 
+                    className="px-4 sm:px-6 py-3 sm:py-3 data-[state=active]:bg-cyan-600 data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-col sm:flex-row items-center gap-2 text-xs sm:text-sm text-slate-700"
+                  >
+                    <Plane className="h-6 w-6 sm:h-5 sm:w-5" />
+                    <span className="font-bold uppercase tracking-wide hidden sm:inline">Book Flights</span>
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="packages" 
+                    className="px-4 sm:px-6 py-3 sm:py-3 data-[state=active]:bg-cyan-600 data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-col sm:flex-row items-center gap-2 text-xs sm:text-sm text-slate-700"
+                  >
+                    <Building2 className="h-6 w-6 sm:h-5 sm:w-5" />
+                    <span className="font-bold uppercase tracking-wide hidden sm:inline">Holiday Packages</span>
+                  </TabsTrigger>
+                </TabsList>
+              </div>
 
-            {/* Main Card Body */}
-            <div className="bg-white/90 backdrop-blur-3xl rounded-[2rem] p-5 pt-12 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.45)] border border-white/20">
-              <TabsContent value="flights" className="mt-0 focus-visible:outline-none">
-                <FlightSearchForm />
-              </TabsContent>
-              <TabsContent value="packages" className="mt-0 focus-visible:outline-none">
-                <PackageSearchForm />
-              </TabsContent>
-            </div>
-          </Tabs>
+              {/* Search Forms - Single Line */}
+              <div className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 p-4 sm:p-5 md:p-6">
+                <TabsContent value="flights" className="mt-0 focus-visible:outline-none">
+                  <FlightSearchForm />
+                </TabsContent>
+                <TabsContent value="packages" className="mt-0 focus-visible:outline-none">
+                  <PackageSearchForm />
+                </TabsContent>
+              </div>
+            </Tabs>
+          </div>
         </div>
-
-
       </div>
     </section>
   )

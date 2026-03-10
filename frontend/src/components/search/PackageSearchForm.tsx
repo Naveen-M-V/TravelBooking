@@ -49,11 +49,11 @@ export function PackageSearchForm() {
 
   return (
     <form onSubmit={handleSearch} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr,1.5fr,1.5fr,1fr] gap-3 items-end">
         {/* Destination */}
-        <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="destination" className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-primary" />
+        <div className="space-y-1">
+          <Label htmlFor="destination" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+            <MapPin className="h-3.5 w-3.5 text-cyan-600" />
             Destination
           </Label>
           <Select
@@ -61,8 +61,8 @@ export function PackageSearchForm() {
             onValueChange={(value: string) => setSearchData({ ...searchData, destination: value })}
             required
           >
-            <SelectTrigger id="destination">
-              <SelectValue placeholder="Select destination" />
+            <SelectTrigger id="destination" className="h-11 text-sm bg-white/70 border-slate-300 focus:ring-cyan-500">
+              <SelectValue placeholder="e.g., Mecca, Saudi Arabia" />
             </SelectTrigger>
             <SelectContent>
               {popularDestinations.map((dest) => (
@@ -74,127 +74,129 @@ export function PackageSearchForm() {
           </Select>
         </div>
 
-        {/* Check-in Date */}
-        <div className="space-y-2">
-          <Label htmlFor="checkIn" className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-primary" />
-            Check-in
-          </Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full justify-start text-left font-normal"
-              >
-                <Calendar className="mr-2 h-4 w-4" />
-                {searchData.checkIn ? format(parseISO(searchData.checkIn), 'MMM dd, yyyy') : 'Pick a date'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="p-0" align="start">
-              <CalendarComponent
-                mode="single"
-                selected={searchData.checkIn ? parseISO(searchData.checkIn) : undefined}
-                onSelect={(date) => {
-                  if (!date) return
-                  const next = format(date, 'yyyy-MM-dd')
-                  setSearchData((prev) => ({
-                    ...prev,
-                    checkIn: next,
-                    ...(prev.checkOut && prev.checkOut < next ? { checkOut: '' } : null),
-                  }))
-                }}
-                disabled={(date) => date < today}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-          <input type="hidden" name="checkIn" value={searchData.checkIn} />
-        </div>
-
-        {/* Check-out Date */}
-        <div className="space-y-2">
-          <Label htmlFor="checkOut" className="flex items-center gap-2">
-            <Calendar className="h-4 w-4 text-primary" />
-            Check-out
-          </Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full justify-start text-left font-normal"
-              >
-                <Calendar className="mr-2 h-4 w-4" />
-                {searchData.checkOut ? format(parseISO(searchData.checkOut), 'MMM dd, yyyy') : 'Pick a date'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="p-0" align="start">
-              <CalendarComponent
-                mode="single"
-                selected={searchData.checkOut ? parseISO(searchData.checkOut) : undefined}
-                onSelect={(date) => {
-                  if (!date) return
-                  setSearchData({ ...searchData, checkOut: format(date, 'yyyy-MM-dd') })
-                }}
-                disabled={(date) =>
-                  date < (searchData.checkIn ? parseISO(searchData.checkIn) : today)
-                }
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-          <input type="hidden" name="checkOut" value={searchData.checkOut} />
-        </div>
-
-        {/* Rooms & Guests — full-width row */}
-        <div className="space-y-2 md:col-span-2">
-          <Label className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-primary" />
-            Rooms &amp; Guests
-          </Label>
-          <div className="grid grid-cols-3 gap-2">
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Rooms</p>
-              <Input
-                id="rooms"
-                type="number"
-                min="1"
-                max="5"
-                value={searchData.rooms}
-                onChange={(e) => setSearchData({ ...searchData, rooms: parseInt(e.target.value) })}
-              />
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Adults</p>
-              <Input
-                id="adults"
-                type="number"
-                min="1"
-                max="9"
-                value={searchData.adults}
-                onChange={(e) => setSearchData({ ...searchData, adults: parseInt(e.target.value) })}
-              />
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Children (2–11)</p>
-              <Input
-                id="children"
-                type="number"
-                min="0"
-                max="9"
-                value={searchData.children}
-                onChange={(e) => setSearchData({ ...searchData, children: parseInt(e.target.value) })}
-              />
-            </div>
+        {/* Dates */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <Label htmlFor="checkIn" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+              <Calendar className="h-3.5 w-3.5 text-cyan-600" />
+              Check-in
+            </Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full h-11 justify-start text-left font-normal text-sm bg-white/70 border-slate-300 hover:bg-white focus:ring-cyan-500"
+                >
+                  {searchData.checkIn ? format(parseISO(searchData.checkIn), 'MMM d, yyyy') : 'Pick a date'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="p-0" align="start">
+                <CalendarComponent
+                  mode="single"
+                  selected={searchData.checkIn ? parseISO(searchData.checkIn) : undefined}
+                  onSelect={(date) => {
+                    if (!date) return
+                    const next = format(date, 'yyyy-MM-dd')
+                    setSearchData({ ...searchData, checkIn: next })
+                  }}
+                  disabled={{ before: today }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="checkOut" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+              <Calendar className="h-3.5 w-3.5 text-cyan-600" />
+              Check-out
+            </Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full h-11 justify-start text-left font-normal text-sm bg-white/70 border-slate-300 hover:bg-white focus:ring-cyan-500"
+                  disabled={!searchData.checkIn}
+                >
+                  {searchData.checkOut ? format(parseISO(searchData.checkOut), 'MMM d, yyyy') : 'Pick a date'}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="p-0" align="start">
+                <CalendarComponent
+                  mode="single"
+                  selected={searchData.checkOut ? parseISO(searchData.checkOut) : undefined}
+                  onSelect={(date) => {
+                    if (!date) return
+                    const next = format(date, 'yyyy-MM-dd')
+                    setSearchData({ ...searchData, checkOut: next })
+                  }}
+                  disabled={{ before: searchData.checkIn ? parseISO(searchData.checkIn) : today }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
-      </div>
 
-      <Button type="submit" className="w-full" size="lg">
-        <Search className="mr-2 h-5 w-5" />
-        Search Packages
-      </Button>
+        {/* Guests */}
+        <div className="space-y-1">
+          <Label className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+            <Users className="h-3.5 w-3.5 text-cyan-600" />
+            Guests & Rooms
+          </Label>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-full h-11 justify-start text-left font-normal text-sm bg-white/70 border-slate-300 hover:bg-white focus:ring-cyan-500">
+                {searchData.adults + searchData.children} Guests, {searchData.rooms} Room(s)
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-64 p-4 space-y-4 bg-white/90 backdrop-blur-sm">
+              <div className="flex items-center justify-between">
+                <Label htmlFor="rooms">Rooms</Label>
+                <Input 
+                  id="rooms" 
+                  type="number" 
+                  className="w-20 h-9" 
+                  min={1} 
+                  value={searchData.rooms} 
+                  onChange={e => setSearchData({...searchData, rooms: parseInt(e.target.value, 10)})}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="adults">Adults</Label>
+                <Input 
+                  id="adults" 
+                  type="number" 
+                  className="w-20 h-9" 
+                  min={1} 
+                  value={searchData.adults} 
+                  onChange={e => setSearchData({...searchData, adults: parseInt(e.target.value, 10)})}
+                />
+              </div>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="children">Children</Label>
+                <Input 
+                  id="children" 
+                  type="number" 
+                  className="w-20 h-9" 
+                  min={0} 
+                  value={searchData.children} 
+                  onChange={e => setSearchData({...searchData, children: parseInt(e.target.value, 10)})}
+                />
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        {/* Search Button */}
+        <div className="flex items-end">
+          <Button type="submit" className="w-full h-11 bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-base gap-2 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-300">
+            <Search className="h-5 w-5" />
+            <span className="hidden xl:inline">Search</span>
+          </Button>
+        </div>
+      </div>
     </form>
   )
 }

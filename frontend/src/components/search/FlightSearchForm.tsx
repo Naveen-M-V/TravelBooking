@@ -51,215 +51,221 @@ export function FlightSearchForm() {
   today.setHours(0, 0, 0, 0)
 
   return (
-    <form onSubmit={handleSearch} className="space-y-3">
-      {/* Trip type toggle */}
+    <form onSubmit={handleSearch} className="space-y-4">
+      {/* Trip type toggle - Compact */}
       <div className="flex gap-2">
         <button
           type="button"
           onClick={() => setTripType('round-trip')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-200 ${
             tripType === 'round-trip'
-              ? 'bg-primary text-white border-primary shadow-sm'
-              : 'bg-white text-gray-600 border-gray-300 hover:border-primary hover:text-primary'
+              ? 'bg-cyan-600 text-white border-cyan-600 shadow-sm'
+              : 'bg-white/70 text-slate-600 border-slate-300 hover:border-cyan-600 hover:text-cyan-700'
           }`}
         >
-          <ArrowLeftRight className="h-3 w-3" />
+          <ArrowLeftRight className="h-3.5 w-3.5" />
           Round Trip
         </button>
         <button
           type="button"
           onClick={() => setTripType('one-way')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 ${
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-200 ${
             tripType === 'one-way'
-              ? 'bg-primary text-white border-primary shadow-sm'
-              : 'bg-white text-gray-600 border-gray-300 hover:border-primary hover:text-primary'
+              ? 'bg-cyan-600 text-white border-cyan-600 shadow-sm'
+              : 'bg-white/70 text-slate-600 border-slate-300 hover:border-cyan-600 hover:text-cyan-700'
           }`}
         >
-          <ArrowRight className="h-3 w-3" />
+          <ArrowRight className="h-3.5 w-3.5" />
           One Way
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {/* Origin */}
-        <div className="space-y-1">
-          <Label htmlFor="origin" className="flex items-center gap-1.5 text-xs">
-            <MapPin className="h-3.5 w-3.5 text-primary" />
-            From
-          </Label>
-          <Select
-            value={searchData.origin}
-            onValueChange={(v) => setSearchData({ ...searchData, origin: v })}
-            required
-          >
-            <SelectTrigger id="origin" className="h-9 text-sm">
-              <SelectValue placeholder="Select origin" />
-            </SelectTrigger>
-            <SelectContent>
-              {airportCodes.map((a) => (
-                <SelectItem key={a.code} value={a.code}>{a.code} — {a.city}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Destination */}
-        <div className="space-y-1">
-          <Label htmlFor="destination" className="flex items-center gap-1.5 text-xs">
-            <MapPin className="h-3.5 w-3.5 text-primary" />
-            To
-          </Label>
-          <Select
-            value={searchData.destination}
-            onValueChange={(v) => setSearchData({ ...searchData, destination: v })}
-            required
-          >
-            <SelectTrigger id="destination" className="h-9 text-sm">
-              <SelectValue placeholder="Select destination" />
-            </SelectTrigger>
-            <SelectContent>
-              {airportCodes.map((a) => (
-                <SelectItem key={a.code} value={a.code}>{a.code} — {a.city}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        {/* Departure */}
-        <div className="space-y-1">
-          <Label htmlFor="departure" className="flex items-center gap-1.5 text-xs">
-            <Calendar className="h-3.5 w-3.5 text-primary" />
-            Departure
-          </Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className="h-9 w-full justify-start text-left text-sm font-normal"
-              >
-                <Calendar className="mr-2 h-4 w-4" />
-                {searchData.departureDate ? format(parseISO(searchData.departureDate), 'MMM dd, yyyy') : 'Pick a date'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="p-0" align="start">
-              <CalendarComponent
-                mode="single"
-                selected={searchData.departureDate ? parseISO(searchData.departureDate) : undefined}
-                onSelect={(date) => {
-                  if (!date) return
-                  const next = format(date, 'yyyy-MM-dd')
-                  setSearchData((prev) => ({
-                    ...prev,
-                    departureDate: next,
-                    ...(tripType === 'round-trip' && prev.returnDate && prev.returnDate < next
-                      ? { returnDate: '' }
-                      : null),
-                  }))
-                }}
-                disabled={(date) => date < today}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-          <input type="hidden" name="departure" value={searchData.departureDate} />
-        </div>
-
-        {/* Return date — only for round trip */}
-        {tripType === 'round-trip' ? (
+      {/* Single line layout - all fields in one row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-[2fr,1.5fr,1.5fr,1fr] gap-3 items-end">
+        {/* Origin & Destination */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="space-y-1">
-            <Label htmlFor="return" className="flex items-center gap-1.5 text-xs">
-              <Calendar className="h-3.5 w-3.5 text-primary" />
+            <Label htmlFor="origin" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+              <MapPin className="h-3.5 w-3.5 text-cyan-600" />
+              From
+            </Label>
+            <Select
+              value={searchData.origin}
+              onValueChange={(v) => setSearchData({ ...searchData, origin: v })}
+              required
+            >
+              <SelectTrigger id="origin" className="h-11 text-sm bg-white/70 border-slate-300 focus:ring-cyan-500">
+                <SelectValue placeholder="Select origin" />
+              </SelectTrigger>
+              <SelectContent>
+                {airportCodes.map((a) => (
+                  <SelectItem key={a.code} value={a.code}>
+                    {a.city} ({a.code})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="destination" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+              <MapPin className="h-3.5 w-3.5 text-cyan-600" />
+              To
+            </Label>
+            <Select
+              value={searchData.destination}
+              onValueChange={(v) => setSearchData({ ...searchData, destination: v })}
+              required
+            >
+              <SelectTrigger id="destination" className="h-11 text-sm bg-white/70 border-slate-300 focus:ring-cyan-500">
+                <SelectValue placeholder="Select destination" />
+              </SelectTrigger>
+              <SelectContent>
+                {airportCodes.map((a) => (
+                  <SelectItem key={a.code} value={a.code}>
+                    {a.city} ({a.code})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Dates */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <Label htmlFor="departureDate" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+              <Calendar className="h-3.5 w-3.5 text-cyan-600" />
+              Departure
+            </Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  id="departureDate"
+                  variant="outline"
+                  className="w-full h-11 justify-start text-left font-normal text-sm bg-white/70 border-slate-300 hover:bg-white focus:ring-cyan-500"
+                >
+                  {searchData.departureDate ? format(parseISO(searchData.departureDate), 'MMM d, yyyy') : <span>Pick a date</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <CalendarComponent
+                  mode="single"
+                  selected={searchData.departureDate ? parseISO(searchData.departureDate) : undefined}
+                  onSelect={(d) => setSearchData({ ...searchData, departureDate: d ? d.toISOString().split('T')[0] : '' })}
+                  disabled={{ before: today }}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className={`space-y-1 transition-opacity duration-300 ${tripType === 'one-way' ? 'opacity-50' : ''}`}>
+            <Label htmlFor="returnDate" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+              <Calendar className="h-3.5 w-3.5 text-cyan-600" />
               Return
             </Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
-                  type="button"
+                  id="returnDate"
                   variant="outline"
-                  className="h-9 w-full justify-start text-left text-sm font-normal"
+                  className="w-full h-11 justify-start text-left font-normal text-sm bg-white/70 border-slate-300 hover:bg-white focus:ring-cyan-500"
+                  disabled={tripType === 'one-way'}
                 >
-                  <Calendar className="mr-2 h-4 w-4" />
-                  {searchData.returnDate ? format(parseISO(searchData.returnDate), 'MMM dd, yyyy') : 'Pick a date'}
+                  {searchData.returnDate ? format(parseISO(searchData.returnDate), 'MMM d, yyyy') : <span>Pick a date</span>}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="p-0" align="start">
+              <PopoverContent className="w-auto p-0" align="start">
                 <CalendarComponent
                   mode="single"
                   selected={searchData.returnDate ? parseISO(searchData.returnDate) : undefined}
-                  onSelect={(date) => {
-                    if (!date) return
-                    setSearchData({ ...searchData, returnDate: format(date, 'yyyy-MM-dd') })
-                  }}
-                  disabled={(date) =>
-                    date < (searchData.departureDate ? parseISO(searchData.departureDate) : today)
-                  }
+                  onSelect={(d) => setSearchData({ ...searchData, returnDate: d ? d.toISOString().split('T')[0] : '' })}
+                  disabled={{ before: searchData.departureDate ? parseISO(searchData.departureDate) : today }}
                   initialFocus
                 />
               </PopoverContent>
             </Popover>
-            <input type="hidden" name="return" value={searchData.returnDate} />
-          </div>
-        ) : (
-          <div /> /* keep grid even on one-way */
-        )}
-
-        {/* Passengers + Cabin Class — full-width row */}
-        <div className="md:col-span-2 space-y-1">
-          <Label className="flex items-center gap-1.5 text-xs">
-            <Users className="h-3.5 w-3.5 text-primary" />
-            Passengers &amp; Cabin
-          </Label>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Adults</p>
-              <Input
-                type="number" min="1" max="9" className="h-9 text-sm"
-                value={searchData.adults}
-                onChange={(e) => setSearchData({ ...searchData, adults: parseInt(e.target.value) })}
-              />
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Children (2–11)</p>
-              <Input
-                type="number" min="0" max="9" className="h-9 text-sm"
-                value={searchData.children}
-                onChange={(e) => setSearchData({ ...searchData, children: parseInt(e.target.value) })}
-              />
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Infants (under 2)</p>
-              <Input
-                type="number" min="0" max="9" className="h-9 text-sm"
-                value={searchData.infants}
-                onChange={(e) => setSearchData({ ...searchData, infants: parseInt(e.target.value) })}
-              />
-            </div>
-            <div>
-              <p className="text-xs text-gray-500 mb-1">Cabin Class</p>
-              <Select
-                value={searchData.cabinClass}
-                onValueChange={(v) => setSearchData({ ...searchData, cabinClass: v })}
-              >
-                <SelectTrigger id="cabin" className="h-9 text-sm">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="ECONOMY">Economy</SelectItem>
-                  <SelectItem value="PREMIUM_ECONOMY">Premium Economy</SelectItem>
-                  <SelectItem value="BUSINESS">Business</SelectItem>
-                  <SelectItem value="FIRST">First Class</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
           </div>
         </div>
-      </div>
 
-      <Button type="submit" className="w-full h-10" size="default">
-        <Search className="mr-2 h-4 w-4" />
-        Search Flights
-      </Button>
+        {/* Passengers & Class */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <Label className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+              <Users className="h-3.5 w-3.5 text-cyan-600" />
+              Passengers
+            </Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-full h-11 justify-start text-left font-normal text-sm bg-white/70 border-slate-300 hover:bg-white focus:ring-cyan-500">
+                  {searchData.adults + searchData.children + searchData.infants} Traveler(s)
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-64 p-4 space-y-4 bg-white/90 backdrop-blur-sm">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="adults">Adults</Label>
+                  <Input 
+                    id="adults" 
+                    type="number" 
+                    className="w-20 h-9" 
+                    min={1} 
+                    value={searchData.adults} 
+                    onChange={e => setSearchData({...searchData, adults: parseInt(e.target.value, 10)})}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="children">Children</Label>
+                  <Input 
+                    id="children" 
+                    type="number" 
+                    className="w-20 h-9" 
+                    min={0} 
+                    value={searchData.children} 
+                    onChange={e => setSearchData({...searchData, children: parseInt(e.target.value, 10)})}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="infants">Infants</Label>
+                  <Input 
+                    id="infants" 
+                    type="number" 
+                    className="w-20 h-9" 
+                    min={0} 
+                    value={searchData.infants} 
+                    onChange={e => setSearchData({...searchData, infants: parseInt(e.target.value, 10)})}
+                  />
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="space-y-1">
+            <Label htmlFor="cabinClass" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
+              <Users className="h-3.5 w-3.5 text-cyan-600" />
+              Class
+            </Label>
+            <Select
+              value={searchData.cabinClass}
+              onValueChange={(v) => setSearchData({ ...searchData, cabinClass: v })}
+            >
+              <SelectTrigger id="cabinClass" className="h-11 text-sm bg-white/70 border-slate-300 focus:ring-cyan-500">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="ECONOMY">Economy</SelectItem>
+                <SelectItem value="BUSINESS">Business</SelectItem>
+                <SelectItem value="FIRST">First</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Search Button */}
+        <div className="flex items-end">
+          <Button type="submit" className="w-full h-11 bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-base gap-2 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-300">
+            <Search className="h-5 w-5" />
+            <span className="hidden xl:inline">Search</span>
+          </Button>
+        </div>
+      </div>
     </form>
   )
 }

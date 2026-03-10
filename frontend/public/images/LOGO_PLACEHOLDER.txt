@@ -1,0 +1,17 @@
+LOGO PLACEMENT INSTRUCTIONS
+===========================
+
+Please place the "Halal Travels Club" logo here as:
+- logo.svg (preferred, for scalability)
+- OR logo.png (high resolution, at least 400x400px)
+
+The logo will be automatically integrated into:
+- Navbar (top navigation)
+- Footer
+- Login/Register pages
+- Email templates
+
+Recommended specs:
+- Format: SVG or PNG with transparent background
+- Dimensions: 200x60px or similar aspect ratio
+- Colors: Should match the teal theme (#14B8A6)
