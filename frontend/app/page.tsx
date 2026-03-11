@@ -318,55 +318,101 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 sm:py-20 md:py-24 px-4 relative overflow-hidden">
-        {/* Vibrant gradient background with Islamic pattern */}
-        <div className="absolute inset-0 bg-gradient-to-br from-teal-500 via-cyan-500 to-blue-500 islamic-pattern"></div>
-        
-        {/* Islamic-inspired animated decorative elements */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute -top-20 sm:-top-32 -right-20 sm:-right-32 w-64 sm:w-80 md:w-96 h-64 sm:h-80 md:h-96 bg-white rounded-full blur-3xl animate-float" />
-          <div className="absolute -bottom-10 sm:-bottom-20 -left-10 sm:-left-20 w-56 sm:w-72 md:w-80 h-56 sm:h-72 md:h-80 bg-white rounded-full blur-3xl animate-float-slow" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[500px] md:w-[600px] h-[400px] sm:h-[500px] md:h-[600px] bg-white/30 rounded-full blur-3xl" />
-          {/* Crescent moon decorative elements */}
-          <div className="absolute top-10 sm:top-20 right-8 sm:right-1/4 crescent-moon text-white/40 sm:text-white/35 animate-geometric"></div>
-          <div className="absolute bottom-10 sm:bottom-20 left-8 sm:left-1/4 crescent-moon text-white/40 sm:text-white/35 animate-geometric" style={{ animationDelay: '2s' }}></div>
-          {/* Islamic stars */}
-          <div className="absolute top-1/3 left-8 sm:left-1/4 w-8 h-8 sm:w-10 sm:h-10 bg-white/25 sm:bg-white/20 islamic-star animate-pulse"></div>
-          <div className="absolute bottom-1/3 right-8 sm:right-1/4 w-8 h-8 sm:w-10 sm:h-10 bg-white/25 sm:bg-white/20 islamic-star animate-pulse" style={{ animationDelay: '1s' }}></div>
+      {/* Premium CTA Section */}
+      <section className="py-20 md:py-28 px-4 relative overflow-hidden bg-gradient-to-br from-teal-50/90 via-cyan-50/70 to-emerald-50/80">
+        {/* Animated gradient orbs */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-teal-300/35 via-cyan-300/20 to-transparent rounded-full blur-3xl animate-float"></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-emerald-300/25 via-teal-300/15 to-transparent rounded-full blur-3xl animate-float-slow"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-white/40 to-teal-200/20 rounded-full blur-3xl"></div>
+          
+          {/* Grid pattern overlay */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(20,184,166,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(20,184,166,0.06)_1px,transparent_1px)] bg-[size:50px_50px] opacity-40"></div>
         </div>
 
-        <div className="relative container mx-auto max-w-4xl text-center text-white px-2">
-          <div className="mb-5 sm:mb-6 flex justify-center">
-            <div className="relative">
-              <div className="absolute inset-0 bg-white rounded-2xl blur-xl opacity-50"></div>
-              <div className="relative rounded-2xl bg-white/20 backdrop-blur-md ring-2 ring-white/30 p-3 sm:p-4 shadow-2xl">
-                <Plane className="h-10 w-10 sm:h-12 sm:w-12" />
+        <div className="relative container mx-auto max-w-5xl">
+          {/* Stats Row */}
+          <div className="grid grid-cols-3 gap-4 md:gap-8 mb-16 text-center">
+            {[
+              { stat: '5K+', label: 'Happy Travelers' },
+              { stat: '50+', label: 'Dream Destinations' },
+              { stat: '4.9★', label: 'Avg Rating' },
+            ].map((item, idx) => (
+              <div key={idx} className="group">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent mb-2">
+                  {item.stat}
+                </div>
+                <p className="text-xs sm:text-sm text-teal-900/60 group-hover:text-teal-900/80 transition-colors">{item.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Main CTA Content */}
+          <div className="text-center mb-12">
+            {/* Icon */}
+            <div className="inline-flex items-center justify-center mb-8">
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-2xl blur-2xl opacity-40 animate-pulse"></div>
+                <div className="relative bg-white/60 backdrop-blur-xl border border-teal-200/70 rounded-2xl p-5 shadow-[0_20px_60px_-20px_rgba(20,184,166,0.35)]">
+                  <Plane className="h-12 w-12 text-teal-400 animate-bounce" />
+                </div>
               </div>
             </div>
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-5 leading-tight">
-            Ready for Your Next
-            <br />
-            <span className="inline-block mt-2 bg-white text-teal-600 px-4 sm:px-6 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl shadow-xl text-2xl sm:text-3xl md:text-4xl lg:text-5xl">Adventure?</span>
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 md:mb-12 text-white/90 max-w-2xl mx-auto leading-relaxed font-medium px-2">
-            Join <span className="font-bold text-white">5,000+</span> Muslim travelers who trust <span className="font-bold">Halal Travels</span> for their journeys
-          </p>
-          <div className="flex gap-3 sm:gap-4 md:gap-5 justify-center flex-wrap px-2">
-            <button
-              onClick={() => router.push('/register')}
-              className="group relative bg-white text-teal-600 px-6 sm:px-8 md:px-12 py-3 sm:py-3.5 md:py-4 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg shadow-2xl hover:shadow-white/20 hover:scale-105 transition-all duration-300 min-h-[48px] sm:min-h-0"
-            >
-              <span className="relative z-10"><span className="hidden sm:inline">Create Free Account</span><span className="sm:hidden">Sign Up Free</span></span>
-              <div className="absolute inset-0 bg-gradient-to-r from-white to-teal-50 rounded-xl sm:rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            </button>
-            <button
-              onClick={() => router.push('/packages')}
-              className="border-2 sm:border-3 border-white/80 backdrop-blur-sm bg-white/10 text-white px-6 sm:px-8 md:px-12 py-3 sm:py-3.5 md:py-4 rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg hover:bg-white hover:text-teal-600 hover:scale-105 transition-all duration-300 shadow-xl min-h-[48px] sm:min-h-0"
-            >
-              Explore Packages
-            </button>
+
+            {/* Headline */}
+            <div className="mb-6">
+              <p className="text-teal-400 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] mb-3">Begin Your Journey</p>
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 text-slate-900">
+                <span className="inline-block">Ready to Explore</span>
+                <br />
+                <span className="inline-block bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">Halal-Friendly Wonders?</span>
+              </h2>
+              <p className="text-slate-700/80 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mt-6">
+                Book your next adventure with confidence. Join thousands of Muslim travelers discovering authentic experiences at <span className="text-teal-400 font-semibold">5-star halal destinations</span>.
+              </p>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center sm:items-stretch mt-10 px-2">
+              <button
+                onClick={() => router.push('/register')}
+                className="group relative px-8 sm:px-10 md:px-12 py-4 md:py-5 rounded-xl md:rounded-2xl font-bold text-base md:text-lg overflow-hidden shadow-[0_18px_45px_-16px_rgba(20,184,166,0.45)] hover:shadow-[0_22px_55px_-16px_rgba(20,184,166,0.55)] transition-all duration-300 hover:scale-105 min-h-[52px]"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-teal-500 to-cyan-500 group-hover:from-teal-400 group-hover:to-cyan-400 transition-colors"></div>
+                <span className="relative text-white font-semibold flex items-center justify-center gap-2">
+                  <span>Start Your Journey</span>
+                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </span>
+              </button>
+
+              <button
+                onClick={() => router.push('/packages')}
+                className="group relative px-8 sm:px-10 md:px-12 py-4 md:py-5 rounded-xl md:rounded-2xl font-bold text-base md:text-lg border-2 border-teal-200 hover:border-teal-400 bg-white/55 backdrop-blur-sm hover:bg-white/75 transition-all duration-300 hover:scale-105 min-h-[52px] text-slate-800"
+              >
+                <span className="relative flex items-center justify-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15a23.931 23.931 0 01-9-1.745M12 9a6 6 0 100-12 6 6 0 000 12zm0 0c1.657 0 3-4.03 3-9s-1.343-9-3-9-3 4.03-3 9 1.343 9 3 9z" />
+                  </svg>
+                  <span>Explore Packages</span>
+                </span>
+              </button>
+            </div>
+
+            {/* Trust Badges */}
+            <div className="flex flex-wrap justify-center gap-6 mt-12 pt-8 border-t border-teal-200/70">
+              {[
+                { icon: '✓', text: '100% Halal Verified' },
+                { icon: '🔒', text: 'Secure Booking' },
+                { icon: '💬', text: '24/7 Support' },
+              ].map((badge, idx) => (
+                <div key={idx} className="flex items-center gap-2 text-slate-600 hover:text-teal-600 transition-colors group cursor-pointer">
+                  <span className="text-lg group-hover:scale-125 transition-transform">{badge.icon}</span>
+                  <span className="text-sm font-medium">{badge.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -32,10 +32,10 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-teal-400/60 to-transparent animate-pulse" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-teal-400/60 to-transparent animate-pulse pointer-events-none" />
       <div className="border-b border-teal-700/30 bg-gradient-to-r from-teal-600 via-cyan-600 to-teal-600 shadow-lg relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-400/20 via-cyan-400/20 to-teal-400/20 animate-shimmer" />
-        <div className="container mx-auto px-4">
+        <div className="absolute inset-0 bg-gradient-to-r from-teal-400/20 via-cyan-400/20 to-teal-400/20 animate-shimmer pointer-events-none" />
+        <div className="container mx-auto px-4 relative z-10">
           <div className="flex h-16 items-center justify-between">
             <Link href="/" className="group inline-flex items-center transition-all hover:scale-110">
               <img src="/htc%20logo.png" alt="Halal Travels Club" className="h-10 w-24 sm:h-12 sm:w-32 object-contain filter brightness-0 invert drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] group-hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)] transition-all duration-300" loading="eager" />
