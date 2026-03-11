@@ -45,9 +45,10 @@ export default function FlightsPage() {
   const today = new Date()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-teal-50/30 to-cyan-50/40">
+    <div className="min-h-screen page-ivory relative">
+      <div className="ivory-pattern-overlay" />
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gray-50">
+      <section className="relative overflow-hidden bg-[#f8f6f0]/90">
         {/* Decorative background elements */}
         <div className="absolute inset-0">
           <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] islamic-pattern" />
@@ -73,7 +74,7 @@ export default function FlightsPage() {
 
       {/* Search */}
       <section className="relative container mx-auto px-4 pt-8 pb-16 md:pb-20">
-        <div className="relative overflow-hidden rounded-3xl bg-gray-50/95 backdrop-blur-sm shadow-[0_20px_80px_-20px_rgba(0,0,0,0.15)] border border-teal-100 hover:shadow-[0_30px_100px_-20px_rgba(6,182,212,0.3)] transition-all duration-500 animate-fade-in-up">
+        <div className="relative overflow-hidden rounded-3xl ivory-panel backdrop-blur-sm shadow-[0_20px_80px_-20px_rgba(0,0,0,0.15)] border hover:shadow-[0_30px_100px_-20px_rgba(6,182,212,0.3)] transition-all duration-500 animate-fade-in-up">
           {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-teal-100/50 to-cyan-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 animate-float" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-br from-cyan-100/50 to-teal-100/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 animate-float-slow" />

@@ -217,7 +217,8 @@ function FlightResultsContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen page-ivory flex items-center justify-center relative">
+        <div className="ivory-pattern-overlay" />
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
           <p className="text-lg font-semibold text-gray-800 mb-1">Searching Flights</p>
@@ -229,7 +230,8 @@ function FlightResultsContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen page-ivory flex items-center justify-center relative">
+        <div className="ivory-pattern-overlay" />
         <div className="text-center max-w-md">
           <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
           <p className="text-lg font-semibold text-gray-800 mb-2">Search Failed</p>
@@ -245,7 +247,8 @@ function FlightResultsContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen page-ivory relative">
+      <div className="ivory-pattern-overlay" />
       {/* Header Banner */}
       <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-8">
         <div className="container mx-auto px-4">

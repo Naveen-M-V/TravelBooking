@@ -258,7 +258,8 @@ export default function PackagesPage() {
   )
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen page-ivory text-gray-900 relative">
+      <div className="ivory-pattern-overlay" />
       {/* Header */}
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(20,184,166,0.08),transparent)]" />

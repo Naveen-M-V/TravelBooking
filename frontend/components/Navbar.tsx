@@ -32,9 +32,11 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-teal-400/60 to-transparent animate-pulse pointer-events-none" />
-      <div className="border-b border-teal-700/30 bg-gradient-to-r from-teal-600 via-cyan-600 to-teal-600 shadow-lg relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-teal-400/20 via-cyan-400/20 to-teal-400/20 animate-shimmer pointer-events-none" />
+      <div className="absolute inset-x-0 top-0 h-px bg-[#2DBDB8]/70 pointer-events-none" />
+      <div className="border-b border-[#2DBDB8]/50 bg-[#2DBDB8]/95 backdrop-blur-md shadow-[0_10px_30px_rgba(6,15,54,0.18)] relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.20),transparent_56%)] pointer-events-none" />
+        <div className="absolute -top-6 right-20 h-16 w-16 islamic-star bg-white/12 animate-geometric pointer-events-none" />
+        <div className="absolute -bottom-6 left-28 h-14 w-14 islamic-star bg-[#F6871F]/20 animate-geometric pointer-events-none" style={{ animationDelay: '1.2s' }} />
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex h-16 items-center justify-between">
             <Link href="/" className="group inline-flex items-center transition-all hover:scale-110">
@@ -65,7 +67,7 @@ export default function Navbar() {
                   <div className="ml-2 flex items-center gap-2">
                     <Link
                       href={dashboardHref}
-                      className="inline-flex items-center gap-1.5 rounded-full bg-gray-50 text-teal-700 px-4 py-2 text-sm font-medium shadow-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300"
+                      className="inline-flex items-center gap-1.5 rounded-full bg-white/90 text-[#060F36] px-4 py-2 text-sm font-medium shadow-lg hover:bg-white hover:scale-105 transition-all duration-300"
                     >
                       <LayoutDashboard className="h-3.5 w-3.5" />
                       {user.firstName || 'Dashboard'}
@@ -81,7 +83,7 @@ export default function Navbar() {
                 ) : (
                   <Link
                     href="/login"
-                    className="ml-2 inline-flex items-center justify-center rounded-full bg-gray-50 text-teal-700 px-5 py-2 text-sm font-semibold shadow-lg hover:bg-gray-100 hover:scale-105 hover:shadow-xl transition-all duration-300"
+                    className="ml-2 inline-flex items-center justify-center rounded-full bg-white/90 text-[#060F36] px-5 py-2 text-sm font-semibold shadow-lg hover:bg-white hover:scale-105 hover:shadow-xl transition-all duration-300"
                   >
                     Login
                   </Link>
@@ -124,7 +126,7 @@ export default function Navbar() {
                       <>
                         <Link
                           href={dashboardHref}
-                          className="flex items-center gap-2 rounded-xl bg-white text-teal-700 px-4 py-3 text-sm font-semibold shadow-lg hover:bg-gray-50 transition-colors"
+                          className="flex items-center gap-2 rounded-xl bg-white text-[#060F36] px-4 py-3 text-sm font-semibold shadow-lg hover:bg-gray-50 transition-colors"
                         >
                           <LayoutDashboard className="h-4 w-4" />
                           {user.firstName ? `${user.firstName}'s Dashboard` : 'Dashboard'}
@@ -140,7 +142,7 @@ export default function Navbar() {
                     ) : (
                       <Link
                         href="/login"
-                        className="flex items-center justify-center rounded-xl bg-white text-teal-700 px-4 py-3 text-sm font-semibold shadow-lg hover:bg-gray-50 transition-colors"
+                        className="flex items-center justify-center rounded-xl bg-white text-[#060F36] px-4 py-3 text-sm font-semibold shadow-lg hover:bg-gray-50 transition-colors"
                       >
                         Login
                       </Link>

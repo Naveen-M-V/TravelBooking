@@ -4,6 +4,17 @@
 
 @layer base {
   :root {
+    /* Brand tokens from legacy site */
+    --e-global-color-primary: #2DBDB8;
+    --e-global-color-secondary: #000000;
+    --e-global-color-tertiary: #F6871F;
+    --e-global-color-text: #343A51;
+    --e-global-color-accent: #060F36;
+    --e-global-color-border: #EDEEF0;
+    --e-global-color-lighter: #808492;
+    --e-global-color-dark: #060F36;
+    --e-global-color-highlight: #F6871F;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -56,6 +67,82 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
+
+  /* Subtle global theme layer for all pages */
+  .theme-dim {
+    --primary: 174 58% 46%;
+    --ring: 174 58% 46%;
+    --muted: 220 16% 95%;
+    --muted-foreground: 224 14% 58%;
+  }
+
+  .theme-dim body,
+  body.theme-dim {
+    background: linear-gradient(180deg, #f9fafb 0%, #f7faf9 42%, #f8f8fb 100%);
+    color: var(--e-global-color-text);
+  }
+
+  .theme-dim main {
+    position: relative;
+  }
+
+  /* Global page canvas: softer white with subtle geometric cooling pattern */
+  .site-canvas {
+    background-color: #f7f9fa;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(45, 189, 184, 0.06) 0, rgba(45, 189, 184, 0) 28%),
+      radial-gradient(circle at 85% 80%, rgba(246, 135, 31, 0.045) 0, rgba(246, 135, 31, 0) 24%),
+      repeating-linear-gradient(45deg, transparent 0 14px, rgba(45, 189, 184, 0.022) 14px 15px),
+      repeating-linear-gradient(-45deg, transparent 0 14px, rgba(6, 15, 54, 0.018) 14px 15px);
+    background-attachment: fixed;
+  }
+
+  /* Route canvas for Flights/Packages: softer ivory and gentle geometry */
+  .page-ivory {
+    background: linear-gradient(180deg, #f8f6f0 0%, #f7f5ef 45%, #f5f4ee 100%);
+  }
+
+  .ivory-pattern-overlay {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 15%, rgba(45, 189, 184, 0.08) 0, rgba(45, 189, 184, 0) 32%),
+      radial-gradient(circle at 80% 85%, rgba(246, 135, 31, 0.06) 0, rgba(246, 135, 31, 0) 26%),
+      repeating-linear-gradient(45deg, transparent 0 16px, rgba(45, 189, 184, 0.028) 16px 17px),
+      repeating-linear-gradient(-45deg, transparent 0 16px, rgba(6, 15, 54, 0.02) 16px 17px);
+    opacity: 0.9;
+  }
+
+  .ivory-panel {
+    background-color: rgba(249, 248, 243, 0.95) !important;
+    border-color: rgba(6, 15, 54, 0.08) !important;
+  }
+
+  /* Tone down bright white utility backgrounds across pages */
+  .theme-dim .bg-white {
+    background-color: #f8fafb !important;
+  }
+
+  .theme-dim .bg-white\/90 {
+    background-color: rgba(248, 250, 251, 0.9) !important;
+  }
+
+  .theme-dim .bg-white\/80 {
+    background-color: rgba(248, 250, 251, 0.82) !important;
+  }
+
+  .theme-dim button,
+  .theme-dim a[role='button'],
+  .theme-dim .btn-interactive {
+    transition: transform 180ms ease, box-shadow 220ms ease, background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+  }
+
+  .theme-dim button:hover,
+  .theme-dim a[role='button']:hover,
+  .theme-dim .btn-interactive:hover {
+    transform: translateY(-1px);
+  }
 }
 
 @layer components {
@@ -66,17 +153,17 @@
   /* Islamic geometric pattern background */
   .islamic-pattern {
     background-image: 
-      repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(20, 184, 166, 0.03) 10px, rgba(20, 184, 166, 0.03) 20px),
-      repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(6, 182, 212, 0.03) 10px, rgba(6, 182, 212, 0.03) 20px);
+      repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(45, 189, 184, 0.04) 10px, rgba(45, 189, 184, 0.04) 20px),
+      repeating-linear-gradient(-45deg, transparent, transparent 10px, rgba(246, 135, 31, 0.035) 10px, rgba(246, 135, 31, 0.035) 20px);
   }
 
   /* Arabesque decorative border */
   .arabesque-border {
     border-image: repeating-linear-gradient(
       90deg,
-      #14B8A6,
-      #06B6D4 10px,
-      #14B8A6 20px
+      #2DBDB8,
+      #F6871F 10px,
+      #2DBDB8 20px
     ) 1;
   }
 
@@ -230,7 +317,10 @@
 
   /* Gradient text effect */
   .gradient-text {
-    @apply bg-gradient-to-r from-teal-600 via-cyan-500 to-teal-600 bg-clip-text text-transparent;
+    background: linear-gradient(90deg, var(--e-global-color-primary), var(--e-global-color-tertiary), var(--e-global-color-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   /* Glass morphism effect */
@@ -295,5 +385,28 @@
 
   .animate-shimmer {
     animation: shimmer 3s linear infinite;
+  }
+
+  /* Section reveal animation: applies across routes/pages */
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(20px) scale(0.995);
+    transition: opacity 700ms ease, transform 700ms ease;
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  .reveal-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll,
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 }

@@ -183,17 +183,17 @@ export default function Home() {
       <SearchHero />
 
       {/* Why Choose Us strip */}
-      <section className="py-12 sm:py-14 md:py-16 px-4 bg-gradient-to-br from-white via-teal-50/30 to-cyan-50/20 border-b border-teal-100/50 relative overflow-hidden">
+      <section className="py-12 sm:py-14 md:py-16 px-4 bg-gradient-to-br from-white via-teal-50/35 to-orange-50/30 border-b border-teal-100/50 relative overflow-hidden">
         {/* Decorative floating circles - smaller on mobile */}
-        <div className="absolute top-5 sm:top-10 left-10 sm:left-20 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-teal-200/20 to-cyan-200/20 rounded-full blur-2xl animate-float"></div>
-        <div className="absolute bottom-5 sm:bottom-10 right-10 sm:right-20 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-br from-cyan-200/20 to-teal-200/20 rounded-full blur-2xl animate-float-slow"></div>
+        <div className="absolute top-5 sm:top-10 left-10 sm:left-20 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-teal-200/20 to-orange-200/20 rounded-full blur-2xl animate-float"></div>
+        <div className="absolute bottom-5 sm:bottom-10 right-10 sm:right-20 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-br from-orange-200/20 to-teal-200/20 rounded-full blur-2xl animate-float-slow"></div>
         
         <div className="container mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 text-center relative z-10">
-          {[
-            { Icon: BadgeCheck, title: 'Halal Verified', desc: 'Every stay, experience, and package is reviewed for halal compliance', color: 'from-teal-500 to-cyan-500' },
-            { Icon: Lock, title: 'Secure Checkout', desc: 'Encrypted payments with privacy-first data protection', color: 'from-cyan-500 to-blue-500' },
-            { Icon: Headphones, title: 'Concierge Support', desc: 'Specialists available whenever you need assistance', color: 'from-teal-500 to-emerald-500' },
-          ].map(({ Icon, title, desc, color }) => (
+            {[
+              { Icon: BadgeCheck, title: 'Halal Verified', desc: 'Every stay, experience, and package is reviewed for halal compliance', color: 'from-teal-500 to-orange-400' },
+              { Icon: Lock, title: 'Secure Checkout', desc: 'Encrypted payments with privacy-first data protection', color: 'from-[#060F36] to-teal-500' },
+              { Icon: Headphones, title: 'Concierge Support', desc: 'Specialists available whenever you need assistance', color: 'from-teal-500 to-emerald-500' },
+            ].map(({ Icon, title, desc, color }) => (
             <div key={title} className="flex flex-col items-center group px-2">
               <div className="mb-3 sm:mb-4 relative">
                 <div className={`absolute inset-0 bg-gradient-to-br ${color} rounded-2xl blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-300`}></div>
@@ -214,10 +214,10 @@ export default function Home() {
           {/* Section Header */}
           <div className="text-center mb-10 sm:mb-14 relative">
             {/* Islamic star decorations */}
-            <div className="absolute -top-4 left-1/4 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-teal-400 to-cyan-400 islamic-star opacity-35 animate-pulse"></div>
-            <div className="absolute -top-4 right-1/4 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-cyan-400 to-teal-400 islamic-star opacity-35 animate-pulse" style={{ animationDelay: '1s' }}></div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-100 to-cyan-100 border border-teal-200 px-4 sm:px-5 py-1.5 sm:py-2 mb-3 sm:mb-4 shadow-lg">
-              <span className="h-2 w-2 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 animate-pulse"></span>
+            <div className="absolute -top-4 left-1/4 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-teal-400 to-orange-400 islamic-star opacity-35 animate-pulse"></div>
+            <div className="absolute -top-4 right-1/4 w-5 h-5 sm:w-6 sm:h-6 bg-gradient-to-br from-orange-400 to-teal-400 islamic-star opacity-35 animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-100 to-orange-100 border border-teal-200 px-4 sm:px-5 py-1.5 sm:py-2 mb-3 sm:mb-4 shadow-lg">
+              <span className="h-2 w-2 rounded-full bg-gradient-to-r from-teal-500 to-orange-500 animate-pulse"></span>
               <span className="text-teal-700 text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em]">Explore</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mt-2 mb-3 sm:mb-4 px-2">
@@ -227,8 +227,8 @@ export default function Home() {
             </h2>
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="w-8 h-1 bg-gradient-to-r from-transparent to-teal-400 rounded-full"></div>
-              <div className="w-16 h-1.5 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 rounded-full"></div>
-              <div className="w-8 h-1 bg-gradient-to-l from-transparent to-cyan-400 rounded-full"></div>
+              <div className="w-16 h-1.5 bg-gradient-to-r from-teal-400 via-orange-400 to-teal-400 rounded-full"></div>
+              <div className="w-8 h-1 bg-gradient-to-l from-transparent to-orange-400 rounded-full"></div>
             </div>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto leading-relaxed">
               Handpicked halal-friendly tours for <span className="text-teal-600 font-semibold">unforgettable experiences</span>

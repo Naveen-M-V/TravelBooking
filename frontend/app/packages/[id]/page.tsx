@@ -95,7 +95,8 @@ export default function PackageDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen page-ivory flex items-center justify-center relative">
+        <div className="ivory-pattern-overlay" />
         <Loader2 className="h-8 w-8 animate-spin text-teal-600" />
       </div>
     )
@@ -103,7 +104,8 @@ export default function PackageDetailPage() {
 
   if (!pkg) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen page-ivory flex items-center justify-center relative">
+        <div className="ivory-pattern-overlay" />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-2">Package not found</h1>
           <p className="text-gray-500 mb-6">This package doesn&apos;t exist or has been removed.</p>
@@ -170,7 +172,8 @@ export default function PackageDetailPage() {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen page-ivory relative">
+        <div className="ivory-pattern-overlay" />
 
         {/* ── Hero ── */}
         <div className="relative h-[52vh] min-h-[380px] max-h-[540px] overflow-hidden">
@@ -366,6 +369,22 @@ export default function PackageDetailPage() {
                         </li>
                       ))}
                     </ul>
+
+                    <div className="mt-8 pt-6 border-t border-rose-100">
+                      <h3 className="text-lg font-bold text-rose-500 mb-4">✕ What&apos;s Not Included</h3>
+                      {excluded.length === 0 ? (
+                        <p className="text-rose-400">No exclusions specified yet.</p>
+                      ) : (
+                        <ul className="space-y-3">
+                          {excluded.map((item, i) => (
+                            <li key={i} className="flex items-start gap-3">
+                              <span className="flex-shrink-0 text-rose-500 font-bold mt-0.5">✕</span>
+                              <span className="text-rose-500">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}

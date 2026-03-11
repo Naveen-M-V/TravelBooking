@@ -135,7 +135,8 @@ export default function FlightBookingPage() {
 
   if (!itinerary) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen page-ivory flex items-center justify-center relative">
+        <div className="ivory-pattern-overlay" />
         <div className="text-center">
           <Loader2 className="h-10 w-10 animate-spin text-primary mx-auto mb-4" />
           <p className="text-gray-600">Loading flight details...</p>
@@ -149,7 +150,8 @@ export default function FlightBookingPage() {
 
   if (!leg) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen page-ivory flex items-center justify-center relative">
+        <div className="ivory-pattern-overlay" />
         <div className="text-center">
           <p className="text-red-600 font-semibold mb-2">Could not load flight details.</p>
           <button onClick={() => router.back()} className="text-primary hover:underline text-sm">Go back to results</button>
@@ -159,7 +161,8 @@ export default function FlightBookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen page-ivory py-8 relative">
+      <div className="ivory-pattern-overlay" />
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="mb-8">
           <button onClick={() => router.back()} className="flex items-center gap-1 text-gray-500 hover:text-primary mb-4 text-sm transition-colors">

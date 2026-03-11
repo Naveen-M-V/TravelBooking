@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { MapPin, Calendar, Users, Heart } from 'lucide-react'
+import { MapPin, Calendar, Heart } from 'lucide-react'
 
 interface PackageCard {
   id: string
@@ -25,8 +25,8 @@ interface PackageCardCarouselProps {
 export function PackageCardCarousel({ title = "Featured Packages", packages, onCardClick, onWishlistToggle, wishlistIds }: PackageCardCarouselProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
-  // Show only first 4 packages for carousel effect
-  const displayPackages = packages.slice(0, 4)
+  // Keep enough cards for scrolling/stack effect
+  const displayPackages = packages.slice(0, 12)
 
   return (
     <div className="relative py-12">
@@ -37,36 +37,37 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
         </h2>
         <div className="flex items-center justify-center gap-2">
           <div className="w-8 h-1 bg-gradient-to-r from-transparent to-teal-400 rounded-full"></div>
-          <div className="w-16 h-1.5 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 rounded-full"></div>
-          <div className="w-8 h-1 bg-gradient-to-l from-transparent to-cyan-400 rounded-full"></div>
+          <div className="w-16 h-1.5 bg-gradient-to-r from-teal-400 via-orange-400 to-teal-400 rounded-full"></div>
+          <div className="w-8 h-1 bg-gradient-to-l from-transparent to-orange-400 rounded-full"></div>
         </div>
       </div>
 
       <div className="relative">
       {/* Container */}
-      <div className="flex justify-center items-center min-h-[400px] px-4">
-        <div className="flex items-center gap-0" style={{ perspective: '1000px' }}>
+      <div className="flex justify-start md:justify-center items-center min-h-[400px] px-2 sm:px-4 overflow-x-auto md:overflow-visible scrollbar-hide">
+        <div className="flex items-center gap-3 md:gap-0 isolate" style={{ perspective: '1000px' }}>
           {displayPackages.map((pkg, index) => {
             const isHovered = hoveredIndex === index
             const isAfterHovered = hoveredIndex !== null && index > hoveredIndex
 
             return (
               <div
-                key={pkg.id}
+                key={`${pkg.id}-${index}`}
                 className={`
                   relative flex flex-col
-                  h-[400px] w-[280px]
-                  bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900
+                  h-[380px] sm:h-[400px] w-[260px] sm:w-[280px]
+                  bg-gradient-to-br from-teal-950 via-teal-900 to-emerald-950
                   rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)]
                   transition-all duration-500 ease-out
                   cursor-pointer
-                  ${index !== 0 ? '-ml-32' : ''}
+                  ${index !== 0 ? 'md:-ml-20 lg:-ml-24' : ''}
                   ${isHovered ? 'translate-y-[-30px] z-30 scale-105' : 'z-10'}
-                  ${isAfterHovered ? 'translate-x-[80px]' : ''}
+                  ${isAfterHovered ? 'md:translate-x-[50px] lg:translate-x-[70px]' : ''}
                   hover:shadow-[0_20px_60px_rgba(20,184,166,0.4)]
                 `}
                 style={{
                   transformStyle: 'preserve-3d',
+                  zIndex: isHovered ? 50 : displayPackages.length - index,
                 }}
                 onMouseEnter={() => setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex(null)}
@@ -82,7 +83,7 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
                       fill
                       className="object-cover opacity-40"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/60 to-transparent" />
                   </div>
 
                   {/* Content */}
@@ -110,7 +111,7 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
                     {/* Progress Bar */}
                     <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mb-auto">
                       <div
-                        className={`h-full bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 transition-all duration-700 ease-out ${
+                        className={`h-full bg-gradient-to-r from-teal-400 via-orange-400 to-teal-500 transition-all duration-700 ease-out ${
                           isHovered ? 'w-4/5' : 'w-0'
                         }`}
                       />
@@ -124,7 +125,7 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
                       </div>
 
                       <div className="flex items-center gap-2 text-gray-300">
-                        <Calendar className="h-4 w-4 text-cyan-400" />
+                        <Calendar className="h-4 w-4 text-orange-300" />
                         <span className="text-sm">{pkg.duration}</span>
                       </div>
 
@@ -154,7 +155,7 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
                           <defs>
                             <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                               <stop offset="0%" stopColor="#14B8A6" />
-                              <stop offset="50%" stopColor="#06B6D4" />
+                              <stop offset="50%" stopColor="#F59E0B" />
                               <stop offset="100%" stopColor="#14B8A6" />
                             </linearGradient>
                           </defs>

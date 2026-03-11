@@ -71,6 +71,14 @@ export default function AdminPackagesPage() {
   // ── helpers ──────────────────────────────────────────────
   const lines = (s: string) => s.split('\n').map(l => l.trim()).filter(Boolean)
 
+  const fileToDataUrl = (file: File) =>
+    new Promise<string>((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = () => resolve(String(reader.result || ''))
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+
   const openNew = () => { setForm(EMPTY_FORM); setEditingId(null); setShowForm(true) }
 
   const openEdit = (pkg: any) => {
@@ -124,6 +132,28 @@ export default function AdminPackagesPage() {
       ...f,
       itinerary: f.itinerary.map((d, i) => i === idx ? { ...d, [k]: v } : d),
     }))
+
+  const handleCoverUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) return
+    const file = files[0]
+    if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      alert('Please upload a JPG or PNG image.')
+      return
+    }
+    const dataUrl = await fileToDataUrl(file)
+    setField('coverImage', dataUrl)
+  }
+
+  const handleGalleryUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) return
+    const valid = Array.from(files).filter((f) => ['image/jpeg', 'image/png'].includes(f.type))
+    if (!valid.length) {
+      alert('Please upload JPG or PNG images.')
+      return
+    }
+    const urls = await Promise.all(valid.map(fileToDataUrl))
+    setField('images', urls.join('\n'))
+  }
 
   const handleSave = async () => {
     if (!form.name || !form.destination || !form.country || !form.price || !form.description) {
@@ -331,8 +361,14 @@ export default function AdminPackagesPage() {
                 <Textarea rows={3} placeholder="Halal Food&#10;Private Guided Tours" value={form.features} onChange={e => setField('features', e.target.value)} />
               </div>
               <div className="space-y-1.5">
-                <Label>Gallery Image URLs <span className="text-gray-400 font-normal">(one URL per line)</span></Label>
-                <Textarea rows={3} placeholder="https://…/image1.jpg&#10;https://…/image2.jpg" value={form.images} onChange={e => setField('images', e.target.value)} />
+                <Label>Gallery Images <span className="text-gray-400 font-normal">(JPG/PNG)</span></Label>
+                <Input
+                  type="file"
+                  accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+                  multiple
+                  onChange={e => handleGalleryUpload(e.target.files)}
+                />
+                <p className="text-xs text-gray-500">Upload one or more gallery images.</p>
               </div>
             </div>
 
@@ -343,8 +379,12 @@ export default function AdminPackagesPage() {
 
             {/* Cover Image */}
             <div className="space-y-1.5">
-              <Label>Cover Image URL</Label>
-              <Input placeholder="https://…/cover.jpg" value={form.coverImage} onChange={e => setField('coverImage', e.target.value)} />
+              <Label>Cover / Hero Image <span className="text-gray-400 font-normal">(JPG/PNG)</span></Label>
+              <Input
+                type="file"
+                accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+                onChange={e => handleCoverUpload(e.target.files)}
+              />
               {form.coverImage && (
                 <img src={form.coverImage} alt="Cover preview" className="mt-2 h-32 w-full object-cover rounded-lg border" onError={e => (e.currentTarget.style.display = 'none')} />
               )}

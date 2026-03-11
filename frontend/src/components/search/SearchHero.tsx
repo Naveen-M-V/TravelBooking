@@ -42,12 +42,16 @@ export function SearchHero() {
         ))}
 
         {/* Overlay - Lighter gradient to keep image visible */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#060F36]/35 via-transparent to-[#060F36]/45" />
+
+        {/* Subtle Islamic decorative symbols */}
+        <div className="absolute top-8 left-8 w-7 h-7 bg-white/20 islamic-star animate-geometric" />
+        <div className="absolute bottom-12 right-10 text-white/35 crescent-moon animate-geometric" style={{ animationDelay: '1.2s' }}></div>
 
         {/* Headline Over Image */}
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight max-w-3xl [text-shadow:0_2px_4px_rgba(0,0,0,0.5)]">
-            Go Explore, <span className="italic font-serif text-cyan-200">It's a Big World</span> Out There!
+            Go Explore, <span className="italic font-serif text-[#FDE6CF]">It's a Big World</span> Out There!
           </h1>
         </div>
       </div>
@@ -57,24 +61,24 @@ export function SearchHero() {
         <div className="max-w-6xl mx-auto">
           <div className="relative group">
             {/* Decorative Glow */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400/30 to-teal-400/30 rounded-2xl blur-2xl opacity-50 group-hover:opacity-70 transition duration-1000" />
+            <div className="absolute -inset-1 bg-gradient-to-r from-[#2DBDB8]/30 to-[#F6871F]/25 rounded-2xl blur-2xl opacity-50 group-hover:opacity-70 transition duration-1000" />
             
             <Tabs defaultValue="flights" className="relative w-full">
               {/* Floating Tabs - Centered Above Card */}
               <div className="flex justify-center mb-6 relative z-20">
-                <TabsList className="bg-white/80 backdrop-blur-xl border border-white/20 p-1.5 rounded-xl h-auto shadow-2xl">
+                <TabsList className="bg-white/85 backdrop-blur-xl border border-[#EDEEF0] p-1.5 rounded-xl h-auto shadow-2xl">
                   <TabsTrigger 
                     value="flights" 
-                    className="px-4 sm:px-6 py-3 sm:py-3 data-[state=active]:bg-cyan-600 data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-col sm:flex-row items-center gap-2 text-xs sm:text-sm text-slate-700"
+                    className="px-4 sm:px-6 py-3 sm:py-3 data-[state=active]:bg-[#060F36] data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-col sm:flex-row items-center gap-2 text-xs sm:text-sm text-slate-700"
                   >
-                    <Plane className="h-6 w-6 sm:h-5 sm:w-5" />
+                    <Plane className="h-8 w-8 sm:h-8 sm:w-8" />
                     <span className="font-bold uppercase tracking-wide hidden sm:inline">Book Flights</span>
                   </TabsTrigger>
                   <TabsTrigger 
                     value="packages" 
-                    className="px-4 sm:px-6 py-3 sm:py-3 data-[state=active]:bg-cyan-600 data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-col sm:flex-row items-center gap-2 text-xs sm:text-sm text-slate-700"
+                    className="px-4 sm:px-6 py-3 sm:py-3 data-[state=active]:bg-[#060F36] data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-col sm:flex-row items-center gap-2 text-xs sm:text-sm text-slate-700"
                   >
-                    <Building2 className="h-6 w-6 sm:h-5 sm:w-5" />
+                    <Building2 className="h-8 w-8 sm:h-8 sm:w-8" />
                     <span className="font-bold uppercase tracking-wide hidden sm:inline">Holiday Packages</span>
                   </TabsTrigger>
                 </TabsList>

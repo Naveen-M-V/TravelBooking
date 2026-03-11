@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/layout/Footer'
 import { AuthProvider } from '@/context/AuthContext'
+import ScrollReveal from '@/components/ScrollReveal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,10 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} theme-dim`}>
         <AuthProvider>
+          <ScrollReveal />
           <Navbar />
-          <main className="min-h-screen">
+          <main className="min-h-screen site-canvas">
             {children}
           </main>
           <Footer />
