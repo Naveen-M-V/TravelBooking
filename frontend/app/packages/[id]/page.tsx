@@ -61,7 +61,7 @@ export default function PackageDetailPage() {
 
   const [pkg, setPkg] = useState<FeaturedPackage | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<'overview' | 'tour-plan' | 'gallery' | 'halal-facilities' | 'inclusions' | 'exclusions' | 'booking-conditions' | 'highlights' | 'testimonials'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'tour-plan' | 'gallery' | 'halal-facilities' | 'inclusions' | 'booking-conditions' | 'highlights' | 'testimonials'>('overview')
   const [showEnquiry, setShowEnquiry] = useState(false)
   const [isWishlisted, setIsWishlisted] = useState(false)
   const [wishlistLoading, setWishlistLoading] = useState(false)
@@ -141,7 +141,7 @@ export default function PackageDetailPage() {
     { id: 'gallery', label: 'Gallery' },
     { id: 'halal-facilities', label: 'Halal Facilities' },
     { id: 'inclusions',   label: 'Inclusions' },
-    { id: 'exclusions',   label: 'What’s Not' },
+
     { id: 'booking-conditions', label: 'Booking Conditions' },
     { id: 'highlights', label: 'Highlights' },
     { id: 'testimonials', label: 'Reviews' },
@@ -385,26 +385,6 @@ export default function PackageDetailPage() {
                         </ul>
                       )}
                     </div>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === 'exclusions' && (
-                <div className="space-y-5 animate-in fade-in duration-200">
-                  <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
-                    <h2 className="text-lg font-bold text-rose-500 mb-4">✕ What&apos;s Not Included</h2>
-                    {excluded.length === 0 ? (
-                      <p className="text-gray-400">No exclusions specified yet.</p>
-                    ) : (
-                      <ul className="space-y-3">
-                        {excluded.map((item, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <span className="flex-shrink-0 text-rose-400 font-bold mt-0.5">✕</span>
-                            <span className="text-gray-500">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </div>
                 </div>
               )}
