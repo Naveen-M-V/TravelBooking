@@ -29,7 +29,7 @@ export function FlightResultCard({ itinerary, onSelect, onViewDetails }: FlightR
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <CardContent className="p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-6 items-center">
           {/* Airline Logo & Info */}
           <div className="lg:col-span-2 flex items-center gap-3">
             <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
@@ -46,7 +46,7 @@ export function FlightResultCard({ itinerary, onSelect, onViewDetails }: FlightR
             <div className="flex items-center justify-between">
               {/* Departure */}
               <div>
-                <p className="text-2xl font-bold">{formatTime(firstSegment.departure.date)}</p>
+                <p className="text-xl sm:text-2xl font-bold">{formatTime(firstSegment.departure.date)}</p>
                 <p className="text-sm text-gray-600">{firstSegment.departure.airport.code}</p>
                 <p className="text-xs text-gray-500">{firstSegment.departure.airport.city}</p>
               </div>
@@ -72,7 +72,7 @@ export function FlightResultCard({ itinerary, onSelect, onViewDetails }: FlightR
 
               {/* Arrival */}
               <div className="text-right">
-                <p className="text-2xl font-bold">{formatTime(lastSegment.arrival.date)}</p>
+                <p className="text-xl sm:text-2xl font-bold">{formatTime(lastSegment.arrival.date)}</p>
                 <p className="text-sm text-gray-600">{lastSegment.arrival.airport.code}</p>
                 <p className="text-xs text-gray-500">{lastSegment.arrival.airport.city}</p>
               </div>

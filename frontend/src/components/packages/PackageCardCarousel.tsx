@@ -44,8 +44,8 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
 
       <div className="relative">
       {/* Container */}
-      <div className="flex justify-start md:justify-center items-center min-h-[400px] px-2 sm:px-4 overflow-x-auto md:overflow-visible scrollbar-hide">
-        <div className="flex items-center gap-3 md:gap-0 isolate" style={{ perspective: '1000px' }}>
+      <div className="flex justify-start md:justify-center items-center min-h-[320px] sm:min-h-[380px] md:min-h-[400px] px-2 sm:px-4 overflow-x-auto md:overflow-visible scrollbar-hide">
+        <div className="flex items-center gap-3 md:gap-0 isolate pb-4 md:pb-0" style={{ perspective: '1000px' }}>
           {displayPackages.map((pkg, index) => {
             const isHovered = hoveredIndex === index
             const isAfterHovered = hoveredIndex !== null && index > hoveredIndex

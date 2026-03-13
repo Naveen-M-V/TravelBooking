@@ -5,14 +5,14 @@
 @layer base {
   :root {
     /* Brand tokens from legacy site */
-    --e-global-color-primary: #2DBDB8;
-    --e-global-color-secondary: #000000;
+    --e-global-color-primary: #2dbdb8;
+    --e-global-color-secondary: #30c9d3;
     --e-global-color-tertiary: #F6871F;
     --e-global-color-text: #343A51;
-    --e-global-color-accent: #060F36;
+    --e-global-color-accent: #2fc6c0;
     --e-global-color-border: #EDEEF0;
     --e-global-color-lighter: #808492;
-    --e-global-color-dark: #060F36;
+    --e-global-color-dark: #2ec2bd;
     --e-global-color-highlight: #F6871F;
 
     --background: 0 0% 100%;
@@ -61,11 +61,18 @@
 }
 
 @layer base {
+  html {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
   * {
     @apply border-border;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-background text-foreground antialiased;
+    overflow-x: hidden;
   }
 
   /* Subtle global theme layer for all pages */
@@ -78,7 +85,10 @@
 
   .theme-dim body,
   body.theme-dim {
-    background: linear-gradient(180deg, #f9fafb 0%, #f7faf9 42%, #f8f8fb 100%);
+    background:
+      linear-gradient(180deg, rgba(236, 247, 246, 0.9) 0%, rgba(231, 245, 244, 0.9) 42%, rgba(234, 247, 246, 0.92) 100%),
+      url('/image.png') repeat;
+    background-size: auto, 140px 140px;
     color: var(--e-global-color-text);
   }
 
@@ -88,18 +98,24 @@
 
   /* Global page canvas: softer white with subtle geometric cooling pattern */
   .site-canvas {
-    background-color: #f7f9fa;
+    background-color: #e8f5f4;
     background-image:
-      radial-gradient(circle at 15% 20%, rgba(45, 189, 184, 0.06) 0, rgba(45, 189, 184, 0) 28%),
-      radial-gradient(circle at 85% 80%, rgba(246, 135, 31, 0.045) 0, rgba(246, 135, 31, 0) 24%),
-      repeating-linear-gradient(45deg, transparent 0 14px, rgba(45, 189, 184, 0.022) 14px 15px),
-      repeating-linear-gradient(-45deg, transparent 0 14px, rgba(6, 15, 54, 0.018) 14px 15px);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(240, 249, 248, 0.84)),
+      url('/image.png'),
+      radial-gradient(circle at 15% 20%, rgba(45, 189, 184, 0.08) 0, rgba(45, 189, 184, 0) 28%),
+      radial-gradient(circle at 85% 80%, rgba(246, 135, 31, 0.055) 0, rgba(246, 135, 31, 0) 24%),
+      repeating-linear-gradient(45deg, transparent 0 14px, rgba(45, 189, 184, 0.03) 14px 15px),
+      repeating-linear-gradient(-45deg, transparent 0 14px, rgba(48, 201, 211, 0.024) 14px 15px);
+    background-size: auto, 140px 140px, auto, auto, auto, auto;
     background-attachment: fixed;
   }
 
   /* Route canvas for Flights/Packages: softer ivory and gentle geometry */
   .page-ivory {
-    background: linear-gradient(180deg, #f8f6f0 0%, #f7f5ef 45%, #f5f4ee 100%);
+    background:
+      linear-gradient(180deg, rgba(244, 243, 236, 0.9) 0%, rgba(243, 241, 234, 0.9) 45%, rgba(241, 240, 232, 0.92) 100%),
+      url('/image.png') repeat;
+    background-size: auto, 140px 140px;
   }
 
   .ivory-pattern-overlay {
@@ -107,16 +123,30 @@
     position: absolute;
     inset: 0;
     background-image:
+      url('/image.png'),
       radial-gradient(circle at 20% 15%, rgba(45, 189, 184, 0.08) 0, rgba(45, 189, 184, 0) 32%),
       radial-gradient(circle at 80% 85%, rgba(246, 135, 31, 0.06) 0, rgba(246, 135, 31, 0) 26%),
       repeating-linear-gradient(45deg, transparent 0 16px, rgba(45, 189, 184, 0.028) 16px 17px),
-      repeating-linear-gradient(-45deg, transparent 0 16px, rgba(6, 15, 54, 0.02) 16px 17px);
-    opacity: 0.9;
+      repeating-linear-gradient(-45deg, transparent 0 16px, rgba(48, 201, 211, 0.02) 16px 17px);
+    background-size: 140px 140px, auto, auto, auto, auto;
+    opacity: 0.5;
   }
 
   .ivory-panel {
     background-color: rgba(249, 248, 243, 0.95) !important;
-    border-color: rgba(6, 15, 54, 0.08) !important;
+    border-color: rgba(45, 189, 184, 0.14) !important;
+  }
+
+  .hero-pattern-overlay {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background:
+      url('/image.png') repeat,
+      linear-gradient(180deg, rgba(48, 201, 211, 0.18) 0%, rgba(45, 189, 184, 0.08) 45%, rgba(45, 189, 184, 0.22) 100%);
+    background-size: 140px 140px, auto;
+    mix-blend-mode: overlay;
+    opacity: 0.42;
   }
 
   /* Tone down bright white utility backgrounds across pages */
@@ -326,6 +356,15 @@
   /* Glass morphism effect */
   .glass {
     @apply backdrop-blur-xl bg-white/80 border border-white/20 shadow-xl;
+  }
+
+  /* Hide scrollbar across browsers */
+  .scrollbar-hide {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 
   /* Shimmer effect for loading states */

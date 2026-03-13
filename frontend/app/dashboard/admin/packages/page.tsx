@@ -16,9 +16,11 @@ import {
   ChevronDown, ChevronUp, Globe, Clock, DollarSign,
   AlertCircle, Eye, EyeOff
 } from 'lucide-react'
+import { SUPABASE_STORAGE_CONFIGURED, uploadImageToSupabase } from '@/lib/supabaseStorage'
 
 const CATEGORIES = ['best', 'popular', 'top-destination', 'family']
 const CURRENCIES = ['SAR', 'USD', 'EUR', 'GBP', 'AED', 'KWD']
+const PACKAGE_IMAGES_BUCKET = 'package-images'
 
 const EMPTY_FORM = {
   name: '', destination: '', country: '', duration: '',
@@ -51,6 +53,9 @@ export default function AdminPackagesPage() {
   const [deleting, setDeleting] = useState<string | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [filterCategory, setFilterCategory] = useState('all')
+  const [uploadingCover, setUploadingCover] = useState(false)
+  const [uploadingGallery, setUploadingGallery] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!authLoading) {
@@ -71,15 +76,7 @@ export default function AdminPackagesPage() {
   // ── helpers ──────────────────────────────────────────────
   const lines = (s: string) => s.split('\n').map(l => l.trim()).filter(Boolean)
 
-  const fileToDataUrl = (file: File) =>
-    new Promise<string>((resolve, reject) => {
-      const reader = new FileReader()
-      reader.onload = () => resolve(String(reader.result || ''))
-      reader.onerror = reject
-      reader.readAsDataURL(file)
-    })
-
-  const openNew = () => { setForm(EMPTY_FORM); setEditingId(null); setShowForm(true) }
+  const openNew = () => { setForm(EMPTY_FORM); setEditingId(null); setShowForm(true); setUploadError(null) }
 
   const openEdit = (pkg: any) => {
     setForm({
@@ -111,10 +108,11 @@ export default function AdminPackagesPage() {
     })
     setEditingId(pkg.id)
     setShowForm(true)
+    setUploadError(null)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const closeForm = () => { setShowForm(false); setEditingId(null) }
+  const closeForm = () => { setShowForm(false); setEditingId(null); setUploadError(null) }
 
   const setField = (k: keyof FormState, v: any) => setForm(f => ({ ...f, [k]: v }))
 
@@ -135,29 +133,71 @@ export default function AdminPackagesPage() {
 
   const handleCoverUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return
-    const file = files[0]
-    if (!['image/jpeg', 'image/png'].includes(file.type)) {
-      alert('Please upload a JPG or PNG image.')
+    if (!SUPABASE_STORAGE_CONFIGURED) {
+      setUploadError('Supabase storage is not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to enable direct image uploads.')
       return
     }
-    const dataUrl = await fileToDataUrl(file)
-    setField('coverImage', dataUrl)
+
+    const file = files[0]
+    if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      setUploadError('Please upload a JPG or PNG image for the cover.')
+      return
+    }
+    setUploadingCover(true)
+    setUploadError(null)
+    try {
+      const { publicUrl } = await uploadImageToSupabase({
+        bucket: PACKAGE_IMAGES_BUCKET,
+        folder: 'packages/covers',
+        file,
+      })
+      setField('coverImage', publicUrl)
+    } catch (error: any) {
+      setUploadError(error.message || 'Cover image upload failed.')
+    } finally {
+      setUploadingCover(false)
+    }
   }
 
   const handleGalleryUpload = async (files: FileList | null) => {
     if (!files || files.length === 0) return
-    const valid = Array.from(files).filter((f) => ['image/jpeg', 'image/png'].includes(f.type))
-    if (!valid.length) {
-      alert('Please upload JPG or PNG images.')
+    if (!SUPABASE_STORAGE_CONFIGURED) {
+      setUploadError('Supabase storage is not configured. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to enable direct gallery uploads.')
       return
     }
-    const urls = await Promise.all(valid.map(fileToDataUrl))
-    setField('images', urls.join('\n'))
+
+    const valid = Array.from(files).filter((f) => ['image/jpeg', 'image/png'].includes(f.type))
+    if (!valid.length) {
+      setUploadError('Please upload JPG or PNG images for the gallery.')
+      return
+    }
+    setUploadingGallery(true)
+    setUploadError(null)
+    try {
+      const urls = await Promise.all(valid.map((file) =>
+        uploadImageToSupabase({
+          bucket: PACKAGE_IMAGES_BUCKET,
+          folder: 'packages/gallery',
+          file,
+        }).then((result) => result.publicUrl)
+      ))
+
+      const existingUrls = lines(form.images)
+      setField('images', [...existingUrls, ...urls].join('\n'))
+    } catch (error: any) {
+      setUploadError(error.message || 'Gallery upload failed.')
+    } finally {
+      setUploadingGallery(false)
+    }
   }
 
   const handleSave = async () => {
     if (!form.name || !form.destination || !form.country || !form.price || !form.description) {
       alert('Please fill in: Name, Destination, Country, Price, Description')
+      return
+    }
+    if (uploadingCover || uploadingGallery) {
+      setUploadError('Please wait for image uploads to finish before saving.')
       return
     }
     setSaving(true)
@@ -366,11 +406,42 @@ export default function AdminPackagesPage() {
                   type="file"
                   accept="image/jpeg,image/png,.jpg,.jpeg,.png"
                   multiple
+                  disabled={uploadingGallery}
                   onChange={e => handleGalleryUpload(e.target.files)}
                 />
-                <p className="text-xs text-gray-500">Upload one or more gallery images.</p>
+                <p className="text-xs text-gray-500">
+                  {uploadingGallery ? 'Uploading gallery images to Supabase Storage…' : 'Upload one or more gallery images to Supabase Storage.'}
+                </p>
               </div>
             </div>
+
+            {!SUPABASE_STORAGE_CONFIGURED && (
+              <div className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-500" />
+                <div>
+                  <p className="font-semibold">Supabase storage not configured</p>
+                  <p className="mt-0.5 text-amber-700">Package cover and gallery uploads now expect Supabase Storage. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY, then create the package-images bucket using the Supabase setup script.</p>
+                </div>
+              </div>
+            )}
+
+            {uploadError && (
+              <div className="flex items-center gap-2 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+                <AlertCircle className="h-4 w-4 flex-shrink-0" />
+                {uploadError}
+              </div>
+            )}
+
+            {form.images && (
+              <div className="space-y-2">
+                <Label className="text-xs text-gray-500">Gallery Preview</Label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {lines(form.images).map((imageUrl) => (
+                    <img key={imageUrl} src={imageUrl} alt="Gallery preview" className="h-24 w-full rounded-lg border object-cover" />
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="space-y-1.5">
               <Label>Booking Conditions <span className="text-gray-400 font-normal">(one per line)</span></Label>
@@ -383,8 +454,12 @@ export default function AdminPackagesPage() {
               <Input
                 type="file"
                 accept="image/jpeg,image/png,.jpg,.jpeg,.png"
+                disabled={uploadingCover}
                 onChange={e => handleCoverUpload(e.target.files)}
               />
+              <p className="text-xs text-gray-500">
+                {uploadingCover ? 'Uploading cover image to Supabase Storage…' : 'Upload a package cover image to Supabase Storage.'}
+              </p>
               {form.coverImage && (
                 <img src={form.coverImage} alt="Cover preview" className="mt-2 h-32 w-full object-cover rounded-lg border" onError={e => (e.currentTarget.style.display = 'none')} />
               )}
@@ -415,7 +490,7 @@ export default function AdminPackagesPage() {
 
             {/* Actions */}
             <div className="flex gap-3 pt-2">
-              <Button onClick={handleSave} disabled={saving} className="gap-2">
+              <Button onClick={handleSave} disabled={saving || uploadingCover || uploadingGallery} className="gap-2">
                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 {editingId ? 'Save Changes' : 'Create Package'}
               </Button>

@@ -81,7 +81,7 @@ export function FlightSearchForm() {
       </div>
 
       {/* Single line layout - all fields in one row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-[2fr,1.5fr,1.5fr,1fr] gap-3 items-end">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-[2fr,1.5fr,1.5fr,1fr] gap-3 items-end">
         {/* Origin & Destination */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="space-y-1">
@@ -259,10 +259,10 @@ export function FlightSearchForm() {
         </div>
 
         {/* Search Button */}
-        <div className="flex items-end">
+        <div className="flex items-end sm:col-span-2 lg:col-span-1">
           <Button type="submit" className="w-full h-11 bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-base gap-2 shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50 transition-all duration-300">
             <Search className="h-5 w-5" />
-            <span className="hidden xl:inline">Search</span>
+            Search
           </Button>
         </div>
       </div>

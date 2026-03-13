@@ -176,14 +176,15 @@ export default function PackageDetailPage() {
         <div className="ivory-pattern-overlay" />
 
         {/* ── Hero ── */}
-        <div className="relative h-[52vh] min-h-[380px] max-h-[540px] overflow-hidden">
+        <div className="relative h-[40vh] sm:h-[52vh] min-h-[260px] sm:min-h-[380px] max-h-[540px] overflow-hidden">
           <img
             src={pkg.image}
             alt={pkg.name}
             className="absolute inset-0 w-full h-full object-cover"
           />
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2dbdb8]/82 via-[#30c9d3]/22 to-[#53c6c1]/12" />
+          <div className="hero-pattern-overlay" />
 
           {/* Back button */}
           <div className="absolute top-6 left-0 right-0 px-4">
@@ -204,7 +205,7 @@ export default function PackageDetailPage() {
               <div className="mb-3">
                 <HalalRatingBadge rating={{ score: pkg.halalRating, features: pkg.features.slice(0, 2) }} />
               </div>
-              <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-tight mb-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-2">
                 {pkg.name}
               </h1>
               <div className="flex items-center gap-4 text-white/80 text-sm flex-wrap">
@@ -226,14 +227,14 @@ export default function PackageDetailPage() {
         </div>
 
         {/* ── Body ── */}
-        <div className="container mx-auto max-w-5xl px-4 py-10">
+        <div className="container mx-auto max-w-5xl px-3 sm:px-4 py-6 sm:py-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
             {/* ── Left: Tabs ── */}
             <div className="lg:col-span-2">
 
               {/* Tab bar */}
-              <div className="flex overflow-x-auto gap-1 p-1 bg-white rounded-2xl border border-gray-200 shadow-sm mb-6 scrollbar-none">
+              <div className="flex overflow-x-auto gap-1 p-1 bg-white rounded-2xl border border-gray-200 shadow-sm mb-6 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
                 {tabs.map(({ id, label }) => (
                   <button
                     key={id}

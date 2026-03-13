@@ -94,26 +94,26 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
   return (
     <div className="mb-16">
       {/* Section header + arrows */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6 sm:mb-8">
         <div>
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-900 via-teal-700 to-cyan-700 bg-clip-text text-transparent">{title}</h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mt-2.5" />
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 via-teal-700 to-cyan-700 bg-clip-text text-transparent">{title}</h2>
+          <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mt-2.5" />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={handlePrev}
             aria-label="Previous"
-            className="inline-flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full border-2 border-cyan-500 bg-gradient-to-br from-white to-cyan-50 text-cyan-600 shadow-xl hover:shadow-2xl hover:from-cyan-600 hover:to-teal-600 hover:text-white hover:scale-110 hover:border-transparent transition-all duration-300"
+            className="inline-flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full border-2 border-cyan-500 bg-gradient-to-br from-white to-cyan-50 text-cyan-600 shadow-xl hover:shadow-2xl hover:from-cyan-600 hover:to-teal-600 hover:text-white hover:scale-110 hover:border-transparent transition-all duration-300"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </button>
           <button
             onClick={handleNext}
             aria-label="Next"
-            className="inline-flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full border-2 border-cyan-500 bg-gradient-to-br from-white to-cyan-50 text-cyan-600 shadow-xl hover:shadow-2xl hover:from-cyan-600 hover:to-teal-600 hover:text-white hover:scale-110 hover:border-transparent transition-all duration-300"
+            className="inline-flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full border-2 border-cyan-500 bg-gradient-to-br from-white to-cyan-50 text-cyan-600 shadow-xl hover:shadow-2xl hover:from-cyan-600 hover:to-teal-600 hover:text-white hover:scale-110 hover:border-transparent transition-all duration-300"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </div>
       </div>
@@ -148,12 +148,12 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
                       className="w-full h-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-[1.08] rounded-t-3xl"
                     />
                     {/* Gradient — deepens on hover */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent transition-all duration-500 group-hover:from-black/90 group-hover:via-black/25" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#2dbdb8]/82 via-[#30c9d3]/18 to-transparent transition-all duration-500 group-hover:from-[#2dbdb8]/92 group-hover:via-[#30c9d3]/28" />
 
                     <button
                       type="button"
                       onClick={(e) => e.stopPropagation()}
-                      className="absolute top-3 right-3 grid place-items-center h-9 w-9 rounded-full bg-black/25 ring-1 ring-white/20 backdrop-blur-sm text-white transition-all duration-200 hover:bg-black/45 hover:scale-110"
+                      className="absolute top-3 right-3 grid place-items-center h-9 w-9 rounded-full bg-[#2dbdb8]/28 ring-1 ring-white/20 backdrop-blur-sm text-white transition-all duration-200 hover:bg-[#30c9d3]/45 hover:scale-110"
                       aria-label="Save package"
                     >
                       <Heart className="h-4 w-4" />

@@ -12,21 +12,9 @@ import {
   Plus, Trash2, X, Save, Loader2, Image as ImageIcon,
   Eye, EyeOff, Upload, Link, GripVertical, AlertCircle
 } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
+import { SUPABASE_STORAGE_CONFIGURED, uploadImageToSupabase } from '@/lib/supabaseStorage'
 
 const BUCKET = 'hero-images'
-
-// NEXT_PUBLIC_* vars are inlined at build time — safe to read on the client.
-const SUPABASE_CONFIGURED = !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)
-
-// Lazily create the Supabase client only when an upload is triggered (client
-// side), so this module is safe to import during Next.js static prerendering.
-function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  if (!url || !key) throw new Error('Supabase is not configured — add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to your environment.')
-  return createClient(url, key)
-}
 
 const EMPTY_FORM = { url: '', altText: '', caption: '', sortOrder: '0', isActive: true }
 type FormState = typeof EMPTY_FORM
@@ -46,7 +34,7 @@ export default function AdminHeroImagesPage() {
   const [uploading, setUploading] = useState(false)
   const [uploadError, setUploadError] = useState<string | null>(null)
   // Default to URL mode when Supabase storage isn't configured yet
-  const [inputMode, setInputMode] = useState<'url' | 'upload'>(SUPABASE_CONFIGURED ? 'upload' : 'url')
+  const [inputMode, setInputMode] = useState<'url' | 'upload'>(SUPABASE_STORAGE_CONFIGURED ? 'upload' : 'url')
 
   useEffect(() => {
     if (!authLoading) {
@@ -95,13 +83,8 @@ export default function AdminHeroImagesPage() {
 
     setUploading(true); setUploadError(null)
     try {
-      const sb = getSupabase()
-      const ext = file.name.split('.').pop()
-      const path = `hero/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-      const { error } = await sb.storage.from(BUCKET).upload(path, file, { cacheControl: '3600', upsert: false })
-      if (error) throw error
-      const { data } = sb.storage.from(BUCKET).getPublicUrl(path)
-      setField('url', data.publicUrl)
+      const { publicUrl } = await uploadImageToSupabase({ bucket: BUCKET, folder: 'hero', file })
+      setField('url', publicUrl)
     } catch (err: any) {
       setUploadError(err.message || 'Upload failed')
     } finally {
@@ -173,7 +156,7 @@ export default function AdminHeroImagesPage() {
           <CardContent className="space-y-5">
 
             {/* Supabase not-configured notice */}
-            {!SUPABASE_CONFIGURED && (
+            {!SUPABASE_STORAGE_CONFIGURED && (
               <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
                 <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0 text-amber-500" />
                 <div>
@@ -185,7 +168,7 @@ export default function AdminHeroImagesPage() {
 
             {/* Upload vs URL toggle — only show Upload tab when Supabase is ready */}
             <div className="flex rounded-xl overflow-hidden border border-gray-200 w-fit">
-              {SUPABASE_CONFIGURED && (
+              {SUPABASE_STORAGE_CONFIGURED && (
                 <button
                   onClick={() => setInputMode('upload')}
                   className={`flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors ${inputMode === 'upload' ? 'bg-teal-600 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'}`}

@@ -252,7 +252,7 @@ function FlightResultsContent() {
       {/* Header Banner */}
       <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-8">
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl font-bold mb-2">Flight Search Results</h1>
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2">Flight Search Results</h1>
           <div className="flex flex-wrap items-center gap-3 text-sm">
             <Badge className="bg-white/20 backdrop-blur-sm text-white border-0 px-4 py-2">
               <Plane className="h-4 w-4 mr-2" />

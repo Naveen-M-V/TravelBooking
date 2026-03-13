@@ -32,7 +32,7 @@ export default function ContactPage() {
             <span className="h-1.5 w-1.5 rounded-full bg-cyan-200" />
             <span className="text-cyan-100 text-xs font-bold uppercase tracking-[0.18em]">Contact Us</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">Need to contact us?</h1>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Need to contact us?</h1>
           <p className="text-white/75 text-lg">Our team is always happy to help.</p>
         </div>
       </section>

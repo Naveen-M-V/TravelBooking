@@ -59,7 +59,7 @@ export default function AboutPage() {
             <span className="h-1.5 w-1.5 rounded-full bg-cyan-200" />
             <span className="text-cyan-100 text-xs font-bold uppercase tracking-[0.18em]">#HTC Muslim Friendly Destination</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             Welcome to<br />
             <span className="text-cyan-100">Halal Travels Club</span>
           </h1>
@@ -152,7 +152,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
             {stats.map(({ value, label }) => (
               <div key={label} className="rounded-2xl bg-white/10 border border-white/15 p-6 text-center">
-                <div className="text-3xl font-bold text-cyan-100 mb-2">{value}</div>
+                <div className="text-2xl sm:text-3xl font-bold text-cyan-100 mb-2">{value}</div>
                 <div className="text-white/65 text-xs uppercase tracking-wide leading-snug">{label}</div>
               </div>
             ))}

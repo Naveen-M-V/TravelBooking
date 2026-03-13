@@ -40,7 +40,7 @@ export function PackageResultCard({ package: pkg, onSelect, onViewDetails, onTog
             fill
             className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-[1.08]"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/15 transition-all duration-500 group-hover:from-black/75 group-hover:via-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#2dbdb8]/70 via-[#30c9d3]/10 to-[#53c6c1]/25 transition-all duration-500 group-hover:from-[#2dbdb8]/80 group-hover:via-[#30c9d3]/18" />
 
           <div className="absolute left-5 top-5 flex items-center gap-2">
             <div className="rounded-full bg-white/90 px-3 py-1.5 shadow-sm ring-1 ring-white/40">
@@ -105,25 +105,25 @@ export function PackageResultCard({ package: pkg, onSelect, onViewDetails, onTog
                 </div>
               </div>
 
-              <div className="flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-200 pt-4">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   {amenities.includes('WiFi') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-gray-200 bg-gray-100" title="WiFi">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-gray-100" title="WiFi">
                       <Wifi className="h-4 w-4 text-gray-500" />
                     </span>
                   )}
                   {amenities.includes('Breakfast') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-gray-200 bg-gray-100" title="Breakfast">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-gray-100" title="Breakfast">
                       <Coffee className="h-4 w-4 text-gray-500" />
                     </span>
                   )}
                   {amenities.includes('Restaurant') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-gray-200 bg-gray-100" title="Restaurant">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-gray-100" title="Restaurant">
                       <Utensils className="h-4 w-4 text-gray-500" />
                     </span>
                   )}
                   {amenities.includes('Pool') && (
-                    <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-gray-200 bg-gray-100" title="Pool">
+                    <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-gray-200 bg-gray-100" title="Pool">
                       <Waves className="h-4 w-4 text-gray-500" />
                     </span>
                   )}
@@ -132,11 +132,11 @@ export function PackageResultCard({ package: pkg, onSelect, onViewDetails, onTog
                   )}
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="rounded-full bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 text-xs font-semibold">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="rounded-full bg-teal-50 text-teal-700 border border-teal-200 px-3 py-1 text-xs font-semibold whitespace-nowrap">
                     Free Cancellation
                   </span>
-                  <span className="rounded-full bg-gray-100 text-gray-500 border border-gray-200 px-3 py-1 text-xs font-semibold hidden sm:inline">
+                  <span className="rounded-full bg-gray-100 text-gray-500 border border-gray-200 px-3 py-1 text-xs font-semibold hidden sm:inline whitespace-nowrap">
                     Instant Confirmation
                   </span>
                 </div>

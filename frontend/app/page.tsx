@@ -191,7 +191,7 @@ export default function Home() {
         <div className="container mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 text-center relative z-10">
             {[
               { Icon: BadgeCheck, title: 'Halal Verified', desc: 'Every stay, experience, and package is reviewed for halal compliance', color: 'from-teal-500 to-orange-400' },
-              { Icon: Lock, title: 'Secure Checkout', desc: 'Encrypted payments with privacy-first data protection', color: 'from-[#060F36] to-teal-500' },
+              { Icon: Lock, title: 'Secure Checkout', desc: 'Encrypted payments with privacy-first data protection', color: 'from-[#30c9d3] to-[#2ec2bd]' },
               { Icon: Headphones, title: 'Concierge Support', desc: 'Specialists available whenever you need assistance', color: 'from-teal-500 to-emerald-500' },
             ].map(({ Icon, title, desc, color }) => (
             <div key={title} className="flex flex-col items-center group px-2">
@@ -220,7 +220,7 @@ export default function Home() {
               <span className="h-2 w-2 rounded-full bg-gradient-to-r from-teal-500 to-orange-500 animate-pulse"></span>
               <span className="text-teal-700 text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em]">Explore</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mt-2 mb-3 sm:mb-4 px-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mt-2 mb-3 sm:mb-4 px-2">
               <span className="gradient-text">Discover Amazing</span>
               <br />
               <span className="text-teal-600">Packages</span>
@@ -285,7 +285,7 @@ export default function Home() {
               <span className="h-2 w-2 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 animate-pulse" />
               <span className="text-teal-700 text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.18em]">#HTC</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mt-2 mb-3 sm:mb-4 px-2">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold mt-2 mb-3 sm:mb-4 px-2">
               <span className="gradient-text">Halal / Muslim Friendly</span>
               <br />
               <span className="text-teal-600">Services</span>
@@ -362,7 +362,7 @@ export default function Home() {
             {/* Headline */}
             <div className="mb-6">
               <p className="text-teal-400 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] mb-3">Begin Your Journey</p>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight mb-4 text-slate-900">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black leading-tight mb-4 text-slate-900">
                 <span className="inline-block">Ready to Explore</span>
                 <br />
                 <span className="inline-block bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent">Halal-Friendly Wonders?</span>

@@ -270,7 +270,7 @@ export default function PackagesPage() {
               <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />
               <span className="text-teal-700 text-xs font-bold uppercase tracking-[0.18em]">Packages</span>
             </div>
-            <h1 className="mt-0 text-4xl md:text-5xl font-bold tracking-tight leading-[1.05] mb-4">
+            <h1 className="mt-0 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight leading-[1.05] mb-4">
               Halal holiday packages,{' '}
               <span className="italic font-serif text-teal-600">curated</span>
             </h1>
@@ -324,7 +324,7 @@ export default function PackagesPage() {
           </div>
 
           <div className="mt-8 rounded-3xl border border-gray-200 bg-white p-4 md:p-5 shadow-sm">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-gray-400 mb-1.5">Location</p>
                 <Input
