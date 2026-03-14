@@ -86,7 +86,7 @@
   .theme-dim body,
   body.theme-dim {
     background:
-      linear-gradient(180deg, rgba(236, 247, 246, 0.9) 0%, rgba(231, 245, 244, 0.9) 42%, rgba(234, 247, 246, 0.92) 100%),
+      linear-gradient(180deg, rgba(236, 247, 246, 0.96) 0%, rgba(231, 245, 244, 0.96) 42%, rgba(234, 247, 246, 0.97) 100%),
       url('/image.png') repeat;
     background-size: auto, 140px 140px;
     color: var(--e-global-color-text);
@@ -100,7 +100,7 @@
   .site-canvas {
     background-color: #e8f5f4;
     background-image:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(240, 249, 248, 0.84)),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(240, 249, 248, 0.93)),
       url('/image.png'),
       radial-gradient(circle at 15% 20%, rgba(45, 189, 184, 0.08) 0, rgba(45, 189, 184, 0) 28%),
       radial-gradient(circle at 85% 80%, rgba(246, 135, 31, 0.055) 0, rgba(246, 135, 31, 0) 24%),
@@ -113,7 +113,7 @@
   /* Route canvas for Flights/Packages: softer ivory and gentle geometry */
   .page-ivory {
     background:
-      linear-gradient(180deg, rgba(244, 243, 236, 0.9) 0%, rgba(243, 241, 234, 0.9) 45%, rgba(241, 240, 232, 0.92) 100%),
+      linear-gradient(180deg, rgba(244, 243, 236, 0.96) 0%, rgba(243, 241, 234, 0.96) 45%, rgba(241, 240, 232, 0.97) 100%),
       url('/image.png') repeat;
     background-size: auto, 140px 140px;
   }
@@ -129,7 +129,7 @@
       repeating-linear-gradient(45deg, transparent 0 16px, rgba(45, 189, 184, 0.028) 16px 17px),
       repeating-linear-gradient(-45deg, transparent 0 16px, rgba(48, 201, 211, 0.02) 16px 17px);
     background-size: 140px 140px, auto, auto, auto, auto;
-    opacity: 0.5;
+    opacity: 0.24;
   }
 
   .ivory-panel {
@@ -146,7 +146,7 @@
       linear-gradient(180deg, rgba(48, 201, 211, 0.18) 0%, rgba(45, 189, 184, 0.08) 45%, rgba(45, 189, 184, 0.22) 100%);
     background-size: 140px 140px, auto;
     mix-blend-mode: overlay;
-    opacity: 0.42;
+    opacity: 0.18;
   }
 
   /* Tone down bright white utility backgrounds across pages */

@@ -144,7 +144,7 @@ export default function Navbar() {
           <div className={`flex ${isHome ? 'h-24 items-start pt-3' : 'h-20 items-center'} justify-between gap-3`}>
             <Link href="/" className={`group inline-flex items-center transition-all hover:scale-[1.02] shrink-0 ${isHome ? 'ml-0 sm:-ml-1 mt-1' : 'ml-0 mt-0'}`}>
               <img
-                src="/htc%20logo.png"
+                src="/Halal-Logo-White-BR.svg"
                 alt="Halal Travels Club"
                 className={`${isHome ? 'h-16 w-44 sm:h-20 sm:w-52 md:h-[5.3rem] md:w-60' : 'h-12 w-36 sm:h-14 sm:w-40'} object-contain group-hover:scale-[1.03] transition-all duration-300`}
                 style={{

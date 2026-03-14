@@ -32,7 +32,7 @@ export default function Footer() {
               <div className="relative flex items-center gap-3">
                 <div className="absolute -inset-3 bg-white rounded-2xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
                 <div className="relative inline-flex items-center gap-3 px-4 py-2 rounded-2xl bg-white/10 backdrop-blur-sm shadow-xl border border-white/20 ring-1 ring-white/10">
-                  <img src="/htc%20logo.png" alt="Halal Travels Club" className="h-10 w-10 object-contain filter brightness-0 invert" />
+                  <img src="/Halal-Logo-White-BR.svg" alt="Halal Travels Club" className="h-10 w-10 object-contain filter brightness-0 invert" />
                   <div className="flex flex-col justify-center pr-1">
                     <span className="text-white font-extrabold text-base leading-tight tracking-tight">
                       Halal Travels Club
