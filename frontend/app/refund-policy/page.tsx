@@ -66,9 +66,9 @@ function LegalPage({
 }) {
   return (
     <div className="bg-white text-gray-900 min-h-screen">
-      <section className="bg-gradient-to-br from-cyan-500 via-teal-500 to-cyan-600 text-white py-16 px-4">
+      <section className="brand-hero-banner text-white py-16 px-4">
         <div className="container mx-auto max-w-3xl">
-          <p className="text-cyan-100 text-xs font-bold uppercase tracking-[0.18em] mb-2">
+          <p className="text-[#fff1df] text-xs font-bold uppercase tracking-[0.18em] mb-2">
             Halal Travels Club › {breadcrumb}
           </p>
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{title}</h1>

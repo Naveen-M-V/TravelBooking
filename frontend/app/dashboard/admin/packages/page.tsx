@@ -444,7 +444,7 @@ export default function AdminPackagesPage() {
             )}
 
             <div className="space-y-1.5">
-              <Label>Booking Conditions <span className="text-gray-400 font-normal">(one per line)</span></Label>
+              <Label>Conditions <span className="text-gray-400 font-normal">(one per line)</span></Label>
               <Textarea rows={3} placeholder="50% advance payment required&#10;Cancellation policy applies as per terms" value={form.bookingConditions} onChange={e => setField('bookingConditions', e.target.value)} />
             </div>
 
@@ -601,7 +601,7 @@ export default function AdminPackagesPage() {
                     )}
                     {pkg.bookingConditions?.length > 0 && (
                       <div>
-                        <p className="font-semibold text-gray-700 mb-1">Booking Conditions</p>
+                        <p className="font-semibold text-gray-700 mb-1">Conditions</p>
                         <ul className="list-disc list-inside space-y-0.5">{pkg.bookingConditions.map((c: string, i: number) => <li key={i}>{c}</li>)}</ul>
                       </div>
                     )}

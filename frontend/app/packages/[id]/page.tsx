@@ -13,12 +13,11 @@ import {
   ChevronLeft,
   MessageSquare,
   ShieldCheck,
-  Plane,
   Loader2,
   MessageCircle,
   Star,
-  Download,
   Heart,
+  ChevronRight,
 } from 'lucide-react'
 import { getPackageById, type FeaturedPackage } from '@/mocks/featured-packages'
 import { packagesAPI } from '@/lib/api/packages'
@@ -65,6 +64,7 @@ export default function PackageDetailPage() {
   const [showEnquiry, setShowEnquiry] = useState(false)
   const [isWishlisted, setIsWishlisted] = useState(false)
   const [wishlistLoading, setWishlistLoading] = useState(false)
+  const [galleryPage, setGalleryPage] = useState(0)
 
   useEffect(() => {
     if (!id) return
@@ -93,6 +93,10 @@ export default function PackageDetailPage() {
       .catch(() => setIsWishlisted(false))
   }, [user, pkg?.id])
 
+  useEffect(() => {
+    setGalleryPage(0)
+  }, [pkg?.id])
+
   if (loading) {
     return (
       <div className="min-h-screen page-ivory flex items-center justify-center relative">
@@ -119,6 +123,9 @@ export default function PackageDetailPage() {
   }
 
   const gallery = pkg.gallery ?? []
+  const galleryChunkSize = 6
+  const totalGalleryPages = Math.max(1, Math.ceil(gallery.length / galleryChunkSize))
+  const pagedGallery = gallery.slice(galleryPage * galleryChunkSize, (galleryPage + 1) * galleryChunkSize)
   const halalFacilities = pkg.halalFacilities ?? []
   const excluded = pkg.excluded ?? []
   const bookingConditions = pkg.bookingConditions ?? []
@@ -142,7 +149,7 @@ export default function PackageDetailPage() {
     { id: 'halal-facilities', label: 'Halal Facilities' },
     { id: 'inclusions',   label: 'Inclusions' },
 
-    { id: 'booking-conditions', label: 'Booking Conditions' },
+    { id: 'booking-conditions', label: 'Conditions' },
     { id: 'highlights', label: 'Highlights' },
     { id: 'testimonials', label: 'Reviews' },
   ] as const
@@ -183,7 +190,7 @@ export default function PackageDetailPage() {
             className="absolute inset-0 w-full h-full object-cover"
           />
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#2dbdb8]/82 via-[#30c9d3]/22 to-[#53c6c1]/12" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0f2f2f]/90 via-[#115e59]/68 to-[#2dbdb8]/24" />
           <div className="hero-pattern-overlay" />
 
           {/* Back button */}
@@ -191,7 +198,7 @@ export default function PackageDetailPage() {
             <div className="container mx-auto max-w-5xl">
               <button
                 onClick={() => router.back()}
-                className="inline-flex items-center gap-1.5 rounded-full bg-white/15 ring-1 ring-white/30 backdrop-blur-sm px-4 py-2 text-sm font-medium text-white hover:bg-white/25 transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-full bg-slate-950/28 ring-1 ring-white/20 backdrop-blur-md px-4 py-2 text-sm font-medium text-white hover:bg-slate-950/38 transition-colors"
               >
                 <ChevronLeft className="h-4 w-4" />
                 Back
@@ -202,25 +209,27 @@ export default function PackageDetailPage() {
           {/* Hero content */}
           <div className="absolute bottom-0 left-0 right-0 px-4 pb-8">
             <div className="container mx-auto max-w-5xl">
-              <div className="mb-3">
-                <HalalRatingBadge rating={{ score: pkg.halalRating, features: pkg.features.slice(0, 2) }} />
-              </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-2">
-                {pkg.name}
-              </h1>
-              <div className="flex items-center gap-4 text-white/80 text-sm flex-wrap">
-                <span className="inline-flex items-center gap-1.5">
+              <div className="max-w-3xl rounded-[28px] border border-white/14 bg-slate-950/28 px-5 py-5 shadow-[0_18px_50px_rgba(15,23,42,0.28)] backdrop-blur-md sm:px-6 sm:py-6">
+                <div className="mb-3">
+                  <HalalRatingBadge rating={{ score: pkg.halalRating, features: pkg.features.slice(0, 2) }} />
+                </div>
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3 [text-shadow:0_4px_22px_rgba(0,0,0,0.38)]">
+                  {pkg.name}
+                </h1>
+                <div className="flex items-center gap-3 text-[15px] text-white/92 flex-wrap">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-2 ring-1 ring-white/12 backdrop-blur-sm">
                   <MapPin className="h-4 w-4" />
                   {pkg.destination}
                 </span>
-                <span className="inline-flex items-center gap-1.5">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-2 ring-1 ring-white/12 backdrop-blur-sm">
                   <Calendar className="h-4 w-4" />
                   {pkg.duration}
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <ShieldCheck className="h-4 w-4 text-teal-300" />
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f6871f]/18 px-3.5 py-2 ring-1 ring-[#f7c28f]/28 backdrop-blur-sm text-[#fff3e4]">
+                  <ShieldCheck className="h-4 w-4 text-[#ffd4a8]" />
                   Halal Verified
                 </span>
+                </div>
               </div>
             </div>
           </div>
@@ -241,7 +250,7 @@ export default function PackageDetailPage() {
                     onClick={() => setActiveTab(id)}
                     className={`flex-1 min-w-max rounded-xl px-4 py-2.5 text-sm font-semibold transition-all whitespace-nowrap ${
                       activeTab === id
-                        ? 'bg-teal-600 text-white shadow-sm'
+                        ? 'bg-teal-600 text-white shadow-[0_10px_24px_rgba(45,189,184,0.35)] ring-2 ring-teal-200 -translate-y-0.5'
                         : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
                     }`}
                   >
@@ -315,13 +324,41 @@ export default function PackageDetailPage() {
                       <p className="text-gray-400">Gallery images coming soon</p>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {gallery.map((image, idx) => (
+                    <>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {pagedGallery.map((image, idx) => (
                         <div key={`${image}-${idx}`} className="bg-white rounded-2xl border border-gray-200 p-2 shadow-sm">
-                          <img src={image} alt={`${pkg.name} gallery ${idx + 1}`} className="w-full h-56 object-cover rounded-xl" />
+                          <img src={image} alt={`${pkg.name} gallery ${galleryPage * galleryChunkSize + idx + 1}`} className="w-full h-56 object-cover rounded-xl" />
                         </div>
                       ))}
-                    </div>
+                      </div>
+
+                      {gallery.length > galleryChunkSize && (
+                        <div className="flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
+                          <button
+                            type="button"
+                            onClick={() => setGalleryPage((page) => Math.max(0, page - 1))}
+                            disabled={galleryPage === 0}
+                            className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-600 hover:border-teal-300 hover:text-teal-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:text-gray-600 transition-colors"
+                          >
+                            <ChevronLeft className="h-4 w-4" />
+                            Previous
+                          </button>
+                          <p className="text-sm text-gray-500">
+                            Showing {galleryPage * galleryChunkSize + 1}-{Math.min((galleryPage + 1) * galleryChunkSize, gallery.length)} of {gallery.length}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => setGalleryPage((page) => Math.min(totalGalleryPages - 1, page + 1))}
+                            disabled={galleryPage >= totalGalleryPages - 1}
+                            className="inline-flex items-center gap-2 rounded-xl border border-gray-200 px-3 py-2 text-sm font-semibold text-gray-600 hover:border-teal-300 hover:text-teal-600 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:border-gray-200 disabled:hover:text-gray-600 transition-colors"
+                          >
+                            Next
+                            <ChevronRight className="h-4 w-4" />
+                          </button>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               )}
@@ -344,11 +381,6 @@ export default function PackageDetailPage() {
                             </li>
                           ))}
                         </ul>
-                        <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mt-4">
-                          <p className="text-sm text-teal-900">
-                            <strong>✓ Halal Certified:</strong> All meals, accommodations, and activities comply with Islamic dietary and ethical standards.
-                          </p>
-                        </div>
                       </div>
                     )}
                   </div>
@@ -480,13 +512,8 @@ export default function PackageDetailPage() {
                       <span className="text-4xl font-extrabold text-white">
                         {pkg.price.toLocaleString()}
                       </span>
-                      <span className="text-teal-200 font-semibold">{pkg.currency}</span>
+                      <span className="text-teal-200 font-semibold">{pkg.currency} / Person</span>
                     </div>
-                    {pkg.originalPrice && (
-                      <p className="text-teal-200 text-sm mt-1 line-through">
-                        {pkg.originalPrice.toLocaleString()} {pkg.currency}
-                      </p>
-                    )}
                   </div>
 
                   <div className="divide-y divide-gray-100">
@@ -509,13 +536,6 @@ export default function PackageDetailPage() {
                       <div>
                         <p className="text-xs text-gray-400">Group Size</p>
                         <p className="text-sm font-semibold text-gray-700">2 – 15 people</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 px-5 py-3.5">
-                      <Plane className="h-4 w-4 text-teal-400 flex-shrink-0" />
-                      <div>
-                        <p className="text-xs text-gray-400">Flights</p>
-                        <p className="text-sm font-semibold text-gray-700">Return Included</p>
                       </div>
                     </div>
                   </div>
@@ -544,7 +564,7 @@ export default function PackageDetailPage() {
                 {/* Trust badges */}
                 <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-5 space-y-3 mb-4">
                   {[
-                    { icon: ShieldCheck, text: 'Halal certified throughout' },
+                    { icon: ShieldCheck, text: 'Halal Friendly Packages' },
                     { icon: Check, text: 'Free personalised quote' },
                     { icon: Users, text: 'Expert local guides' },
                   ].map(({ icon: Icon, text }) => (
@@ -559,13 +579,6 @@ export default function PackageDetailPage() {
 
                 {/* Additional CTA Buttons */}
                 <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 space-y-3">
-                  <button
-                    onClick={() => alert('Itinerary download coming soon!')}
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-lg border border-teal-200 text-teal-600 py-2.5 text-xs font-semibold hover:bg-teal-50 transition-colors"
-                  >
-                    <Download className="h-3.5 w-3.5" />
-                    Download Itinerary
-                  </button>
                   <button
                     onClick={toggleWishlist}
                     disabled={wishlistLoading}
@@ -585,7 +598,7 @@ export default function PackageDetailPage() {
               <div>
                 <p className="text-xs text-gray-400">Starting from</p>
                 <p className="text-xl font-extrabold text-teal-700">
-                  {pkg.price.toLocaleString()} <span className="text-sm font-semibold text-gray-500">{pkg.currency}</span>
+                  {pkg.price.toLocaleString()} <span className="text-sm font-semibold text-gray-500">{pkg.currency} / Person</span>
                 </p>
               </div>
               <button

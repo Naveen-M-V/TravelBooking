@@ -9,7 +9,6 @@ import { Textarea } from '@/components/ui/textarea'
 import { Badge } from '@/components/ui/badge'
 import { Loader2, CheckCircle, MapPin, Calendar, Users, BedDouble, Plus, Minus, Info } from 'lucide-react'
 import { enquiryAPI } from '@/lib/api/enquiries'
-import type { FeaturedPackage } from '@/mocks/featured-packages'
 import { useAuth } from '@/context/AuthContext'
 
 interface EnquiryFormModalProps {
@@ -18,9 +17,18 @@ interface EnquiryFormModalProps {
   onClose: () => void
 }
 
+interface RoomOccupancy {
+  adults: number
+  children: number
+  childAges: string[]
+}
+
 export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormModalProps) {
   const { user } = useAuth()
-  const maxChildrenForAdults = (adults: number) => Math.max(0, 4 - adults)
+  const maxGuestsPerRoom = 5
+  const maxAdultsPerRoom = 3
+  const maxChildrenPerRoom = 4
+  const maxChildrenForAdults = (adults: number) => Math.max(0, Math.min(maxChildrenPerRoom, maxGuestsPerRoom - adults))
 
   const [form, setForm] = useState({
     customerName: user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : '',
@@ -29,13 +37,14 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
     nationality: '',
     travelDate: '',
     flexibleDates: false,
-    rooms: [{ adults: 2, children: 0 }],
+    rooms: [{ adults: 2, children: 0, childAges: [] }] as RoomOccupancy[],
     specialRequests: '',
   })
 
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [roomLimitNotice, setRoomLimitNotice] = useState<number | null>(null)
 
   const update = (field: string, value: any) =>
     setForm(prev => ({ ...prev, [field]: value }))
@@ -43,35 +52,74 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
   const totalAdults = form.rooms.reduce((sum, room) => sum + room.adults, 0)
   const totalChildren = form.rooms.reduce((sum, room) => sum + room.children, 0)
 
+  const resizeChildAges = (childAges: string[], nextChildren: number) => {
+    if (nextChildren <= 0) return []
+    if (childAges.length === nextChildren) return childAges
+    if (childAges.length > nextChildren) return childAges.slice(0, nextChildren)
+    return [...childAges, ...Array.from({ length: nextChildren - childAges.length }, () => '')]
+  }
+
   const updateRoomAdults = (index: number, nextAdults: number) => {
-    const boundedAdults = Math.max(1, Math.min(3, nextAdults))
+    const boundedAdults = Math.max(1, Math.min(maxAdultsPerRoom, nextAdults))
+    if (nextAdults > maxAdultsPerRoom) {
+      setRoomLimitNotice(index)
+      return
+    }
+
+    setRoomLimitNotice(null)
     update('rooms', form.rooms.map((room, i) => {
       if (i !== index) return room
       const nextChildrenCap = maxChildrenForAdults(boundedAdults)
+      const nextChildren = Math.min(room.children, nextChildrenCap)
       return {
         adults: boundedAdults,
-        children: Math.min(room.children, nextChildrenCap),
+        children: nextChildren,
+        childAges: resizeChildAges(room.childAges, nextChildren),
       }
     }))
   }
 
   const updateRoomChildren = (index: number, nextChildren: number) => {
+    const room = form.rooms[index]
+    if (!room) return
+
+    const childCap = maxChildrenForAdults(room.adults)
+    if (nextChildren > childCap) {
+      setRoomLimitNotice(index)
+      return
+    }
+
+    setRoomLimitNotice(null)
     update('rooms', form.rooms.map((room, i) => {
       if (i !== index) return room
-      const childCap = maxChildrenForAdults(room.adults)
+      const nextChildCount = Math.max(0, Math.min(childCap, nextChildren))
       return {
         ...room,
-        children: Math.max(0, Math.min(childCap, nextChildren)),
+        children: nextChildCount,
+        childAges: resizeChildAges(room.childAges, nextChildCount),
       }
     }))
   }
 
+  const updateChildAge = (roomIndex: number, childIndex: number, value: string) => {
+    const normalized = value === '' ? '' : String(Math.max(0, Math.min(12, Number(value))))
+    setRoomLimitNotice(null)
+    update('rooms', form.rooms.map((room, idx) => {
+      if (idx !== roomIndex) return room
+      const childAges = [...room.childAges]
+      childAges[childIndex] = normalized
+      return { ...room, childAges }
+    }))
+  }
+
   const addRoom = () => {
-    update('rooms', [...form.rooms, { adults: 1, children: 0 }])
+    setRoomLimitNotice(null)
+    update('rooms', [...form.rooms, { adults: 1, children: 0, childAges: [] }])
   }
 
   const removeRoom = (index: number) => {
     if (form.rooms.length === 1) return
+    setRoomLimitNotice(prev => (prev === index ? null : prev))
     update('rooms', form.rooms.filter((_, i) => i !== index))
   }
 
@@ -83,9 +131,31 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
     setError(null)
 
     try {
+      const hasInvalidChildAge = form.rooms.some((room) =>
+        room.children > 0 && (
+          room.childAges.length !== room.children ||
+          room.childAges.some((age) => age === '' || Number.isNaN(Number(age)) || Number(age) > 12 || Number(age) < 0)
+        )
+      )
+
+      if (hasInvalidChildAge) {
+        setError('Please enter a valid age between 0 and 12 years for each child.')
+        setSubmitting(false)
+        return
+      }
+
       const guestSummary = form.rooms
-        .map((room, i) => `Room ${i + 1}: ${room.adults} Adult(s), ${room.children} Children`)
+        .map((room, i) => {
+          const childAgeSummary = room.children > 0 ? ` (Ages: ${room.childAges.join(', ')})` : ''
+          return `Room ${i + 1}: ${room.adults} Adult(s), ${room.children} Children${childAgeSummary}`
+        })
         .join(' | ')
+
+      const normalizedRooms = form.rooms.map((room) => ({
+        adults: room.adults,
+        children: room.children,
+        childAges: room.childAges.map((age) => Number(age)),
+      }))
 
       const mergedSpecialRequests = form.specialRequests
         ? `Rooms: ${guestSummary}\n${form.specialRequests}`
@@ -98,7 +168,7 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
         packageDetails: {
           ...(pkg as any),
           enquiryGuests: {
-            rooms: form.rooms,
+            rooms: normalizedRooms,
             totalAdults,
             totalChildren,
             totalGuests: totalAdults + totalChildren,
@@ -251,7 +321,7 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
               <div className="space-y-3">
                 {form.rooms.map((room, idx) => {
                   const childCap = maxChildrenForAdults(room.adults)
-                  const reachedChildCap = room.children >= childCap
+                  const showLimitMessage = roomLimitNotice === idx || room.children >= childCap
 
                   return (
                     <div key={idx} className="rounded-lg border border-gray-200 p-3 space-y-2">
@@ -287,7 +357,6 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
                               type="button"
                               onClick={() => updateRoomAdults(idx, room.adults + 1)}
                               className="p-1 text-gray-600 hover:text-primary"
-                              disabled={room.adults >= 3}
                             >
                               <Plus className="h-3.5 w-3.5" />
                             </button>
@@ -297,7 +366,7 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
                         <div>
                           <div className="flex items-center gap-1">
                             <Label>Children (0-12)</Label>
-                            {reachedChildCap && (
+                            {showLimitMessage && (
                               <span className="inline-flex text-amber-500" title="Add another room to add more guests">
                                 <Info className="h-3.5 w-3.5" />
                               </span>
@@ -317,7 +386,6 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
                               type="button"
                               onClick={() => updateRoomChildren(idx, room.children + 1)}
                               className="p-1 text-gray-600 hover:text-primary"
-                              disabled={room.children >= childCap}
                             >
                               <Plus className="h-3.5 w-3.5" />
                             </button>
@@ -325,8 +393,28 @@ export function EnquiryFormModal({ package: pkg, isOpen, onClose }: EnquiryFormM
                         </div>
                       </div>
 
-                      <p className="text-[11px] text-gray-500">Max 4 members per room. Adults: 1-3. Children allowed now: 0-{childCap}.</p>
-                      {reachedChildCap && <p className="text-[11px] text-amber-600">Add another room to add more guests.</p>}
+                      {room.children > 0 && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                          {room.childAges.map((age, childIdx) => (
+                            <div key={`${idx}-child-${childIdx}`}>
+                              <Label htmlFor={`room-${idx}-child-${childIdx}`}>Child {childIdx + 1} Age</Label>
+                              <Input
+                                id={`room-${idx}-child-${childIdx}`}
+                                type="number"
+                                min={0}
+                                max={12}
+                                inputMode="numeric"
+                                value={age}
+                                onChange={(e) => updateChildAge(idx, childIdx, e.target.value)}
+                                placeholder="0 - 12"
+                                className="mt-1"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {showLimitMessage && <p className="text-[11px] text-amber-600">Add another room to add more guests.</p>}
                     </div>
                   )
                 })}

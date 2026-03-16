@@ -53,15 +53,15 @@ export default function AboutPage() {
     <div className="bg-white text-gray-900">
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-cyan-500 via-teal-500 to-cyan-600 text-white py-24 px-4">
+      <section className="brand-hero-banner text-white py-24 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2 mb-8">
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan-200" />
-            <span className="text-cyan-100 text-xs font-bold uppercase tracking-[0.18em]">#HTC Muslim Friendly Destination</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-[#ffd4a8]" />
+            <span className="text-[#fff1df] text-xs font-bold uppercase tracking-[0.18em]">#HTC Muslim Friendly Destination</span>
           </div>
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             Welcome to<br />
-            <span className="text-cyan-100">Halal Travels Club</span>
+            <span className="text-[#fff1df]">Halal Travels Club</span>
           </h1>
           <p className="text-white/80 text-lg max-w-3xl mx-auto leading-relaxed">
             At Halal Travels Club (#HTC), we are dedicated to delivering personalised Halal travel experiences

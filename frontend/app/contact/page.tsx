@@ -26,11 +26,11 @@ export default function ContactPage() {
     <div className="bg-white text-gray-900 min-h-screen">
 
       {/* Hero */}
-      <section className="bg-gradient-to-br from-cyan-500 via-teal-500 to-cyan-600 text-white py-20 px-4">
+      <section className="brand-hero-banner text-white py-20 px-4">
         <div className="container mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-2 mb-6">
-            <span className="h-1.5 w-1.5 rounded-full bg-cyan-200" />
-            <span className="text-cyan-100 text-xs font-bold uppercase tracking-[0.18em]">Contact Us</span>
+            <span className="h-1.5 w-1.5 rounded-full bg-[#ffd4a8]" />
+            <span className="text-[#fff1df] text-xs font-bold uppercase tracking-[0.18em]">Contact Us</span>
           </div>
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Need to contact us?</h1>
           <p className="text-white/75 text-lg">Our team is always happy to help.</p>
@@ -62,10 +62,10 @@ export default function ContactPage() {
                   <Clock className="h-5 w-5 text-teal-600" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-teal-600 uppercase tracking-widest">Contactable Hours</p>
+                  <p className="text-xs font-bold text-teal-600 uppercase tracking-widest">Working Hours</p>
                 </div>
               </div>
-              <p className="text-lg font-bold text-gray-900">Mon–Sun: 24 Hours</p>
+              <p className="text-lg font-bold text-gray-900">Mon-Sat: 08:00 - 17:00 (KSA Time)</p>
             </div>
 
             <div className="rounded-2xl border border-gray-200 bg-blue-50 p-6">
@@ -148,7 +148,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1.5">
-                      What&apos;s your Message?
+                      Message / Enquiry Details
                     </label>
                     <textarea
                       rows={5}
