@@ -6,9 +6,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { ChevronLeft, ChevronRight, Calendar, Heart } from 'lucide-react'
 import type { FeaturedPackage } from '@/mocks/featured-packages'
 
-const CARD_WIDTH = 288  // w-72 = 18rem = 288px
-const CARD_GAP   = 16   // gap-4 = 1rem = 16px
-const CARD_STEP  = CARD_WIDTH + CARD_GAP
 const AUTO_INTERVAL_MS = 3200
 
 interface PackageCarouselProps {
@@ -26,21 +23,40 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
 
   // Duplicate so we can scroll infinitely in both directions
   const doubled = [...packages, ...packages]
+  const cardSizeClasses = 'w-[82vw] sm:w-[46vw] lg:w-[31vw] xl:w-[calc((100%-3rem)/4)] max-w-[340px] xl:max-w-none flex-shrink-0 snap-start'
+
+  const getStep = () => {
+    const el = trackRef.current
+    if (!el) return 0
+    const firstCard = el.querySelector('[data-carousel-card="true"]') as HTMLElement | null
+    if (!firstCard) return 0
+    const cardWidth = firstCard.getBoundingClientRect().width
+    const wrapper = firstCard.parentElement
+    const gap = wrapper ? parseFloat(getComputedStyle(wrapper).columnGap || getComputedStyle(wrapper).gap || '0') : 0
+    return cardWidth + gap
+  }
+
+  const getHalfWidth = () => {
+    const step = getStep()
+    return step * packages.length
+  }
 
   const wrap = () => {
     const el = trackRef.current
     if (!el) return
+    const step = getStep()
+    const half = getHalfWidth()
+    if (!step || !half) return
 
     // For infinite loop illusion, keep scroll in the "middle" equivalent range.
     // We always start from one full chunk offset and jump by one chunk when near edges.
-    const half = packages.length * CARD_STEP
-    if (el.scrollLeft >= half + CARD_STEP / 2) {
+    if (el.scrollLeft >= half + step / 2) {
       el.style.scrollBehavior = 'auto'
       el.scrollLeft -= half
       void el.offsetWidth // force reflow so the jump is invisible
       el.style.scrollBehavior = 'smooth'
     }
-    if (el.scrollLeft <= CARD_STEP / 2) {
+    if (el.scrollLeft <= step / 2) {
       el.style.scrollBehavior = 'auto'
       el.scrollLeft += half
       void el.offsetWidth
@@ -50,14 +66,17 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
 
   const advance = (direction: 1 | -1 = 1) => {
     if (!trackRef.current) return
-    trackRef.current.scrollBy({ left: direction * CARD_STEP, behavior: 'smooth' })
+    const step = getStep()
+    if (!step) return
+    trackRef.current.scrollBy({ left: direction * step, behavior: 'smooth' })
     setTimeout(wrap, 600)
   }
 
   useEffect(() => {
     const el = trackRef.current
     if (el) {
-      const half = packages.length * CARD_STEP
+      const half = getHalfWidth()
+      if (!half) return
       el.style.scrollBehavior = 'auto'
       el.scrollLeft = half
       void el.offsetWidth
@@ -96,22 +115,22 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
       {/* Section header + arrows */}
       <div className="flex items-center justify-between mb-6 sm:mb-8">
         <div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 via-teal-700 to-cyan-700 bg-clip-text text-transparent">{title}</h2>
-          <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full mt-2.5" />
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-gray-900 via-cyan-700 to-teal-700 bg-clip-text text-transparent">{title}</h2>
+          <div className="w-12 sm:w-16 h-1 bg-gradient-to-r from-cyan-500 to-teal-500 rounded-full mt-2.5" />
         </div>
 
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={handlePrev}
             aria-label="Previous"
-            className="inline-flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full border-2 border-cyan-500 bg-gradient-to-br from-white to-cyan-50 text-cyan-600 shadow-xl hover:shadow-2xl hover:from-cyan-600 hover:to-teal-600 hover:text-white hover:scale-110 hover:border-transparent transition-all duration-300"
+            className="inline-flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full border-2 border-cyan-500 bg-gradient-to-br from-white to-cyan-50 text-cyan-600 shadow-xl hover:shadow-2xl hover:from-cyan-600 hover:to-cyan-500 hover:text-white hover:scale-110 hover:border-transparent transition-all duration-300"
           >
             <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </button>
           <button
             onClick={handleNext}
             aria-label="Next"
-            className="inline-flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full border-2 border-cyan-500 bg-gradient-to-br from-white to-cyan-50 text-cyan-600 shadow-xl hover:shadow-2xl hover:from-cyan-600 hover:to-teal-600 hover:text-white hover:scale-110 hover:border-transparent transition-all duration-300"
+            className="inline-flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full border-2 border-cyan-500 bg-gradient-to-br from-white to-cyan-50 text-cyan-600 shadow-xl hover:shadow-2xl hover:from-cyan-600 hover:to-cyan-500 hover:text-white hover:scale-110 hover:border-transparent transition-all duration-300"
           >
             <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
           </button>
@@ -135,9 +154,9 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
 
           <div className="flex gap-4" style={{ width: 'max-content' }}>
             {doubled.map((pkg, index) => (
-              <div key={`${pkg.id}-${index}`} className="w-72 flex-shrink-0 snap-start">
+              <div key={`${pkg.id}-${index}`} className={cardSizeClasses} data-carousel-card="true">
                 <Card
-                  className="overflow-hidden cursor-pointer group border-0 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_20px_60px_rgba(6,182,212,0.35)] transition-all duration-500 rounded-3xl bg-white h-full flex flex-col relative before:absolute before:inset-0 before:rounded-3xl before:p-[1px] before:bg-gradient-to-br before:from-cyan-400 before:via-teal-400 before:to-cyan-500 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 before:-z-10 hover:scale-[1.02]"
+                  className="overflow-hidden cursor-pointer group border-0 shadow-[0_10px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_25px_70px_rgba(6,182,212,0.34)] transition-all duration-500 rounded-3xl bg-white h-full flex flex-col relative before:absolute before:inset-0 before:rounded-3xl before:p-[1px] before:bg-gradient-to-br before:from-cyan-400 before:via-cyan-500 before:to-teal-500 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 before:-z-10 hover:scale-[1.035] hover:-translate-y-1"
                   onClick={() => router.push(`/packages/${pkg.id}`)}
                 >
                   {/* Image */}
@@ -149,6 +168,7 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
                     />
                     {/* Gradient — deepens on hover */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#2dbdb8]/82 via-[#30c9d3]/18 to-transparent transition-all duration-500 group-hover:from-[#2dbdb8]/92 group-hover:via-[#30c9d3]/28" />
+                    <div className="pointer-events-none absolute -inset-10 opacity-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.45)_0%,rgba(255,255,255,0)_58%)] transition-opacity duration-500 group-hover:opacity-100" />
 
                     <button
                       type="button"

@@ -1,11 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { BadgeCheck, Headphones, Lock, Plane, XCircle, BookOpen, Compass, MapPin, Utensils } from 'lucide-react'
 import { SearchHero } from '@/components/search/SearchHero'
-import { PackageCarousel } from '@/components/packages/PackageCarousel'
-import { PackageCardCarousel } from '@/components/packages/PackageCardCarousel'
 import { TripOverviewCarousel } from '@/components/packages/TripOverviewCarousel'
 import {
   getBestPackages,
@@ -38,14 +36,6 @@ function normalizePackage(p: any): FeaturedPackage {
     itinerary:     Array.isArray(p.itinerary)   ? p.itinerary   : [],
   }
 }
-
-// TODO: Fetch dynamic backgrounds from backend
-const heroBackgrounds = [
-  '/images/hero/maldives-beach.jpg',
-  '/images/hero/istanbul-mosque.jpg',
-  '/images/hero/dubai-skyline.jpg',
-  '/images/hero/makkah-haram.jpg',
-]
 
 export default function Home() {
   const router = useRouter()
@@ -117,73 +107,30 @@ export default function Home() {
     }
   }
 
-  // Transform featured packages to card carousel format
-  const transformToCardFormat = (pkgs: FeaturedPackage[]) => pkgs.map(pkg => ({
-    id: pkg.id,
-    name: pkg.name,
-    destination: pkg.destination,
-    duration: pkg.duration,
-    price: { total: pkg.price, currency: pkg.currency },
-    images: [pkg.image],
-    nights: parseInt(pkg.duration.match(/(\d+)/)?.[1] || '7')
-  }))
+  const ensureRollingData = (pkgs: FeaturedPackage[], target = 12) => {
+    if (!pkgs.length) return pkgs
+    if (pkgs.length >= target) return pkgs
+    return Array.from({ length: target }, (_, idx) => pkgs[idx % pkgs.length])
+  }
 
-  // Sample itinerary data for trip overview carousel
-  const sampleItinerary = [
-    {
-      location: 'Istanbul',
-      description: 'Arrive in the morning. Spend the day wandering around the historic streets and exploring beautiful mosques.',
-      image: 'https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&auto=format&fit=crop',
-      transportType: 'flight' as const
-    },
-    {
-      location: 'Istanbul',
-      description: 'Visit the Blue Mosque, Hagia Sophia, and Topkapi Palace with your personal tour guide.',
-      image: 'https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?w=800&auto=format&fit=crop',
-    },
-    {
-      location: 'Cappadocia',
-      description: 'Explore the fairy chimneys and underground cities of this magical region.',
-      image: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=800&auto=format&fit=crop',
-      transportType: 'train' as const
-    },
-    {
-      location: 'Cappadocia',
-      description: 'Experience a hot air balloon ride at sunrise over the stunning landscape.',
-      image: 'https://images.unsplash.com/photo-1575408264798-b50b252663e6?w=800&auto=format&fit=crop',
-    },
-    {
-      location: 'Pamukkale',
-      description: 'Visit the white travertine terraces and ancient Hierapolis ruins.',
-      image: 'https://images.unsplash.com/photo-1605037815219-b2ca2c1e70e8?w=800&auto=format&fit=crop',
-      transportType: 'car' as const
-    },
-    {
-      location: 'Antalya',
-      description: 'Relax on beautiful Mediterranean beaches and explore the old town.',
-      image: 'https://images.unsplash.com/photo-1599694044224-8ae44c732ae7?w=800&auto=format&fit=crop',
-      transportType: 'car' as const
-    },
-    {
-      location: 'Bodrum',
-      description: 'Enjoy the coastal town, visit the castle and explore local markets.',
-      image: 'https://images.unsplash.com/photo-1605610728948-0e8e8b0c4d4d?w=800&auto=format&fit=crop',
-    },
-    {
-      location: 'Istanbul',
-      description: 'Return to Istanbul for one final evening before your departure.',
-      image: 'https://images.unsplash.com/photo-1527838832700-5059252407fa?w=800&auto=format&fit=crop',
-      transportType: 'flight' as const
-    },
-  ]
+  const rollingBestPkgs = useMemo(() => ensureRollingData(bestPkgs, 12), [bestPkgs])
+  const rollingPopularPkgs = useMemo(() => ensureRollingData(popularPkgs, 12), [popularPkgs])
+  const rollingTopDestPkgs = useMemo(() => ensureRollingData(topDestPkgs, 12), [topDestPkgs])
+  const rollingFamilyPkgs = useMemo(() => ensureRollingData(familyPkgs, 12), [familyPkgs])
 
   return (
-    <div className="bg-gray-50">
+    <div className="relative overflow-hidden bg-gradient-to-b from-white via-[#f7fcfc] to-[#f5fbfa]">
+      <div className="pointer-events-none absolute inset-0 opacity-[0.32]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }} />
+      <div className="pointer-events-none absolute -top-24 -left-24 w-[420px] h-[420px] rounded-full bg-gradient-to-br from-cyan-200/35 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute top-[28%] -right-32 w-[460px] h-[460px] rounded-full bg-gradient-to-br from-orange-200/25 to-transparent blur-3xl" />
+
       {/* Hero Search Section */}
       <SearchHero />
 
       {/* Why Choose Us strip */}
-      <section className="py-12 sm:py-14 md:py-16 px-4 bg-gradient-to-br from-white via-teal-50/35 to-orange-50/30 border-b border-teal-100/50 relative overflow-hidden">
+      <section className="py-12 sm:py-14 md:py-16 px-4 bg-gradient-to-br from-white via-cyan-50/35 to-orange-50/20 border-b border-cyan-100/50 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.28]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }} />
+        <div className="absolute inset-0 islamic-pattern opacity-30" />
         {/* Decorative floating circles - smaller on mobile */}
         <div className="absolute top-5 sm:top-10 left-10 sm:left-20 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-teal-200/20 to-orange-200/20 rounded-full blur-2xl animate-float"></div>
         <div className="absolute bottom-5 sm:bottom-10 right-10 sm:right-20 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-br from-orange-200/20 to-teal-200/20 rounded-full blur-2xl animate-float-slow"></div>
@@ -209,7 +156,11 @@ export default function Home() {
       </section>
 
       {/* Featured Packages Section */}
-      <section className="py-12 sm:py-16 md:py-20 px-4">
+      <section className="py-12 sm:py-16 md:py-20 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-white via-cyan-50/30 to-white" />
+        <div className="absolute inset-0 opacity-[0.24]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }} />
+        <div className="absolute top-8 left-10 text-cyan-500/15 crescent-moon animate-geometric" />
+        <div className="absolute top-20 right-14 text-orange-400/20 crescent-moon animate-geometric" style={{ animationDelay: '1.3s' }} />
         <div className="container mx-auto max-w-7xl">
           {/* Section Header */}
           <div className="text-center mb-10 sm:mb-14 relative">
@@ -235,38 +186,39 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Our Best Tour Packages - Card Carousel */}
-          <PackageCardCarousel
+          {/* Our Best Tour Packages */}
+          <TripOverviewCarousel
             title="Our Best Tour Packages"
-            packages={transformToCardFormat([...bestPkgs, ...bestPkgs, ...bestPkgs])}
-            onCardClick={handleCardClick}
-            onWishlistToggle={toggleWishlist}
-            wishlistIds={wishlistIds}
+            packages={rollingBestPkgs}
+            reverse={false}
           />
 
           {/* New & Most Popular Tours */}
           <TripOverviewCarousel
             title="New &amp; Most Popular Tours"
-            packages={[...popularPkgs, ...popularPkgs]}
+            packages={rollingPopularPkgs}
+            reverse
           />
 
           {/* Top Destinations */}
-          <PackageCarousel
+          <TripOverviewCarousel
             title="Top Destinations"
-            packages={topDestPkgs}
+            packages={rollingTopDestPkgs}
+            reverse={false}
           />
 
           {/* Family Destinations */}
-          <PackageCarousel
+          <TripOverviewCarousel
             title="Family Destinations"
-            packages={familyPkgs}
+            packages={rollingFamilyPkgs}
             reverse
           />
         </div>
       </section>
 
       {/* #HTC Muslim Friendly Services */}
-      <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-teal-50/50 via-cyan-50/30 to-blue-50/50 relative overflow-hidden islamic-pattern">
+      <section className="py-12 sm:py-16 md:py-20 px-4 bg-gradient-to-br from-teal-50/60 via-cyan-50/35 to-orange-50/20 relative overflow-hidden islamic-pattern">
+        <div className="absolute inset-0 opacity-[0.24]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }} />
         {/* Islamic geometric patterns and animated elements */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-10 sm:top-20 left-5 sm:left-10 w-48 sm:w-64 h-48 sm:h-64 bg-gradient-to-br from-teal-300/20 to-transparent rounded-full blur-3xl animate-float"></div>
@@ -319,11 +271,12 @@ export default function Home() {
       </section>
 
       {/* Premium CTA Section */}
-      <section className="py-20 md:py-28 px-4 relative overflow-hidden bg-gradient-to-br from-teal-50/90 via-cyan-50/70 to-emerald-50/80">
+      <section className="py-20 md:py-28 px-4 relative overflow-hidden bg-gradient-to-br from-white via-cyan-50/65 to-orange-50/28">
         {/* Animated gradient orbs */}
         <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 opacity-[0.24]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }}></div>
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-teal-300/35 via-cyan-300/20 to-transparent rounded-full blur-3xl animate-float"></div>
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-emerald-300/25 via-teal-300/15 to-transparent rounded-full blur-3xl animate-float-slow"></div>
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-orange-300/25 via-teal-300/15 to-transparent rounded-full blur-3xl animate-float-slow"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-br from-white/40 to-teal-200/20 rounded-full blur-3xl"></div>
           
           {/* Grid pattern overlay */}
