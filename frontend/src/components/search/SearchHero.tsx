@@ -8,10 +8,10 @@ import { PackageSearchForm } from './PackageSearchForm'
 import { heroImagesAPI } from '@/lib/api/heroImages'
 
 const HERO_IMAGES = [
-  'https://picsum.photos/seed/dubai-skyline/1600/600',
-  'https://picsum.photos/seed/istanbul-mosque/1600/600',
-  'https://picsum.photos/seed/maldives-ocean/1600/600',
-  'https://picsum.photos/seed/morocco-travel/1600/600',
+  '/images/beautiful-view-plaza-de-espana-seville-spain.jpg',
+  '/images/cibeles-palace-fountain-plaza-de-cibeles-madrid-spain-scaled.jpg',
+  '/images/port-barcelona-evening-spain-scaled.jpg',
+  '/images/dawn-view-toledo-scaled.jpg',
 ]
 
 export function SearchHero() {
@@ -60,18 +60,18 @@ export function SearchHero() {
           />
         ))}
 
-        {/* Overlay - Lighter gradient to keep image visible */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0f5c59]/52 via-[#134e4a]/26 to-[#2dbdb8]/42" />
-        <div className="hero-pattern-overlay" />
+        {/* Overlay - stronger visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-neutral-900/30 via-neutral-900/10 to-neutral-900/38" />
+        <div className="hero-pattern-overlay opacity-[0.18]" />
 
         {/* Subtle Islamic decorative symbols */}
-        <div className="absolute top-8 left-8 w-7 h-7 bg-white/20 islamic-star animate-geometric" />
-        <div className="absolute bottom-12 right-10 text-white/35 crescent-moon animate-geometric" style={{ animationDelay: '1.2s' }}></div>
+        <div className="absolute top-8 left-8 w-7 h-7 bg-white/45 islamic-star animate-geometric" />
+        <div className="absolute bottom-12 right-10 text-primary-200/80 crescent-moon animate-geometric" style={{ animationDelay: '1.2s' }}></div>
 
         {/* Headline Over Image */}
         <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center -translate-y-4 sm:-translate-y-6 md:-translate-y-10">
-          <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight max-w-3xl [text-shadow:0_3px_14px_rgba(15,23,42,0.45)] px-2">
-            Go Explore, <span className="italic font-serif text-[#FDE6CF]">It's a Big World</span> Out There!
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-neutral-50 tracking-tight leading-tight max-w-4xl [text-shadow:0_4px_16px_rgba(47,43,38,0.55)] px-2">
+            Go Explore, <span className="italic font-serif text-accent-100">It's a Big World</span> Out There!
           </h1>
         </div>
 
@@ -80,21 +80,21 @@ export function SearchHero() {
           <div className="max-w-6xl mx-auto">
             <div className="relative group">
               {/* Decorative Glow */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#2DBDB8]/45 via-[#1ea8a3]/30 to-[#F6871F]/28 rounded-2xl blur-2xl opacity-45 group-hover:opacity-70 transition duration-1000" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary-400/35 via-primary-500/20 to-accent-400/25 rounded-2xl blur-2xl opacity-40 group-hover:opacity-60 transition duration-1000" />
 
               <Tabs defaultValue="flights" className="relative w-full">
                 <div className="flex justify-center mb-1.5 sm:mb-2.5 relative z-20">
-                  <TabsList className="bg-white/18 backdrop-blur-2xl border border-white/35 p-1 sm:p-1.5 rounded-xl h-auto shadow-[0_10px_36px_rgba(0,0,0,0.35)]">
+                  <TabsList className="bg-white/50 backdrop-blur-2xl border border-neutral-200/80 p-1 sm:p-1.5 rounded-xl h-auto shadow-lg shadow-primary-200/20">
                     <TabsTrigger
                       value="flights"
-                      className="px-3 sm:px-5 py-2 sm:py-2.5 data-[state=active]:bg-[#2dbdb8]/95 data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-row items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-white/90"
+                      className="px-3 sm:px-5 py-2 sm:py-2.5 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-row items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-neutral-700"
                     >
                       <Plane className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
                       <span className="font-bold uppercase tracking-wide">Book Flights</span>
                     </TabsTrigger>
                     <TabsTrigger
                       value="packages"
-                      className="px-3 sm:px-5 py-2 sm:py-2.5 data-[state=active]:bg-[#30c9d3]/95 data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-row items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-white/90"
+                      className="px-3 sm:px-5 py-2 sm:py-2.5 data-[state=active]:bg-accent-500 data-[state=active]:text-white rounded-lg transition-all duration-300 flex flex-row items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-neutral-700"
                     >
                       <Building2 className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
                       <span className="font-bold uppercase tracking-wide">Packages</span>
@@ -103,7 +103,7 @@ export function SearchHero() {
                 </div>
 
                 {/* Search Forms - Glassmorphic */}
-                <div className="bg-white/14 backdrop-blur-2xl rounded-2xl shadow-[0_20px_55px_rgba(0,0,0,0.38)] border border-white/35 p-3 sm:p-5 md:p-6 overflow-hidden">
+                <div className="bg-white/72 backdrop-blur-2xl rounded-2xl shadow-xl shadow-primary-200/20 border border-neutral-200/80 p-3 sm:p-5 md:p-6 overflow-hidden">
                   <div className="hero-pattern-overlay opacity-[0.2]" />
                   <TabsContent value="flights" className="mt-0 focus-visible:outline-none">
                     <FlightSearchForm />

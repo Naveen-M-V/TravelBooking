@@ -52,8 +52,8 @@ export function PackageSearchForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr,1.5fr,1.5fr,1fr] gap-3 items-end">
         {/* Destination */}
         <div className="space-y-1">
-          <Label htmlFor="destination" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
-            <MapPin className="h-3.5 w-3.5 text-teal-600" />
+          <Label htmlFor="destination" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <MapPin className="h-3.5 w-3.5 text-primary-600" />
             Destination
           </Label>
           <Select
@@ -61,7 +61,7 @@ export function PackageSearchForm() {
             onValueChange={(value: string) => setSearchData({ ...searchData, destination: value })}
             required
           >
-            <SelectTrigger id="destination" className="h-11 text-sm bg-white/70 border-slate-300 focus:ring-teal-500">
+            <SelectTrigger id="destination" className="h-11 text-sm bg-white/85 border-neutral-300 focus:ring-primary-500">
               <SelectValue placeholder="e.g., Mecca, Saudi Arabia" />
             </SelectTrigger>
             <SelectContent>
@@ -77,8 +77,8 @@ export function PackageSearchForm() {
         {/* Dates */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
-            <Label htmlFor="checkIn" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
-              <Calendar className="h-3.5 w-3.5 text-teal-600" />
+            <Label htmlFor="checkIn" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+              <Calendar className="h-3.5 w-3.5 text-primary-600" />
               Check-in
             </Label>
             <Popover>
@@ -86,7 +86,7 @@ export function PackageSearchForm() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full h-11 justify-start text-left font-normal text-sm bg-white/70 border-slate-300 hover:bg-white focus:ring-teal-500"
+                  className="w-full h-11 justify-start text-left font-normal text-sm bg-white/85 border-neutral-300 hover:bg-white focus:ring-primary-500"
                 >
                   {searchData.checkIn ? format(parseISO(searchData.checkIn), 'MMM d, yyyy') : 'Pick a date'}
                 </Button>
@@ -107,8 +107,8 @@ export function PackageSearchForm() {
             </Popover>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="checkOut" className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
-              <Calendar className="h-3.5 w-3.5 text-teal-600" />
+            <Label htmlFor="checkOut" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+              <Calendar className="h-3.5 w-3.5 text-primary-600" />
               Check-out
             </Label>
             <Popover>
@@ -116,7 +116,7 @@ export function PackageSearchForm() {
                 <Button
                   type="button"
                   variant="outline"
-                  className="w-full h-11 justify-start text-left font-normal text-sm bg-white/70 border-slate-300 hover:bg-white focus:ring-teal-500"
+                  className="w-full h-11 justify-start text-left font-normal text-sm bg-white/85 border-neutral-300 hover:bg-white focus:ring-primary-500"
                   disabled={!searchData.checkIn}
                 >
                   {searchData.checkOut ? format(parseISO(searchData.checkOut), 'MMM d, yyyy') : 'Pick a date'}
@@ -141,13 +141,13 @@ export function PackageSearchForm() {
 
         {/* Guests */}
         <div className="space-y-1">
-          <Label className="flex items-center gap-1.5 text-xs font-semibold text-slate-600">
-            <Users className="h-3.5 w-3.5 text-teal-600" />
+          <Label className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <Users className="h-3.5 w-3.5 text-primary-600" />
             Guests & Rooms
           </Label>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full h-11 justify-start text-left font-normal text-sm bg-white/70 border-slate-300 hover:bg-white focus:ring-teal-500">
+              <Button variant="outline" className="w-full h-11 justify-start text-left font-normal text-sm bg-white/85 border-neutral-300 hover:bg-white focus:ring-primary-500">
                 {searchData.adults + searchData.children} Guests, {searchData.rooms} Room(s)
               </Button>
             </PopoverTrigger>
@@ -191,7 +191,7 @@ export function PackageSearchForm() {
 
         {/* Search Button */}
         <div className="flex items-end sm:col-span-2 lg:col-span-1">
-          <Button type="submit" className="w-full h-11 bg-teal-600 hover:bg-teal-700 text-white font-bold text-base gap-2 shadow-lg shadow-teal-500/30 hover:shadow-teal-500/50 transition-all duration-300">
+          <Button type="submit" className="w-full h-11 bg-accent-500 hover:bg-accent-400 text-white font-bold text-base gap-2 shadow-lg shadow-accent-200/50 transition-all duration-300">
             <Search className="h-5 w-5" />
             Search
           </Button>

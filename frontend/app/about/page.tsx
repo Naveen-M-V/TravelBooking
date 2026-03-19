@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Globe, Heart, BadgeCheck, Compass, Utensils, BookOpen, MapPin, XCircle, TrendingUp, Plane } from 'lucide-react'
+import { aboutMarketStats } from '@/data/aboutContent'
 
 export const metadata: Metadata = {
   title: 'About Us | Halal Travels Club',
@@ -24,13 +25,6 @@ const missionPoints = [
     title: 'Build a Global Halal Brand',
     desc: 'We are committed to creating a global platform that Muslims can rely on for all their travel needs, from Halal-friendly accommodations to cultural experiences.',
   },
-]
-
-const stats = [
-  { value: '$200B+', label: 'Global Halal Travel Market' },
-  { value: '9.1%',   label: 'Annual Growth Rate' },
-  { value: '10%',    label: 'Global Tourism Share by 2025' },
-  { value: '$300B',  label: 'Projected Spend by 2026' },
 ]
 
 const halalServices = [
@@ -150,7 +144,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
-            {stats.map(({ value, label }) => (
+            {aboutMarketStats.map(({ value, label }) => (
               <div key={label} className="rounded-2xl bg-white/10 border border-white/15 p-6 text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-cyan-100 mb-2">{value}</div>
                 <div className="text-white/65 text-xs uppercase tracking-wide leading-snug">{label}</div>

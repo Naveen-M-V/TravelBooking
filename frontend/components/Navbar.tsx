@@ -89,7 +89,7 @@ export default function Navbar() {
     <header className={`${isHome ? 'absolute top-0' : 'sticky top-0'} inset-x-0 z-50`}>
       <div className="relative overflow-visible">
         {!isHome && (
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.76),rgba(245,240,255,0.60))] border-b border-white/60 backdrop-blur-xl pointer-events-none shadow-[0_8px_32px_rgba(168,228,255,0.22),0_2px_12px_rgba(216,180,254,0.14)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/90 to-neutral-100/70 border-b border-neutral-200/80 backdrop-blur-xl pointer-events-none shadow-lg shadow-primary-200/20" />
         )}
 
         <div className={`container mx-auto px-3 sm:px-4 relative z-10 ${isHome ? 'pt-3 sm:pt-4' : ''}`}>
@@ -101,7 +101,7 @@ export default function Navbar() {
                 className={`${isHome ? 'h-14 w-40 sm:h-[4.5rem] sm:w-52 md:h-[5rem] md:w-60' : 'h-12 w-36 sm:h-14 sm:w-40'} object-contain object-left group-hover:scale-[1.03] transition-all duration-300`}
                 style={{
                   filter:
-                    'drop-shadow(0 1px 3px rgba(100,160,210,0.28)) drop-shadow(0 2px 8px rgba(160,120,220,0.14))',
+                    'drop-shadow(0 1px 3px rgba(43,196,190,0.22)) drop-shadow(0 2px 8px rgba(255,145,77,0.16))',
                 }}
                 loading="eager"
               />
@@ -115,7 +115,7 @@ export default function Navbar() {
               {!loading && user && (
                 <button
                   onClick={handleLogout}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-white/58 text-cyan-600 px-4 py-2 text-sm font-medium hover:bg-white/80 transition-colors backdrop-blur-sm border border-white/70 shadow-[0_4px_14px_rgba(48,201,211,0.22)]"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white/80 text-primary-600 px-4 py-2 text-sm font-medium hover:bg-neutral-50 transition-colors backdrop-blur-sm border border-neutral-200 shadow-sm"
                 >
                   <LogOut className="h-3.5 w-3.5" />
                   Logout
@@ -127,7 +127,7 @@ export default function Navbar() {
               <button
                 type="button"
                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/60 backdrop-blur-xl text-cyan-600 hover:bg-white/80 transition-colors ring-1 ring-white/72 shadow-[0_4px_14px_rgba(48,201,211,0.22),0_1px_6px_rgba(216,180,254,0.16)]"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/80 backdrop-blur-xl text-primary-600 hover:bg-neutral-50 transition-colors ring-1 ring-neutral-200 shadow-md shadow-primary-200/20"
                 onClick={() => setMobileOpen((v) => !v)}
               >
                 {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -137,9 +137,9 @@ export default function Navbar() {
         </div>
 
         {mobileOpen && (
-          <div className="lg:hidden border-t border-white/10">
+          <div className="lg:hidden border-t border-neutral-200/80">
             <div className="container mx-auto px-4 py-4">
-              <div className="rounded-2xl bg-[linear-gradient(145deg,rgba(255,255,255,0.9),rgba(248,240,255,0.82))] backdrop-blur-2xl ring-1 ring-white/70 p-2 shadow-[0_18px_44px_rgba(168,228,255,0.28),0_4px_18px_rgba(216,180,254,0.18)]">
+              <div className="rounded-2xl bg-white/95 backdrop-blur-2xl ring-1 ring-neutral-200 p-2 shadow-xl shadow-primary-100/40">
                 {displayNavItems.map((item) => {
                   const active = isActive(item.href)
                   return (
@@ -147,7 +147,7 @@ export default function Navbar() {
                       key={item.href}
                       href={item.href}
                       className={`flex items-center justify-between rounded-xl px-5 py-4 text-base font-medium transition-colors ${
-                        active ? 'bg-white/80 text-cyan-700 ring-1 ring-white/80 shadow-[0_3px_14px_rgba(48,201,211,0.28)]' : 'text-cyan-600 hover:bg-white/75 hover:text-cyan-700'
+                        active ? 'bg-primary-50 text-primary-700 ring-1 ring-primary-100 shadow-sm' : 'text-primary-600 hover:bg-neutral-50 hover:text-primary-700'
                       }`}
                     >
                       <span className="inline-flex items-center gap-2.5">
@@ -161,7 +161,7 @@ export default function Navbar() {
                   {!loading && user && (
                     <button
                       onClick={handleLogout}
-                      className="flex items-center gap-2 rounded-xl bg-white/70 text-cyan-700 px-4 py-3 text-sm font-semibold hover:bg-white transition-colors backdrop-blur-sm border border-cyan-300/50"
+                      className="flex items-center gap-2 rounded-xl bg-neutral-50 text-primary-700 px-4 py-3 text-sm font-semibold hover:bg-white transition-colors backdrop-blur-sm border border-primary-200"
                     >
                       <LogOut className="h-4 w-4" />
                       Logout

@@ -4,36 +4,55 @@
 
 @layer base {
   :root {
-    /* Brand tokens from legacy site */
-    --e-global-color-primary: #2dbdb8;
-    --e-global-color-secondary: #30c9d3;
-    --e-global-color-tertiary: #F6871F;
-    --e-global-color-text: #343A51;
-    --e-global-color-accent: #2fc6c0;
-    --e-global-color-border: #EDEEF0;
-    --e-global-color-lighter: #808492;
-    --e-global-color-dark: #2ec2bd;
-    --e-global-color-highlight: #F6871F;
+    /* Centralized light-theme design tokens */
+    --e-global-color-primary: #2bc4be;
+    --e-global-color-secondary: #53d3cd;
+    --e-global-color-tertiary: #ff914d;
+    --e-global-color-text: #3a3630;
+    --e-global-color-accent: #2bc4be;
+    --e-global-color-border: #e5ded1;
+    --e-global-color-lighter: #8f8779;
+    --e-global-color-dark: #2f2b26;
+    --e-global-color-highlight: #ff914d;
+
+    --color-primary-50: #effcfb;
+    --color-primary-100: #d4f5f3;
+    --color-primary-200: #adebe7;
+    --color-primary-300: #80dfda;
+    --color-primary-400: #53d3cd;
+    --color-primary-500: #2bc4be;
+    --color-primary-600: #1ea8a3;
+
+    --color-accent-100: #ffe5d2;
+    --color-accent-300: #ffb988;
+    --color-accent-500: #ff914d;
+
+    --color-neutral-50: #fffdf9;
+    --color-neutral-100: #f9f6ef;
+    --color-neutral-200: #f1ece2;
+    --color-neutral-300: #e5ded1;
+    --color-neutral-700: #4f4a42;
+    --color-neutral-800: #3a3630;
 
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 24 9% 21%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 24 9% 21%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 174 84% 40%;
+    --popover-foreground: 24 9% 21%;
+    --primary: 177 64% 47%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --secondary: 41 38% 95%;
+    --secondary-foreground: 24 9% 21%;
+    --muted: 42 33% 94%;
+    --muted-foreground: 30 8% 43%;
+    --accent: 41 38% 95%;
+    --accent-foreground: 24 9% 21%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 174 84% 40%;
+    --border: 41 24% 88%;
+    --input: 41 24% 88%;
+    --ring: 177 64% 47%;
     --radius: 0.5rem;
   }
  

@@ -52,6 +52,14 @@ function normalizeApiPackage(data: any): FeaturedPackage {
   }
 }
 
+const SPAIN_GALLERY_IMAGES = [
+  '/images/beautiful-view-plaza-de-espana-seville-spain.jpg',
+  '/images/cibeles-palace-fountain-plaza-de-cibeles-madrid-spain-scaled.jpg',
+  '/images/dawn-view-toledo-scaled.jpg',
+  '/images/port-barcelona-evening-spain-scaled.jpg',
+  '/images/view-old-town-cathedral-toledo-scaled.jpg',
+]
+
 export default function PackageDetailPage() {
   const params = useParams()
   const router = useRouter()
@@ -122,7 +130,11 @@ export default function PackageDetailPage() {
     )
   }
 
-  const gallery = pkg.gallery ?? []
+  const isSpainPackage = /spain/i.test(pkg.name) || /spain/i.test(pkg.destination) || /spain/i.test(pkg.country)
+  const sourceGallery = isSpainPackage ? SPAIN_GALLERY_IMAGES : (pkg.gallery ?? [])
+  const gallery = sourceGallery.length >= 6
+    ? sourceGallery
+    : Array.from({ length: 6 }, (_, idx) => sourceGallery[idx % sourceGallery.length]).filter(Boolean)
   const galleryChunkSize = 6
   const totalGalleryPages = Math.max(1, Math.ceil(gallery.length / galleryChunkSize))
   const pagedGallery = gallery.slice(galleryPage * galleryChunkSize, (galleryPage + 1) * galleryChunkSize)
@@ -190,7 +202,7 @@ export default function PackageDetailPage() {
             className="absolute inset-0 w-full h-full object-cover"
           />
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0f2f2f]/90 via-[#115e59]/68 to-[#2dbdb8]/24" />
+          <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/90 via-neutral-900/62 to-primary-500/24" />
           <div className="hero-pattern-overlay" />
 
           {/* Back button */}
@@ -198,7 +210,7 @@ export default function PackageDetailPage() {
             <div className="container mx-auto max-w-5xl">
               <button
                 onClick={() => router.back()}
-                className="inline-flex items-center gap-1.5 rounded-full bg-slate-950/28 ring-1 ring-white/20 backdrop-blur-md px-4 py-2 text-sm font-medium text-white hover:bg-slate-950/38 transition-colors"
+                className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900/42 ring-1 ring-neutral-50/25 backdrop-blur-md px-4 py-2 text-sm font-medium text-neutral-50 hover:bg-neutral-900/55 transition-colors"
               >
                 <ChevronLeft className="h-4 w-4" />
                 Back
@@ -209,26 +221,26 @@ export default function PackageDetailPage() {
           {/* Hero content */}
           <div className="absolute bottom-0 left-0 right-0 px-4 pb-8">
             <div className="container mx-auto max-w-5xl">
-              <div className="max-w-3xl rounded-[28px] border border-white/14 bg-slate-950/28 px-5 py-5 shadow-[0_18px_50px_rgba(15,23,42,0.28)] backdrop-blur-md sm:px-6 sm:py-6">
+              <div className="max-w-3xl rounded-[28px] border border-neutral-50/18 bg-neutral-900/45 px-5 py-5 shadow-[0_18px_50px_rgba(47,43,38,0.34)] backdrop-blur-md sm:px-6 sm:py-6">
                 <div className="mb-3">
                   <HalalRatingBadge rating={{ score: pkg.halalRating, features: pkg.features.slice(0, 2) }} />
                 </div>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-3 [text-shadow:0_4px_22px_rgba(0,0,0,0.38)]">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-neutral-50 leading-tight mb-3 [text-shadow:0_4px_22px_rgba(47,43,38,0.42)]">
                   {pkg.name}
                 </h1>
-                <div className="flex items-center gap-3 text-[15px] text-white/92 flex-wrap">
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-2 ring-1 ring-white/12 backdrop-blur-sm">
-                  <MapPin className="h-4 w-4" />
-                  {pkg.destination}
-                </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-2 ring-1 ring-white/12 backdrop-blur-sm">
-                  <Calendar className="h-4 w-4" />
-                  {pkg.duration}
-                </span>
-                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f6871f]/18 px-3.5 py-2 ring-1 ring-[#f7c28f]/28 backdrop-blur-sm text-[#fff3e4]">
-                  <ShieldCheck className="h-4 w-4 text-[#ffd4a8]" />
-                  Halal Verified
-                </span>
+                <div className="flex items-center gap-3 text-[15px] text-neutral-50/95 flex-wrap">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900/42 px-3.5 py-2 ring-1 ring-neutral-50/18 backdrop-blur-sm">
+                    <MapPin className="h-4 w-4 text-primary-200" />
+                    {pkg.destination}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-neutral-900/42 px-3.5 py-2 ring-1 ring-neutral-50/18 backdrop-blur-sm">
+                    <Calendar className="h-4 w-4 text-primary-200" />
+                    {pkg.duration}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-500/26 px-3.5 py-2 ring-1 ring-accent-100/35 backdrop-blur-sm text-neutral-50">
+                    <ShieldCheck className="h-4 w-4 text-accent-100" />
+                    Halal Verified
+                  </span>
                 </div>
               </div>
             </div>
