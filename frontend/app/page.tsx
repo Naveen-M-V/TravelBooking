@@ -18,6 +18,7 @@ import { testimonialsAPI, type Testimonial } from '@/lib/api/testimonials'
 import { testimonialFallbackMockData } from '@/mocks/testimonials'
 import { aboutMarketStats } from '@/data/aboutContent'
 import { useAuth } from '@/context/AuthContext'
+import { MarketStatsStrip } from '@/components/MarketStatsStrip'
 
 function normalizePackage(p: any): FeaturedPackage {
   return {
@@ -378,13 +379,8 @@ export default function Home() {
         <div className="absolute inset-0 opacity-[0.14]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }} />
 
         <div className="relative container mx-auto max-w-7xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-12 md:mb-16 text-center">
-            {aboutMarketStats.map((item) => (
-              <div key={item.label}>
-                <div className="text-4xl md:text-6xl font-bold text-primary-500 leading-none">{item.value}</div>
-                <p className="text-lg text-neutral-700 mt-2">{item.label}</p>
-              </div>
-            ))}
+          <div className="mb-12 md:mb-16">
+            <MarketStatsStrip stats={aboutMarketStats} />
           </div>
 
           {/* Premium Section Header */}

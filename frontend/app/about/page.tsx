@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Globe, Heart, BadgeCheck, Compass, Utensils, BookOpen, MapPin, XCircle, TrendingUp, Plane } from 'lucide-react'
 import { aboutMarketStats } from '@/data/aboutContent'
+import { MarketStatsStrip } from '@/components/MarketStatsStrip'
 
 export const metadata: Metadata = {
   title: 'About Us | Halal Travels Club',
@@ -143,14 +144,10 @@ export default function AboutPage() {
               and cultural needs, and Halal Travels Club (#HTC) is here to meet that demand.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mb-8">
-            {aboutMarketStats.map(({ value, label }) => (
-              <div key={label} className="rounded-2xl bg-white/10 border border-white/15 p-6 text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-cyan-100 mb-2">{value}</div>
-                <div className="text-white/65 text-xs uppercase tracking-wide leading-snug">{label}</div>
-              </div>
-            ))}
+          <div className="mb-8">
+            <MarketStatsStrip stats={aboutMarketStats} />
           </div>
+
           <p className="text-center text-white/50 text-sm max-w-3xl mx-auto">
             Annual Growth: The Halal tourism market is expanding at an impressive rate of 9.1% annually,
             with Muslim travellers expected to spend $300 billion by 2026. Halal travel is projected to
