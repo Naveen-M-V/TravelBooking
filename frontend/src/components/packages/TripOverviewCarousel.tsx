@@ -205,18 +205,17 @@ export function TripOverviewCarousel({ title = "Featured Tours", packages, rever
                     />
                   </div>
 
-                  {/* Floating Price Tag - Bottom Right */}
-                  <div 
-                    className="absolute bottom-4 right-4 z-20 transition-all duration-500"
-                    style={{
-                      transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
-                    }}
-                  >
-                    <div className="rounded-full bg-gradient-to-r from-primary-500 to-accent-500 px-4 py-2 shadow-lg shadow-primary-500/30 backdrop-blur-sm">
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-[9px] font-bold text-white/80 uppercase tracking-wider">{pkg.currency}</span>
-                        <span className="text-lg font-black text-white">{pkg.price.toLocaleString()}</span>
-                      </div>
+                  {/* Price Badge - Top Left - Glass Style */}
+                  <div className="absolute top-4 left-4 z-20 rounded-xl bg-white/20 backdrop-blur-md border border-white/30 px-3 py-2 shadow-lg">
+                    <div className="flex items-center gap-1 text-[9px] font-bold text-white/90 uppercase tracking-wider mb-0.5">
+                      <Sparkles className="h-2.5 w-2.5" />
+                      <span>FROM</span>
+                    </div>
+                    <div className="text-lg font-black text-white leading-none">
+                      {pkg.currency} {pkg.price.toLocaleString()}
+                    </div>
+                    <div className="text-[9px] text-white/70 mt-0.5">
+                      / person
                     </div>
                   </div>
 

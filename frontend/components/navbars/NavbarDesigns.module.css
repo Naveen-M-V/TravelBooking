@@ -7,10 +7,7 @@
   background: rgba(255, 255, 255, 0.72);
   border: 1px solid rgba(229, 222, 209, 0.85);
   backdrop-filter: blur(10px);
-  box-shadow:
-    0 14px 34px rgba(43, 196, 190, 0.18),
-    0 3px 14px rgba(255, 145, 77, 0.14),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  
 }
 
 .navOne::before,
