@@ -387,76 +387,181 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="text-center mb-10 md:mb-12">
-            <h3 className="text-3xl md:text-4xl font-extrabold text-neutral-800">Trusted by Muslim Travelers</h3>
-            <p className="text-base md:text-lg text-neutral-700 mt-4">Live testimonials with reliable fallback insights from our About story.</p>
+          {/* Premium Section Header */}
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-100/80 to-accent-100/80 border border-primary-200/60 px-4 py-1.5 mb-5 shadow-sm">
+              <span className="h-2 w-2 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 animate-pulse" />
+              <span className="text-xs font-bold uppercase tracking-[0.2em] bg-gradient-to-r from-primary-700 to-accent-600 bg-clip-text text-transparent">Testimonials</span>
+            </div>
+            <h3 className="relative text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
+              <span className="font-serif italic font-light bg-gradient-to-r from-neutral-700 via-neutral-600 to-neutral-700 bg-clip-text text-transparent">Trusted by</span>{' '}
+              <span className="font-black tracking-tight bg-gradient-to-r from-primary-600 via-accent-500 via-primary-400 to-accent-400 bg-clip-text text-transparent drop-shadow-[0_2px_10px_rgba(20,184,166,0.3)]">Muslim Travelers</span>
+            </h3>
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-12 h-[2px] bg-gradient-to-r from-transparent via-primary-300 to-primary-400 rounded-full" />
+              <div className="w-20 h-[3px] bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 rounded-full" />
+              <div className="w-12 h-[2px] bg-gradient-to-l from-transparent via-accent-300 to-accent-400 rounded-full" />
+            </div>
+            <p className="text-base md:text-lg text-neutral-600 max-w-2xl mx-auto">Live testimonials with reliable fallback insights from our About story.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <article key={t.id} className="rounded-[1.8rem] border border-neutral-200 bg-white px-7 py-7 shadow-sm hover:shadow-md transition-shadow">
-                <div className="flex items-center gap-1 mb-5 text-accent-500">
-                  {Array.from({ length: 5 }, (_, i) => (
-                    <Star key={i} className={`h-5 w-5 ${i < Math.round(t.rating) ? 'fill-accent-500 text-accent-500' : 'text-neutral-300'}`} />
-                  ))}
+          {/* Premium Testimonial Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            {testimonials.map((t, index) => (
+              <article
+                key={t.id}
+                className="group relative rounded-[2rem] overflow-hidden transition-all duration-700 ease-out hover:-translate-y-3"
+              >
+                {/* Animated gradient border */}
+                <div className="absolute -inset-[1px] rounded-[2rem] bg-gradient-to-br from-primary-300/60 via-accent-300/40 to-primary-300/60 opacity-60 group-hover:opacity-100 transition-opacity duration-700" />
+                
+                {/* Glass morphism card */}
+                <div className="relative h-full rounded-[2rem] bg-gradient-to-br from-white/95 via-white/90 to-primary-50/80 backdrop-blur-xl border border-white/60 p-7 md:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.06)] group-hover:shadow-[0_20px_50px_rgba(20,184,166,0.15)] transition-all duration-700">
+                  {/* Glow effect on hover */}
+                  <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-primary-400/5 via-transparent to-accent-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  
+                  <div className="relative">
+                    {/* Premium Star Rating */}
+                    <div className="flex items-center gap-1.5 mb-6">
+                      {Array.from({ length: 5 }, (_, i) => (
+                        <div
+                          key={i}
+                          className={`relative transition-all duration-500 delay-${i * 100} group-hover:scale-110`}
+                          style={{ transitionDelay: `${i * 50}ms` }}
+                        >
+                          <Star
+                            className={`h-5 w-5 transition-all duration-300 ${
+                              i < Math.round(t.rating)
+                                ? 'fill-gradient-to-br from-accent-400 to-primary-500 text-accent-500 drop-shadow-[0_2px_4px_rgba(20,184,166,0.3)]'
+                                : 'fill-neutral-100 text-neutral-300'
+                            }`}
+                          />
+                          {i < Math.round(t.rating) && (
+                            <div className="absolute inset-0 bg-gradient-to-br from-accent-400 to-primary-500 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300" />
+                          )}
+                        </div>
+                      ))}
+                      <span className="ml-2 text-sm font-bold text-accent-600">{t.rating}.0</span>
+                    </div>
+
+                    {/* Quote with decorative marks */}
+                    <div className="relative mb-6">
+                      <span className="absolute -top-3 -left-2 text-5xl text-primary-200/50 font-serif leading-none select-none">&ldquo;</span>
+                      <p className="text-base md:text-lg leading-relaxed text-neutral-700 font-medium relative z-10 pl-4">
+                        {t.quote}
+                      </p>
+                      <span className="absolute -bottom-6 right-0 text-5xl text-primary-200/50 font-serif leading-none select-none">&rdquo;</span>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="h-px w-full bg-gradient-to-r from-transparent via-primary-200/60 to-transparent mb-5" />
+
+                    {/* Author Info with Avatar Placeholder */}
+                    <div className="flex items-center gap-4">
+                      <div className="relative">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-400 to-accent-500 p-[2px] shadow-lg shadow-primary-200/50">
+                          <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
+                            <span className="text-lg font-bold bg-gradient-to-br from-primary-600 to-accent-500 bg-clip-text text-transparent">
+                              {t.name.charAt(0)}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br from-accent-400 to-primary-500 flex items-center justify-center shadow-md">
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-base font-bold bg-gradient-to-r from-neutral-800 to-neutral-600 bg-clip-text text-transparent">{t.name}</p>
+                        <p className="text-sm text-neutral-500 font-medium">{t.city}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-base md:text-lg leading-relaxed text-neutral-800 mb-6">&ldquo;{t.quote}&rdquo;</p>
-                <p className="text-lg font-bold text-neutral-800">{t.name}</p>
-                <p className="text-sm text-neutral-500 mt-1">{t.city}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA - modular compact layout */}
-      <section className="py-10 md:py-12 px-4 bg-gradient-to-br from-primary-50/40 via-white to-neutral-50 relative overflow-hidden border-t border-primary-100/70">
-        <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }} />
+      {/* Premium Final CTA - Elegant Glass Design */}
+      <section className="py-12 md:py-16 px-4 bg-gradient-to-br from-primary-50/60 via-white to-accent-50/40 relative overflow-hidden">
+        {/* Animated background patterns */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, rgba(20,184,166,0.4) 1px, transparent 0)", backgroundSize: '40px 40px' }} />
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-primary-200/30 to-transparent rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-to-br from-accent-200/30 to-transparent rounded-full blur-3xl" />
+        
         <div className="relative container mx-auto max-w-6xl">
-          <div className="rounded-[2rem] border border-primary-100/80 bg-white/90 backdrop-blur-sm shadow-xl shadow-primary-100/50 p-5 sm:p-6 md:p-7">
-            <div className="grid grid-cols-1 lg:grid-cols-[1.3fr,0.7fr] gap-6 items-center">
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-full bg-primary-50 border border-primary-100 px-3 py-1 mb-3">
-                  <span className="h-2 w-2 rounded-full bg-primary-500" />
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary-700">Plan with confidence</span>
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-800 leading-tight">
-                  Start your next halal journey
-                </h2>
-                <p className="text-sm sm:text-base text-neutral-700 mt-3 max-w-2xl">
-                  Curated destinations, verified services, and concierge support in one modern booking flow.
-                </p>
+          {/* Premium Card with Animated Border */}
+          <div className="relative rounded-[2.5rem] p-[2px] bg-gradient-to-br from-primary-300/80 via-accent-300/60 to-primary-300/80 shadow-[0_20px_60px_rgba(20,184,166,0.2)]">
+            <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-primary-400/20 via-transparent to-accent-400/20 animate-pulse" />
+            
+            <div className="relative rounded-[2.4rem] bg-gradient-to-br from-white via-white/95 to-primary-50/90 backdrop-blur-xl p-6 sm:p-8 md:p-10">
+              <div className="grid grid-cols-1 lg:grid-cols-[1.4fr,0.6fr] gap-8 items-center">
+                <div>
+                  {/* Premium Badge */}
+                  <div className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-primary-100/80 to-accent-100/80 border border-primary-200/60 px-4 py-2 mb-4 shadow-sm">
+                    <span className="h-2.5 w-2.5 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 animate-pulse" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] bg-gradient-to-r from-primary-700 to-accent-600 bg-clip-text text-transparent">Plan with confidence</span>
+                  </div>
+                  
+                  {/* Premium Title with Typography Mix */}
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4">
+                    <span className="font-serif italic font-light bg-gradient-to-r from-neutral-700 to-neutral-600 bg-clip-text text-transparent">Start your</span>{' '}
+                    <span className="font-black bg-gradient-to-r from-primary-600 via-accent-500 to-primary-500 bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(20,184,166,0.25)]">next halal journey</span>
+                  </h2>
+                  
+                  <p className="text-sm sm:text-base text-neutral-600 mt-3 max-w-xl leading-relaxed">
+                    Curated destinations, verified services, and concierge support in one modern booking flow.
+                  </p>
 
-                <div className="mt-5 flex flex-wrap gap-2.5">
-                  {[
-                    'Verified Halal-Friendly Stays',
-                    'Muslim-Friendly Dining Guidance',
-                    'Prayer & Mosque Convenience',
-                    'Concierge-Level Human Support',
-                  ].map((item) => (
-                    <span
-                      key={item}
-                      className="inline-flex items-center rounded-full border border-primary-100 bg-primary-50/70 px-3 py-1.5 text-xs font-medium text-primary-800"
-                    >
-                      {item}
+                  {/* Premium Feature Pills with Icons */}
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    {[
+                      { icon: '✓', label: 'Verified Halal-Friendly Stays' },
+                      { icon: '✓', label: 'Muslim-Friendly Dining Guidance' },
+                      { icon: '✓', label: 'Prayer & Mosque Convenience' },
+                      { icon: '✓', label: 'Concierge-Level Human Support' },
+                    ].map(({ icon, label }) => (
+                      <span
+                        key={label}
+                        className="group inline-flex items-center gap-2 rounded-full border border-primary-200/70 bg-gradient-to-r from-primary-50/80 to-white/80 backdrop-blur-sm px-4 py-2 text-xs font-semibold text-primary-700 transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 hover:border-primary-300"
+                      >
+                        <span className="flex items-center justify-center w-4 h-4 rounded-full bg-gradient-to-br from-primary-500 to-accent-500 text-white text-[10px] font-bold">{icon}</span>
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Premium Buttons Stack */}
+                <div className="flex flex-col gap-4 lg:pl-4">
+                  <button
+                    onClick={() => router.push('/register')}
+                    className="group relative w-full rounded-2xl bg-gradient-to-r from-accent-500 via-primary-500 to-accent-400 text-white px-8 py-4 text-sm font-bold shadow-lg shadow-accent-200/50 transition-all duration-500 ease-out hover:shadow-[0_12px_40px_rgba(20,184,166,0.4)] hover:scale-[1.02] hover:-translate-y-1 active:scale-[0.98] overflow-hidden"
+                  >
+                    <span className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                    <span className="relative flex items-center justify-center gap-2">
+                      Start Planning Your Trip
+                      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
                     </span>
-                  ))}
+                  </button>
+                  
+                  <button
+                    onClick={() => router.push('/about')}
+                    className="group w-full rounded-2xl border-2 border-primary-200 bg-gradient-to-br from-white to-primary-50/50 text-primary-700 px-8 py-4 text-sm font-bold transition-all duration-300 hover:bg-gradient-to-br hover:from-primary-50 hover:to-white hover:border-primary-300 hover:shadow-lg hover:-translate-y-0.5"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      Learn More
+                      <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </span>
+                  </button>
                 </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row lg:flex-col gap-3 lg:justify-center">
-                <button
-                  onClick={() => router.push('/register')}
-                  className="w-full rounded-xl bg-accent-500 text-white px-6 py-3 text-sm font-semibold hover:bg-accent-400 transition-colors"
-                >
-                  Start Planning Your Trip
-                </button>
-                <button
-                  onClick={() => router.push('/about')}
-                  className="w-full rounded-xl border border-primary-200 bg-primary-50/50 text-primary-700 px-6 py-3 text-sm font-semibold hover:bg-primary-50 transition-colors"
-                >
-                  Learn More
-                </button>
               </div>
             </div>
           </div>
