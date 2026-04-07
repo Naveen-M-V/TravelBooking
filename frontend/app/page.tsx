@@ -489,12 +489,11 @@ export default function Home() {
       <section className="py-12 md:py-16 px-4 bg-gradient-to-br from-primary-50/60 via-white to-accent-50/40 relative overflow-hidden">
         {/* Animated background patterns */}
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, rgba(20,184,166,0.4) 1px, transparent 0)", backgroundSize: '40px 40px' }} />
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-primary-200/30 to-transparent rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-to-br from-accent-200/30 to-transparent rounded-full blur-3xl" />
         
         <div className="relative container mx-auto max-w-6xl">
           {/* Premium Card with Animated Border */}
-          <div className="relative rounded-[2.5rem] p-[2px] bg-gradient-to-br from-primary-300/80 via-accent-300/60 to-primary-300/80 shadow-[0_20px_60px_rgba(20,184,166,0.2)]">
+          <div className="relative rounded-[2.5rem] p-[2px] bg-gradient-to-br from-primary-300/80 via-accent-300/60 to-primary-300/80 shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
             <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-primary-400/20 via-transparent to-accent-400/20 animate-pulse" />
             
             <div className="relative rounded-[2.4rem] bg-gradient-to-br from-white via-white/95 to-primary-50/90 backdrop-blur-xl p-6 sm:p-8 md:p-10">
@@ -503,7 +502,7 @@ export default function Home() {
                   {/* Premium Badge */}
                   <div className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-primary-100/80 to-accent-100/80 border border-primary-200/60 px-4 py-2 mb-4 shadow-sm">
                     <span className="h-2.5 w-2.5 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 animate-pulse" />
-                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] bg-gradient-to-r from-primary-700 to-accent-600 bg-clip-text text-transparent">Plan with confidence</span>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] bg-gradient-to-r from-primary-700 to-accent-600 bg-clip-text ">Plan with confidence</span>
                   </div>
                   
                   {/* Premium Title with Typography Mix */}
