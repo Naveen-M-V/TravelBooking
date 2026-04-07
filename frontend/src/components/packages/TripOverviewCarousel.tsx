@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight, MapPin, Calendar, Sparkles } from 'lucide-react'
+import { ChevronLeft, ChevronRight, MapPin, Calendar, Sparkles, ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import type { FeaturedPackage } from '@/mocks/featured-packages'
 
@@ -19,6 +19,7 @@ export function TripOverviewCarousel({ title = "Featured Tours", packages, rever
   const carouselRef = useRef<HTMLDivElement>(null)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const pausedRef = useRef(false)
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const doubled = [...packages, ...packages]
 
   const getStep = () => {
@@ -142,88 +143,161 @@ export function TripOverviewCarousel({ title = "Featured Tours", packages, rever
 
         <div
           ref={carouselRef}
-          className="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory px-4 md:px-6 pb-6 scrollbar-hide"
-          style={{ scrollbarWidth: 'none' }}
+          className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory px-4 md:px-8 pb-8 scrollbar-hide"
+          style={{ scrollbarWidth: 'none', perspective: '1500px' }}
           onMouseEnter={() => { pausedRef.current = true }}
-          onMouseLeave={() => { pausedRef.current = false }}
+          onMouseLeave={() => { pausedRef.current = false; setHoveredIndex(null) }}
         >
-          {doubled.map((pkg, index) => (
-            <div
-              key={`${pkg.id}-${index}`}
-              data-trip-card="true"
-              className="relative flex-shrink-0 w-[78vw] sm:w-[44vw] lg:w-[29vw] xl:w-[calc((100%-4rem)/4)] max-w-[320px] xl:max-w-none group cursor-pointer snap-start"
-              onClick={() => router.push(`/packages/${pkg.id}`)}
-            >
-              {/* Premium Price Badge */}
-              <div className="absolute top-4 left-4 z-10 rounded-2xl border border-white/30 bg-gradient-to-br from-neutral-900/75 via-neutral-800/80 to-neutral-900/75 backdrop-blur-xl px-4 py-3 shadow-2xl shadow-black/20">
-                <div className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-primary-300">
-                  <Sparkles className="h-3 w-3" />
-                  <span>From</span>
-                </div>
-                <p className="mt-1.5 text-lg font-black leading-none text-white [text-shadow:0_2px_10px_rgba(0,0,0,0.4)]">
-                  {pkg.currency} {pkg.price.toLocaleString()}
-                </p>
-                <p className="mt-0.5 text-[11px] font-medium leading-none text-neutral-300">/ person</p>
-              </div>
-
-              {/* Premium Card Container */}
-              <div className="relative h-[380px] sm:h-[410px] md:h-[420px] rounded-[2rem] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.15)] hover:shadow-[0_32px_80px_rgba(15,118,110,0.25)] transition-all duration-700 hover:-translate-y-2 ring-1 ring-white/20">
-                {/* Image with enhanced zoom */}
-                <div className="relative h-full w-full">
-                  <Image
-                    src={pkg.image}
-                    alt={pkg.name}
-                    fill
-                    className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-110"
+          {doubled.map((pkg, index) => {
+            const isHovered = hoveredIndex === index
+            return (
+              <div
+                key={`${pkg.id}-${index}`}
+                data-trip-card="true"
+                className="relative flex-shrink-0 w-[70vw] sm:w-[38vw] lg:w-[26vw] xl:w-[calc((100%-8rem)/4)] max-w-[300px] xl:max-w-none cursor-pointer snap-start"
+                style={{ 
+                  transform: isHovered ? 'scale(1.03)' : 'scale(1)',
+                  transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  zIndex: isHovered ? 10 : 1
+                }}
+                onClick={() => router.push(`/packages/${pkg.id}`)}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                {/* Luxury Compact Card */}
+                <div className="relative h-[320px] sm:h-[340px] md:h-[360px] rounded-[2rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] hover:shadow-[0_30px_70px_rgba(15,118,110,0.3)] transition-all duration-500 bg-neutral-900 ring-1 ring-white/10">
+                  
+                  {/* Animated Border Glow */}
+                  <div 
+                    className="absolute inset-0 rounded-[2rem] p-[1px] transition-opacity duration-500"
+                    style={{
+                      opacity: isHovered ? 1 : 0,
+                      background: 'linear-gradient(135deg, rgba(43,196,190,0.6), rgba(15,118,110,0.3), rgba(43,196,190,0.6))'
+                    }}
                   />
-                  {/* Subtle vignette overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10 opacity-60" />
-                </div>
 
-                {/* Hover Glow Effect */}
-                <div className="pointer-events-none absolute inset-0 opacity-0 bg-[radial-gradient(circle_at_50%_50%,rgba(43,196,190,0.25)_0%,rgba(43,196,190,0.08)_40%,rgba(43,196,190,0)_70%)] transition-opacity duration-700 group-hover:opacity-100" />
+                  {/* Image */}
+                  <div className="relative h-full w-full">
+                    <Image
+                      src={pkg.image}
+                      alt={pkg.name}
+                      fill
+                      className="object-cover object-center transition-all duration-700 ease-out"
+                      style={{
+                        transform: isHovered ? 'scale(1.1)' : 'scale(1)',
+                        filter: isHovered ? 'brightness(0.75)' : 'brightness(0.9)'
+                      }}
+                    />
+                    
+                    {/* Gradient Overlay */}
+                    <div 
+                      className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent transition-opacity duration-500"
+                      style={{ opacity: isHovered ? 1 : 0.7 }}
+                    />
 
-                {/* Premium Bottom Content Panel */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-neutral-950/95 via-neutral-900/80 to-transparent p-5 sm:p-6 transition-all duration-500">
-                  <div className="rounded-2xl bg-white/10 ring-1 ring-white/20 backdrop-blur-xl p-4 sm:p-5 shadow-xl">
-                    {/* Premium Title with gradient text effect */}
-                    <h3 className="relative text-sm sm:text-base md:text-lg font-bold uppercase tracking-[0.08em] leading-snug line-clamp-2 mb-1 font-display">
-                      <span className="bg-gradient-to-r from-white via-white to-primary-200 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]">
+                    {/* Subtle Glow on Hover */}
+                    <div 
+                      className="absolute inset-0 transition-opacity duration-500 pointer-events-none"
+                      style={{
+                        opacity: isHovered ? 0.6 : 0,
+                        background: 'radial-gradient(circle at 70% 20%, rgba(43,196,190,0.2) 0%, transparent 60%)'
+                      }}
+                    />
+                  </div>
+
+                  {/* Floating Price Tag - Bottom Right */}
+                  <div 
+                    className="absolute bottom-4 right-4 z-20 transition-all duration-500"
+                    style={{
+                      transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
+                    }}
+                  >
+                    <div className="rounded-full bg-gradient-to-r from-primary-500 to-accent-500 px-4 py-2 shadow-lg shadow-primary-500/30 backdrop-blur-sm">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-[9px] font-bold text-white/80 uppercase tracking-wider">{pkg.currency}</span>
+                        <span className="text-lg font-black text-white">{pkg.price.toLocaleString()}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Quick Action - Top Right */}
+                  <div 
+                    className="absolute top-4 right-4 z-20 transition-all duration-500"
+                    style={{
+                      opacity: isHovered ? 1 : 0,
+                      transform: isHovered ? 'translateY(0)' : 'translateY(-10px)',
+                    }}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center ring-1 ring-white/30">
+                      <ArrowUpRight className="h-4 w-4 text-white" />
+                    </div>
+                  </div>
+
+                  {/* Content - Bottom Left */}
+                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                    {/* Title Always Visible */}
+                    <h3 className="text-sm sm:text-base font-black uppercase tracking-[0.08em] leading-tight line-clamp-2 mb-1 font-display">
+                      <span className="bg-gradient-to-r from-white via-white to-primary-200 bg-clip-text text-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                         {pkg.name}
                       </span>
                     </h3>
 
-                    {/* Expandable Details */}
-                    <div className="max-h-0 opacity-0 overflow-hidden group-hover:max-h-56 group-hover:opacity-100 transition-all duration-500 ease-out">
-                      <div className="pt-3 space-y-2">
-                        <div className="flex items-center gap-2.5 text-sm text-neutral-100/95">
-                          <div className="w-7 h-7 rounded-lg bg-primary-500/20 backdrop-blur-sm flex items-center justify-center">
-                            <MapPin className="h-3.5 w-3.5 text-primary-300" />
-                          </div>
-                          <span className="font-medium">{pkg.destination}</span>
+                    {/* Compact Divider */}
+                    <div className="flex items-center gap-2 mb-3">
+                      <div 
+                        className="h-[2px] bg-gradient-to-r from-accent-400 to-primary-400 rounded-full transition-all duration-500"
+                        style={{ width: isHovered ? '25px' : '12px' }}
+                      />
+                      <div className="w-1 h-1 rounded-full bg-accent-400" />
+                    </div>
+
+                    {/* Details Panel - Slides Up on Hover */}
+                    <div 
+                      className="transition-all duration-500 overflow-hidden"
+                      style={{
+                        maxHeight: isHovered ? '140px' : '0px',
+                        opacity: isHovered ? 1 : 0,
+                      }}
+                    >
+                      <div className="space-y-2 pb-1">
+                        {/* Location */}
+                        <div className="flex items-center gap-2 text-xs text-white/90">
+                          <MapPin className="h-3 w-3 text-primary-300 flex-shrink-0" />
+                          <span className="line-clamp-1 font-medium">{pkg.destination}</span>
                         </div>
-                        <div className="flex items-center gap-2.5 text-sm">
-                          <div className="w-7 h-7 rounded-lg bg-accent-500/20 backdrop-blur-sm flex items-center justify-center">
-                            <Calendar className="h-3.5 w-3.5 text-accent-300" />
-                          </div>
-                          <span className="font-medium text-accent-100">{pkg.duration}</span>
+                        
+                        {/* Duration */}
+                        <div className="flex items-center gap-2 text-xs text-accent-100">
+                          <Calendar className="h-3 w-3 text-accent-300 flex-shrink-0" />
+                          <span className="font-medium">{pkg.duration}</span>
                         </div>
-                        <p className="text-sm text-neutral-100/80 leading-relaxed font-light line-clamp-3 pt-1">
+
+                        {/* Description */}
+                        <p className="text-[11px] text-white/70 leading-snug line-clamp-2 pt-1">
                           {pkg.description}
                         </p>
-                        
-                        {/* Premium CTA hint */}
-                        <div className="pt-2 flex items-center gap-2 text-xs font-semibold text-primary-300 uppercase tracking-wider">
-                          <span>View Details</span>
-                          <ChevronRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
+
+                        {/* Mini CTA */}
+                        <div className="flex items-center gap-1.5 pt-2 text-[10px] font-bold text-accent-300 uppercase tracking-wider">
+                          <span>Explore</span>
+                          <ChevronRight className="h-3 w-3" />
                         </div>
                       </div>
                     </div>
                   </div>
+
+                  {/* Corner Accent */}
+                  <div 
+                    className="absolute top-4 left-4 w-6 h-6 transition-opacity duration-500"
+                    style={{ opacity: isHovered ? 0.5 : 0.3 }}
+                  >
+                    <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-white/60 to-transparent" />
+                    <div className="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-white/60 to-transparent" />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
 

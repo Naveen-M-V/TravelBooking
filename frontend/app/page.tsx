@@ -284,7 +284,7 @@ export default function Home() {
               Every detail of your stay is carefully managed to meet your <span className="text-primary-600 font-semibold">Halal travel needs</span>
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" style={{ perspective: '1200px' }}>
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-8" style={{ perspective: '1200px' }}>
             {[
               { Icon: XCircle,   title: 'Mini Bar Removal',      desc: 'No liquor or alcohol-related items in hotel room mini bars. Pure, halal-compliant environment.', gradient: 'from-rose-400 via-rose-500 to-pink-500', iconBg: 'bg-rose-500', ringColor: 'ring-rose-300' },
               { Icon: BookOpen,  title: 'Prayer Mat Provided',     desc: 'Fresh prayer mats available in every hotel room for your daily prayers and spiritual needs.', gradient: 'from-teal-400 via-teal-500 to-emerald-500', iconBg: 'bg-teal-500', ringColor: 'ring-teal-300' },
@@ -294,7 +294,7 @@ export default function Home() {
             ].map(({ Icon, title, desc, gradient, iconBg, ringColor }) => (
               <div
                 key={title}
-                className="relative h-[260px] sm:h-[280px] cursor-pointer group"
+                className="relative h-[260px] sm:h-[280px] w-full sm:w-[280px] lg:w-[320px] cursor-pointer group flex-shrink-0"
                 style={{ perspective: '1200px' }}
               >
                 {/* Flip Container */}
