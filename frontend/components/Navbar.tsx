@@ -122,8 +122,8 @@ export default function Navbar() {
                       href={item.href}
                       className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
                         active
-                          ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/25'
-                          : 'text-neutral-600 hover:text-primary-600 hover:bg-white/80'
+                          ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25'
+                          : 'text-neutral-600 hover:text-primary-700 hover:bg-white/80'
                       }`}
                     >
                       <item.Icon className={`h-4 w-4 transition-transform duration-300 ${active ? 'scale-110' : ''}`} />
