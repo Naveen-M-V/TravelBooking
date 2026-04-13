@@ -281,7 +281,7 @@ export default function Home() {
 
         <div className="container mx-auto max-w-5xl relative z-10">
           {/* Header */}
-          <div className="text-center mb-10 sm:mb-14">
+          <div className="text-center mb-4 sm:mb-6">
             <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-100/90 to-accent-100/90 border border-primary-200/80 px-5 py-2 mb-5 shadow-sm backdrop-blur-sm">
               <span className="h-2 w-2 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 animate-pulse" />
               <span className="text-primary-800 text-[10px] font-bold uppercase tracking-[0.2em]">#HTC</span>
@@ -291,7 +291,7 @@ export default function Home() {
               <br />
               <span className="text-primary-700">Services</span>
             </h2>
-            <div className="flex items-center justify-center gap-3 mb-5">
+            <div className="flex items-center justify-center gap-3">
               <div className="w-10 h-[2px] bg-gradient-to-r from-transparent via-primary-300 to-primary-400 rounded-full" />
               <div className="w-16 h-[3px] bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 rounded-full" />
               <div className="w-10 h-[2px] bg-gradient-to-l from-transparent via-accent-300 to-accent-400 rounded-full" />
@@ -388,27 +388,40 @@ export default function Home() {
                 const ly2 = y + CR + 46   // second label line
 
                 return (
-                  <g key={service.id}>
+                  <g key={service.id} className="group cursor-pointer">
                     {/* shadow layer */}
                     <circle
                       cx={x} cy={y + 6} r={CR}
                       fill="#00000014"
                       filter="url(#cshadow)"
+                      className="transition-all duration-300 group-hover:fill-black/30"
                     />
-                    {/* main coloured circle */}
-                    <circle cx={x} cy={y} r={CR} fill={`url(#grad-${service.id})`} />
-                    {/* gloss sheen */}
-                    <ellipse
-                      cx={x - CR * 0.20}
-                      cy={y - CR * 0.28}
-                      rx={CR * 0.50}
-                      ry={CR * 0.28}
-                      fill="white"
-                      opacity="0.18"
-                    />
-                    {/* icon — scaled 1.2× for visibility */}
-                    <g transform={`translate(${x},${y + 2}) scale(1.2)`}>
-                      {service.icon}
+                    {/* main coloured circle with hover effects */}
+                    <g className="origin-center transition-transform duration-300 ease-out group-hover:scale-110">
+                      <circle cx={x} cy={y} r={CR} fill={`url(#grad-${service.id})`} />
+                      {/* glow ring on hover */}
+                      <circle
+                        cx={x} cy={y} r={CR + 4}
+                        fill="none"
+                        stroke={service.g1}
+                        strokeWidth="3"
+                        opacity="0"
+                        className="transition-opacity duration-300 group-hover:opacity-60"
+                      />
+                      {/* gloss sheen */}
+                      <ellipse
+                        cx={x - CR * 0.20}
+                        cy={y - CR * 0.28}
+                        rx={CR * 0.50}
+                        ry={CR * 0.28}
+                        fill="white"
+                        opacity="0.18"
+                        className="transition-opacity duration-300 group-hover:opacity-30"
+                      />
+                      {/* icon */}
+                      <g transform={`translate(${x},${y + 2}) scale(1.2)`}>
+                        {service.icon}
+                      </g>
                     </g>
                     {/* label line 1 */}
                     <text
@@ -418,6 +431,7 @@ export default function Home() {
                       fontSize="15"
                       fill="#374151"
                       fontWeight="600"
+                      className="transition-all duration-300 group-hover:fill-primary-700 group-hover:font-bold"
                     >
                       {service.label[0]}
                     </text>
@@ -429,6 +443,7 @@ export default function Home() {
                       fontSize="15"
                       fill="#374151"
                       fontWeight="600"
+                      className="transition-all duration-300 group-hover:fill-primary-700 group-hover:font-bold"
                     >
                       {service.label[1]}
                     </text>
