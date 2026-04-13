@@ -14,10 +14,11 @@ import {
   MessageCircle,
   LayoutDashboard,
   LogIn,
+  User,
+  ChevronDown,
   type LucideIcon,
 } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
-import styles from '@/components/navbars/NavbarDesigns.module.css'
 
 interface NavItem {
   href: string
@@ -30,14 +31,25 @@ export default function Navbar() {
   const router = useRouter()
   const { user, loading, signOut } = useAuth()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
 
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   const handleLogout = () => {
     signOut()
     router.push('/')
+    setUserMenuOpen(false)
   }
 
   const dashboardHref = user?.role === 'admin' ? '/dashboard/admin' : '/dashboard/customer'
@@ -51,127 +63,197 @@ export default function Navbar() {
     { href: '/contact', label: 'Contact', Icon: MessageCircle },
   ]
 
-  const authNavItem: NavItem | null = !loading
-    ? (user
-      ? { href: dashboardHref, label: 'Dashboard', Icon: LayoutDashboard }
-      : { href: '/login', label: 'Login', Icon: LogIn })
-    : null
-
-  const displayNavItems = authNavItem ? [...navItems, authNavItem] : navItems
-
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
     return pathname?.startsWith(href)
   }
 
-  const renderNavStyleOne = () => (
-    <nav className={styles.navOne} aria-label="Primary navigation style 1">
-      <ul className={styles.navOneList}>
-        {displayNavItems.map((item) => {
-          const active = isActive(item.href)
-          return (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className={`${styles.navOneLink} ${active ? styles.navOneLinkActive : ''}`}
-              >
-                <item.Icon className={styles.navOneIcon} aria-hidden />
-                <span>{item.label}</span>
-              </Link>
-            </li>
-          )
-        })}
-      </ul>
-    </nav>
-  )
-
   return (
-    <header className={`${isHome ? 'absolute top-0' : 'sticky top-0'} inset-x-0 z-50`}>
-      <div className="relative overflow-visible">
-        {!isHome && (
-          <div className="absolute inset-0 bg-gradient-to-b from-white/90 to-neutral-100/70 border-b border-neutral-200/80 backdrop-blur-xl pointer-events-none shadow-lg shadow-primary-200/20" />
-        )}
+    <header 
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+        scrolled || !isHome ? 'py-3' : 'py-4 sm:py-5'
+      }`}
+    >
+      {/* Premium floating nav container */}
+      <div className="container mx-auto px-4 sm:px-6">
+        <div 
+          className={`relative mx-auto max-w-5xl rounded-[2rem] sm:rounded-[2.5rem] transition-all duration-500 ${
+            scrolled || !isHome
+              ? 'bg-white/85 backdrop-blur-xl shadow-[0_8px_40px_rgba(196,154,98,0.15)] ring-1 ring-neutral-200/80'
+              : 'bg-white/70 backdrop-blur-lg shadow-[0_4px_30px_rgba(0,0,0,0.08)] ring-1 ring-white/60'
+          }`}
+        >
+          {/* Animated gradient border */}
+          <div className="absolute -inset-[1px] rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-r from-primary-300/60 via-accent-300/40 to-primary-300/60 opacity-0 hover:opacity-100 transition-opacity duration-700" />
+          
+          {/* Inner glow */}
+          <div className="absolute inset-0 rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-br from-white/50 via-transparent to-primary-50/30 pointer-events-none" />
 
-        <div className={`container mx-auto px-3 sm:px-4 relative z-10 ${isHome ? 'pt-3 sm:pt-4' : ''}`}>
-          <div className={`${isHome ? 'min-h-[88px] sm:min-h-[96px]' : 'h-20'} grid grid-cols-[auto,1fr,auto] items-center gap-3 lg:grid-cols-[minmax(220px,260px),1fr,minmax(220px,260px)]`}>
-            <Link href="/" className="group inline-flex items-center self-center transition-all hover:scale-[1.02] shrink-0">
-              <img
-                src="/Halal-Logo-White-BR.svg"
-                alt="Halal Travels Club"
-                className={`${isHome ? 'h-14 w-40 sm:h-[4.5rem] sm:w-52 md:h-[5rem] md:w-60' : 'h-12 w-36 sm:h-14 sm:w-40'} object-contain object-left group-hover:scale-[1.03] transition-all duration-300`}
-                style={{
-                  filter:
-                    'drop-shadow(0 1px 3px rgba(43,196,190,0.22)) drop-shadow(0 2px 8px rgba(255,145,77,0.16))',
-                }}
-                loading="eager"
-              />
+          <div className="relative flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
+            {/* Logo */}
+            <Link 
+              href="/" 
+              className="group flex items-center gap-2 transition-transform duration-300 hover:scale-[1.02]"
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-400 to-accent-400 rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
+                <img
+                  src="/Halal-Logo-White-BR.svg"
+                  alt="Halal Travels Club"
+                  className={`relative object-contain transition-all duration-300 ${
+                    scrolled || !isHome ? 'h-8 sm:h-10 w-28 sm:w-36' : 'h-9 sm:h-11 w-32 sm:w-40'
+                  }`}
+                  style={{
+                    filter: 'drop-shadow(0 2px 4px rgba(196,154,98,0.2))',
+                  }}
+                  loading="eager"
+                />
+              </div>
             </Link>
 
-            <div className="hidden lg:flex justify-center min-w-0 px-2 self-center">
-              {renderNavStyleOne()}
-            </div>
-
-            <div className="hidden lg:flex items-center justify-end gap-2 shrink-0 self-center min-h-[44px]">
-              {!loading && user && (
-                <button
-                  onClick={handleLogout}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-white/80 text-primary-600 px-4 py-2 text-sm font-medium hover:bg-neutral-50 transition-colors backdrop-blur-sm border border-neutral-200 shadow-sm"
-                >
-                  <LogOut className="h-3.5 w-3.5" />
-                  Logout
-                </button>
-              )}
-            </div>
-
-            <div className="flex justify-end lg:hidden">
-              <button
-                type="button"
-                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/80 backdrop-blur-xl text-primary-600 hover:bg-neutral-50 transition-colors ring-1 ring-neutral-200 shadow-md shadow-primary-200/20"
-                onClick={() => setMobileOpen((v) => !v)}
-              >
-                {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {mobileOpen && (
-          <div className="lg:hidden border-t border-neutral-200/80">
-            <div className="container mx-auto px-4 py-4">
-              <div className="rounded-2xl bg-white/95 backdrop-blur-2xl ring-1 ring-neutral-200 p-2 shadow-xl shadow-primary-100/40">
-                {displayNavItems.map((item) => {
+            {/* Desktop Navigation - Premium Pill Style */}
+            <nav className="hidden lg:flex items-center">
+              <div className="flex items-center gap-1 p-1.5 rounded-full bg-neutral-100/80 ring-1 ring-neutral-200/60">
+                {navItems.map((item) => {
                   const active = isActive(item.href)
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`flex items-center justify-between rounded-xl px-5 py-4 text-base font-medium transition-colors ${
-                        active ? 'bg-primary-50 text-primary-700 ring-1 ring-primary-100 shadow-sm' : 'text-primary-600 hover:bg-neutral-50 hover:text-primary-700'
+                      className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                        active
+                          ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-lg shadow-primary-500/25'
+                          : 'text-neutral-600 hover:text-primary-600 hover:bg-white/80'
                       }`}
                     >
-                      <span className="inline-flex items-center gap-2.5">
-                        <item.Icon className="h-4 w-4" />
-                        <span>{item.label}</span>
-                      </span>
+                      <item.Icon className={`h-4 w-4 transition-transform duration-300 ${active ? 'scale-110' : ''}`} />
+                      <span>{item.label}</span>
+                      {active && (
+                        <span className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 animate-pulse opacity-20" />
+                      )}
                     </Link>
                   )
                 })}
-                <div className="p-2 flex flex-col gap-3">
-                  {!loading && user && (
-                    <button
-                      onClick={handleLogout}
-                      className="flex items-center gap-2 rounded-xl bg-neutral-50 text-primary-700 px-4 py-3 text-sm font-semibold hover:bg-white transition-colors backdrop-blur-sm border border-primary-200"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Logout
-                    </button>
+              </div>
+            </nav>
+
+            {/* Desktop Auth Section */}
+            <div className="hidden lg:flex items-center gap-3">
+              {!loading && user ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="flex items-center gap-3 pl-2 pr-4 py-2 rounded-full bg-neutral-100/80 hover:bg-white ring-1 ring-neutral-200/60 hover:ring-primary-300 transition-all duration-300 group"
+                  >
+                    <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary-400 to-accent-400 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                      {(user.firstName?.charAt(0) || user.email.charAt(0)).toUpperCase()}
+                    </div>
+                    <span className="text-sm font-semibold text-neutral-700 group-hover:text-primary-700">
+                      {user.firstName || 'Account'}
+                    </span>
+                    <ChevronDown className={`h-4 w-4 text-neutral-400 transition-transform duration-300 ${userMenuOpen ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {userMenuOpen && (
+                    <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl bg-white/95 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-neutral-200/80 p-2 animate-in fade-in slide-in-from-top-2">
+                      <Link
+                        href={dashboardHref}
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-neutral-700 hover:bg-primary-50 hover:text-primary-700 transition-colors"
+                        onClick={() => setUserMenuOpen(false)}
+                      >
+                        <LayoutDashboard className="h-4 w-4" />
+                        Dashboard
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-neutral-700 hover:bg-rose-50 hover:text-rose-600 transition-colors"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Sign Out
+                      </button>
+                    </div>
                   )}
+                </div>
+              ) : !loading ? (
+                <Link
+                  href="/login"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 text-white text-sm font-semibold shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:scale-[1.02] transition-all duration-300"
+                >
+                  <LogIn className="h-4 w-4" />
+                  Sign In
+                </Link>
+              ) : (
+                <div className="h-10 w-24 rounded-full bg-neutral-200/60 animate-pulse" />
+              )}
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              type="button"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              className="lg:hidden flex h-11 w-11 items-center justify-center rounded-full bg-neutral-100/80 text-primary-600 hover:bg-white hover:text-primary-700 transition-all duration-300 ring-1 ring-neutral-200/60"
+              onClick={() => setMobileOpen((v) => !v)}
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          {mobileOpen && (
+            <div className="lg:hidden absolute top-full left-4 right-4 mt-3">
+              <div className="rounded-2xl bg-white/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.15)] ring-1 ring-neutral-200/80 p-3">
+                <nav className="flex flex-col gap-1">
+                  {navItems.map((item) => {
+                    const active = isActive(item.href)
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-all ${
+                          active
+                            ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-md'
+                            : 'text-neutral-700 hover:bg-neutral-100 hover:text-primary-700'
+                        }`}
+                      >
+                        <item.Icon className="h-5 w-5" />
+                        {item.label}
+                      </Link>
+                    )
+                  })}
+                </nav>
+
+                <div className="mt-3 pt-3 border-t border-neutral-200/60">
+                  {!loading && user ? (
+                    <div className="flex flex-col gap-1">
+                      <Link
+                        href={dashboardHref}
+                        className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold text-neutral-700 hover:bg-primary-50 hover:text-primary-700 transition-colors"
+                      >
+                        <LayoutDashboard className="h-5 w-5" />
+                        Dashboard
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold text-rose-600 hover:bg-rose-50 transition-colors"
+                      >
+                        <LogOut className="h-5 w-5" />
+                        Sign Out
+                      </button>
+                    </div>
+                  ) : !loading ? (
+                    <Link
+                      href="/login"
+                      className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold shadow-md"
+                    >
+                      <LogIn className="h-5 w-5" />
+                      Sign In
+                    </Link>
+                  ) : null}
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </header>
   )

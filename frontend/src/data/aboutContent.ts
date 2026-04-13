@@ -10,7 +10,7 @@ export type AboutQuote = {
 }
 
 export const aboutMarketStats: AboutStat[] = [
-  { value: '$200B+', label: 'Global Halal Travel Market' },
+  { value: '$235B+', label: 'Global Halal Travel Market' },
   { value: '9.1%', label: 'Annual Growth Rate' },
   { value: '10%', label: 'Global Tourism Share by 2025' },
   { value: '$300B', label: 'Projected Spend by 2026' },
