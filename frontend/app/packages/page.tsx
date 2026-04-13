@@ -264,7 +264,7 @@ export default function PackagesPage() {
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(20,184,166,0.08),transparent)]" />
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-teal-500/30 to-transparent" />
-        <div className="container mx-auto px-4 pt-14 pb-10">
+        <div className="container mx-auto px-4 pt-28 pb-10">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full bg-teal-500/10 border border-teal-400/20 px-4 py-2 mb-6">
               <span className="h-1.5 w-1.5 rounded-full bg-teal-500" />

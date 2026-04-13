@@ -48,7 +48,7 @@ export default function AboutPage() {
     <div className="bg-white text-gray-900">
 
       {/* Hero */}
-      <section className="brand-hero-banner text-white py-24 px-4">
+      <section className="brand-hero-banner text-white pt-28 py-24 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-5 py-2 mb-8">
             <span className="h-1.5 w-1.5 rounded-full bg-[#ffd4a8]" />

@@ -26,7 +26,7 @@ export default function ContactPage() {
     <div className="bg-white text-gray-900 min-h-screen">
 
       {/* Hero */}
-      <section className="brand-hero-banner text-white py-20 px-4">
+      <section className="brand-hero-banner text-white pt-28 py-20 px-4">
         <div className="container mx-auto max-w-3xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-2 mb-6">
             <span className="h-1.5 w-1.5 rounded-full bg-[#ffd4a8]" />

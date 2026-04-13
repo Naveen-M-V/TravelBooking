@@ -57,7 +57,7 @@ export default function FlightsPage() {
         </div>
 
         <div className="relative container mx-auto px-4 pt-16 pb-12 md:pt-20 md:pb-16">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="max-w-3xl pt-10 mx-auto text-center">
             <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-100 to-cyan-100 border border-teal-200 px-5 py-2 mb-4 shadow-sm animate-fade-in">
               <Plane className="h-4 w-4 text-teal-600 animate-bounce" />
               <span className="text-xs font-bold tracking-wider uppercase text-teal-700">Flight Booking</span>
