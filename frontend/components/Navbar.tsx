@@ -83,8 +83,8 @@ export default function Navbar() {
               : 'bg-white/70 backdrop-blur-lg shadow-[0_4px_30px_rgba(0,0,0,0.08)] ring-1 ring-white/60'
           }`}
         >
-          {/* Animated gradient border */}
-          <div className="absolute -inset-[1px] rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-r from-primary-300/60 via-accent-300/40 to-primary-300/60 opacity-0 hover:opacity-100 transition-opacity duration-700" />
+          {/* Solid green border */}
+          <div className="absolute -inset-[1px] rounded-[2rem] sm:rounded-[2.5rem] bg-primary-300/60 opacity-0 hover:opacity-100 transition-opacity duration-700" />
           
           {/* Inner glow */}
           <div className="absolute inset-0 rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-br from-white/50 via-transparent to-primary-50/30 pointer-events-none" />
@@ -96,7 +96,7 @@ export default function Navbar() {
               className="group flex items-center gap-2 transition-transform duration-300 hover:scale-[1.02]"
             >
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-400 to-accent-400 rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
+                <div className="absolute inset-0 bg-primary-400 rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
                 <img
                   src="/Halal-Logo-White-BR.svg"
                   alt="Halal Travels Club"
@@ -129,7 +129,7 @@ export default function Navbar() {
                       <item.Icon className={`h-4 w-4 transition-transform duration-300 ${active ? 'scale-110' : ''}`} />
                       <span>{item.label}</span>
                       {active && (
-                        <span className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 animate-pulse opacity-20" />
+                        <span className="absolute inset-0 rounded-full bg-primary-500 animate-pulse opacity-20" />
                       )}
                     </Link>
                   )
@@ -145,7 +145,7 @@ export default function Navbar() {
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
                     className="flex items-center gap-3 pl-2 pr-4 py-2 rounded-full bg-neutral-100/80 hover:bg-white ring-1 ring-neutral-200/60 hover:ring-primary-300 transition-all duration-300 group"
                   >
-                    <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary-400 to-accent-400 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                    <div className="h-8 w-8 rounded-full bg-primary-400 flex items-center justify-center text-white font-bold text-sm shadow-md">
                       {(user.firstName?.charAt(0) || user.email.charAt(0)).toUpperCase()}
                     </div>
                     <span className="text-sm font-semibold text-neutral-700 group-hover:text-primary-700">
@@ -177,7 +177,7 @@ export default function Navbar() {
               ) : !loading ? (
                 <Link
                   href="/login"
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 text-white text-sm font-semibold shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:scale-[1.02] transition-all duration-300"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary-500 text-white text-sm font-semibold shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 hover:scale-[1.02] transition-all duration-300"
                 >
                   <LogIn className="h-4 w-4" />
                   Sign In
@@ -211,7 +211,7 @@ export default function Navbar() {
                         href={item.href}
                         className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-all ${
                           active
-                            ? 'bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-md'
+                            ? 'bg-primary-500 text-white shadow-md'
                             : 'text-neutral-700 hover:bg-neutral-100 hover:text-primary-700'
                         }`}
                       >
@@ -243,7 +243,7 @@ export default function Navbar() {
                   ) : !loading ? (
                     <Link
                       href="/login"
-                      className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-gradient-to-r from-primary-500 to-accent-500 text-white font-semibold shadow-md"
+                      className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-primary-500 text-white font-semibold shadow-md"
                     >
                       <LogIn className="h-5 w-5" />
                       Sign In

@@ -260,7 +260,7 @@ export function FlightSearchForm() {
 
         {/* Search Button */}
         <div className="flex items-end sm:col-span-2 lg:col-span-1">
-          <Button type="submit" className="group w-full h-11 bg-gradient-to-r from-accent-500 to-primary-500 hover:from-accent-400 hover:to-primary-400 text-white font-bold text-base gap-2 shadow-lg shadow-accent-200/50 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgba(20,184,166,0.5)] hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0">
+          <Button type="submit" className="group w-full h-11 bg-primary-500 hover:bg-primary-400 text-white font-bold text-base gap-2 shadow-lg shadow-primary-500/30 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgba(20,184,166,0.5)] hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0">
             <Search className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
             Search
           </Button>
