@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { BadgeCheck, Headphones, Lock, Ban, RectangleHorizontal, Navigation, Building2, UtensilsCrossed, Star } from 'lucide-react'
+import { BadgeCheck, Headphones, Lock, MapPin, Navigation, Utensils, BookOpen, Compass, Star, Mosque, Prayer, Fork, CrescentMoon, CompassRose, Prohibited } from 'lucide-react'
 import { SearchHero } from '@/components/search/SearchHero'
 import { TripOverviewCarousel } from '@/components/packages/TripOverviewCarousel'
 import {
@@ -329,11 +329,11 @@ export default function Home() {
           </div>
           <div className="flex flex-wrap justify-center gap-6 sm:gap-8" style={{ perspective: '1200px' }}>
             {[
-              { Icon: Ban,   title: 'Mini Bar Removal',      desc: 'No liquor or alcohol-related items in hotel room mini bars. Pure, halal-compliant environment.', gradient: 'from-rose-400 via-rose-500 to-pink-500', iconBg: 'bg-rose-500', ringColor: 'ring-rose-300' },
-              { Icon: RectangleHorizontal,  title: 'Prayer Mat Provided',     desc: 'Fresh prayer mats available in every hotel room for your daily prayers and spiritual needs.', gradient: 'from-teal-400 via-teal-500 to-emerald-500', iconBg: 'bg-teal-500', ringColor: 'ring-teal-300' },
-              { Icon: Navigation,   title: 'Qiblah Direction Marked', desc: 'Clearly marked Qiblah direction in hotel rooms for convenient and accurate prayer orientation.', gradient: 'from-cyan-400 via-cyan-500 to-blue-500', iconBg: 'bg-cyan-500', ringColor: 'ring-cyan-300' },
-              { Icon: Building2,    title: 'Nearby Mosques Info',    desc: 'Comprehensive information on nearby mosques and prayer facilities for easy access during your stay.', gradient: 'from-teal-400 via-cyan-500 to-teal-500', iconBg: 'bg-cyan-500', ringColor: 'ring-cyan-300' },
-              { Icon: UtensilsCrossed,  title: 'Halal Restaurants Guide', desc: 'Curated list of Muslim-owned and halal-certified restaurants near your accommodation.', gradient: 'from-orange-400 via-orange-500 to-amber-500', iconBg: 'bg-orange-500', ringColor: 'ring-orange-300' },
+              { Icon: MapPin,   title: 'Masjid Distance',      desc: 'Find hotels within walking distance to nearby mosques for convenient prayer access.', gradient: 'from-orange-400 via-orange-500 to-amber-500', iconBg: 'bg-orange-500', ringColor: 'ring-orange-300' },
+              { Icon: BookOpen,  title: 'Prayer Mat',     desc: 'Fresh prayer mats available in every hotel room for your daily prayers and spiritual needs.', gradient: 'from-sky-400 via-sky-500 to-blue-500', iconBg: 'bg-sky-500', ringColor: 'ring-sky-300' },
+              { Icon: Utensils,   title: 'Vegetarian Restaurant', desc: 'Discover vegetarian-friendly dining options that meet your dietary preferences and requirements.', gradient: 'from-pink-400 via-pink-500 to-rose-500', iconBg: 'bg-pink-500', ringColor: 'ring-pink-300' },
+              { Icon: Utensils,    title: 'Muslim Restaurant',    desc: 'Curated list of Muslim-owned and halal-certified restaurants near your accommodation.', gradient: 'from-purple-400 via-purple-500 to-violet-500', iconBg: 'bg-purple-500', ringColor: 'ring-purple-300' },
+              { Icon: Compass,  title: 'Qiblah Direction', desc: 'Clearly marked Qiblah direction in hotel rooms for convenient and accurate prayer orientation.', gradient: 'from-teal-400 via-cyan-500 to-teal-500', iconBg: 'bg-cyan-500', ringColor: 'ring-cyan-300' },
             ].map(({ Icon, title, desc, gradient, iconBg, ringColor }) => (
               <div
                 key={title}

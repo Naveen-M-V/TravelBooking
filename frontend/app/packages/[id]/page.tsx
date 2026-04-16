@@ -379,22 +379,30 @@ export default function PackageDetailPage() {
                 <div className="space-y-5 animate-in fade-in duration-200">
                   <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
                     <h2 className="text-lg font-bold text-gray-900 mb-4">Halal Facilities & Services</h2>
-                    {halalFacilities.length === 0 ? (
-                      <p className="text-gray-400">Halal facility details coming soon</p>
-                    ) : (
-                      <div className="space-y-4">
-                        <ul className="space-y-3">
-                          {halalFacilities.map((item, i) => (
-                            <li key={i} className="flex items-start gap-3">
-                              <div className="flex-shrink-0 h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5">
-                                <Check className="h-3 w-3 text-emerald-600" />
-                              </div>
-                              <span className="text-gray-600">{item}</span>
-                            </li>
-                          ))}
-                        </ul>
+                    <div className="space-y-4">
+                      <ul className="space-y-3">
+                        {[
+                          'Welcome drink with Dates',
+                          'Removal of Mini Bar from rooms',
+                          'Prayer mat provided in rooms',
+                          'Recommendations for nearby Muslim-friendly or vegetarian restaurants or Sea Food options',
+                          'Friday Prayer pick & drop service (If Masjid Close by)',
+                          'Portable Bidet for Washrooms',
+                        ].map((item, i) => (
+                          <li key={i} className="flex items-start gap-3">
+                            <div className="flex-shrink-0 h-5 w-5 rounded-full bg-emerald-100 flex items-center justify-center mt-0.5">
+                              <Check className="h-3 w-3 text-emerald-600" />
+                            </div>
+                            <span className="text-gray-600">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        <p className="text-sm text-gray-500 italic">
+                          Note: All above are based on availability of the properties & destinations
+                        </p>
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
               )}
