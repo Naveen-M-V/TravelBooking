@@ -2,7 +2,7 @@
 
 import { useMemo, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { BadgeCheck, Headphones, Lock, MapPin, Navigation, Utensils, BookOpen, Compass, Star, Mosque, Prayer, Fork, CrescentMoon, CompassRose, Prohibited } from 'lucide-react'
+import { BadgeCheck, Headphones, Lock, MapPin, Navigation, Utensils, BookOpen, Compass, Star } from 'lucide-react'
 import { SearchHero } from '@/components/search/SearchHero'
 import { TripOverviewCarousel } from '@/components/packages/TripOverviewCarousel'
 import {
@@ -277,16 +277,16 @@ export default function Home() {
             </p>
           </div>
           <div className="rounded-[2.5rem] bg-gradient-to-br from-white/90 via-white/80 to-primary-50/40 border border-white/90 shadow-[0_24px_80px_rgba(15,118,110,0.14)] backdrop-blur-xl px-4 sm:px-6 py-2 ring-1 ring-primary-100/50">
-            <TripOverviewCarousel title="Our Best Tour Packages" packages={rollingBestPkgs} reverse={false} />
+            <TripOverviewCarousel title="Our Best Tour Packages" packages={rollingBestPkgs} />
           </div>
           <div className="rounded-[2.5rem] bg-gradient-to-br from-white/90 via-white/80 to-accent-50/30 border border-white/90 shadow-[0_24px_80px_rgba(15,118,110,0.14)] backdrop-blur-xl px-4 sm:px-6 py-2 mt-8 sm:mt-10 ring-1 ring-accent-100/50">
-            <TripOverviewCarousel title="New &amp; Most Popular Tours" packages={rollingPopularPkgs} reverse />
+            <TripOverviewCarousel title="New &amp; Most Popular Tours" packages={rollingPopularPkgs} />
           </div>
           <div className="rounded-[2.5rem] bg-gradient-to-br from-white/90 via-white/80 to-primary-50/40 border border-white/90 shadow-[0_24px_80px_rgba(15,118,110,0.14)] backdrop-blur-xl px-4 sm:px-6 py-2 mt-8 sm:mt-10 ring-1 ring-primary-100/50">
-            <TripOverviewCarousel title="Top Destinations" packages={rollingTopDestPkgs} reverse={false} />
+            <TripOverviewCarousel title="Top Destinations" packages={rollingTopDestPkgs} />
           </div>
           <div className="rounded-[2.5rem] bg-gradient-to-br from-white/90 via-white/80 to-supporting-sand-50/40 border border-white/90 shadow-[0_24px_80px_rgba(15,118,110,0.14)] backdrop-blur-xl px-4 sm:px-6 py-2 mt-8 sm:mt-10 ring-1 ring-supporting-sand-200/50">
-            <TripOverviewCarousel title="Family Destinations" packages={rollingFamilyPkgs} reverse />
+            <TripOverviewCarousel title="Family Destinations" packages={rollingFamilyPkgs} />
           </div>
         </div>
       </section>
