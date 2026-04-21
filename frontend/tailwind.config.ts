@@ -55,12 +55,12 @@ const config: Config = {
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
-          50: "#fff4ec",
-          100: "#ffe5d2",
-          200: "#ffd0ae",
-          300: "#ffb988",
-          400: "#ffa465",
-          500: "#ff914d",
+          50: "#e0f2f1",
+          100: "#b2dfdb",
+          200: "#80cbc4",
+          300: "#4db8ac",
+          400: "#26a69a",
+          500: "#009688",
           foreground: "hsl(var(--accent-foreground))",
         },
         neutral: {

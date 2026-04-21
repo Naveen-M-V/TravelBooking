@@ -80,21 +80,21 @@ export function SearchHero() {
           <div className="max-w-6xl mx-auto">
             <div className="relative group">
               {/* Decorative Glow */}
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary-400/35 via-primary-500/20 to-accent-400/25 rounded-2xl blur-2xl opacity-40 group-hover:opacity-60 transition duration-1000" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-teal-400/35 via-teal-500/20 to-teal-600/25 rounded-2xl blur-2xl opacity-40 group-hover:opacity-60 transition duration-1000" />
 
               <Tabs defaultValue="flights" className="relative w-full">
                 <div className="flex justify-center mb-1.5 sm:mb-2.5 relative z-20">
-                  <TabsList className="bg-white/50 backdrop-blur-2xl border border-neutral-200/80 p-0.5 sm:p-1 rounded-xl h-auto shadow-lg shadow-primary-200/20">
+                  <TabsList className="bg-white/50 backdrop-blur-2xl border border-neutral-200/80 rounded-xl h-auto shadow-lg shadow-primary-200/20 inline-flex w-fit p-1">
                     <TabsTrigger
                       value="flights"
-                      className="px-2 sm:px-4 py-1.5 sm:py-2 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg transition-all duration-500 ease-out flex flex-row items-center gap-1.5 sm:gap-2 text-xs text-neutral-700 hover:bg-gradient-to-r hover:from-primary-400 hover:to-accent-400 hover:text-white hover:shadow-[0_4px_20px_rgba(43,196,190,0.4)] hover:scale-[1.02]"
+                      className="px-2 sm:px-4 py-1.5 sm:py-2 data-[state=active]:bg-teal-600 data-[state=active]:text-white rounded-lg transition-all duration-500 ease-out flex flex-row items-center gap-1.5 sm:gap-2 text-xs text-neutral-700 hover:bg-gradient-to-r hover:from-teal-500 hover:to-teal-700 hover:text-white hover:shadow-[0_4px_20px_rgba(0,150,136,0.4)] hover:scale-[1.02]"
                     >
                       <Plane className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 transition-transform duration-300 group-hover:rotate-12" />
                       <span className="font-bold uppercase tracking-wide">Book Flights</span>
                     </TabsTrigger>
                     <TabsTrigger
                       value="packages"
-                      className="px-2 sm:px-4 py-1.5 sm:py-2 data-[state=active]:bg-accent-500 data-[state=active]:text-white rounded-lg transition-all duration-500 ease-out flex flex-row items-center gap-1.5 sm:gap-2 text-xs text-neutral-700 hover:bg-gradient-to-r hover:from-accent-400 hover:to-primary-400 hover:text-white hover:shadow-[0_4px_20px_rgba(20,184,166,0.4)] hover:scale-[1.02]"
+                      className="px-2 sm:px-4 py-1.5 sm:py-2 data-[state=active]:bg-teal-600 data-[state=active]:text-white rounded-lg transition-all duration-500 ease-out flex flex-row items-center gap-1.5 sm:gap-2 text-xs text-neutral-700 hover:bg-gradient-to-r hover:from-teal-500 hover:to-teal-700 hover:text-white hover:shadow-[0_4px_20px_rgba(0,150,136,0.4)] hover:scale-[1.02]"
                     >
                       <Building2 className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0 transition-transform duration-300 group-hover:rotate-12" />
                       <span className="font-bold uppercase tracking-wide">Packages</span>

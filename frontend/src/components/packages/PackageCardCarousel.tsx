@@ -36,9 +36,9 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
           <span className="gradient-text">{title}</span>
         </h2>
         <div className="flex items-center justify-center gap-2">
-          <div className="w-8 h-1 bg-gradient-to-r from-transparent to-teal-400 rounded-full"></div>
-          <div className="w-16 h-1.5 bg-gradient-to-r from-teal-400 via-orange-400 to-teal-400 rounded-full"></div>
-          <div className="w-8 h-1 bg-gradient-to-l from-transparent to-orange-400 rounded-full"></div>
+          <div className="w-8 h-1 bg-gradient-to-r from-transparent to-teal-500 rounded-full"></div>
+          <div className="w-16 h-1.5 bg-gradient-to-r from-teal-500 via-teal-700 to-teal-600 rounded-full"></div>
+          <div className="w-8 h-1 bg-gradient-to-l from-transparent to-teal-600 rounded-full"></div>
         </div>
       </div>
 
@@ -51,19 +51,45 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
             const isAfterHovered = hoveredIndex !== null && index > hoveredIndex
 
             return (
+              <>
+                <style>{`
+                  @keyframes glassShine-card {
+                    0% { left: -100%; }
+                    100% { left: 100%; }
+                  }
+                  .card-shimmer::before {
+                    content: '';
+                    position: absolute;
+                    top: -50%;
+                    left: -100%;
+                    width: 35%;
+                    height: 200%;
+                    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 25%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.35) 75%, transparent 100%);
+                    transform: skewX(-20deg);
+                    pointer-events: none;
+                    border-radius: 1rem;
+                    opacity: 0;
+                    animation: glassShine-card 1.5s ease-in-out;
+                    filter: blur(2px);
+                  }
+                  .card-shimmer:hover::before {
+                    opacity: 1;
+                    animation: glassShine-card 1.5s ease-in-out infinite;
+                  }
+                `}</style>
               <div
                 key={`${pkg.id}-${index}`}
                 className={`
-                  relative flex flex-col
+                  card-shimmer relative flex flex-col
                   h-[380px] sm:h-[400px] w-[260px] sm:w-[280px]
                   bg-gradient-to-br from-teal-950 via-teal-900 to-emerald-950
                   rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.5)]
                   transition-all duration-500 ease-out
                   cursor-pointer
                   ${index !== 0 ? 'md:-ml-20 lg:-ml-24' : ''}
-                  ${isHovered ? 'translate-y-[-30px] z-30 scale-105' : 'z-10'}
+                  ${isHovered ? 'translate-y-[-40px] z-30 scale-110' : 'z-10'}
                   ${isAfterHovered ? 'md:translate-x-[50px] lg:translate-x-[70px]' : ''}
-                  hover:shadow-[0_20px_60px_rgba(20,184,166,0.4)]
+                  hover:shadow-[0_15px_45px_rgba(0,0,0,0.4)]
                 `}
                 style={{
                   transformStyle: 'preserve-3d',
@@ -111,7 +137,7 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
                     {/* Progress Bar */}
                     <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden mb-auto">
                       <div
-                        className={`h-full bg-gradient-to-r from-teal-400 via-orange-400 to-teal-500 transition-all duration-700 ease-out ${
+                        className={`h-full bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 transition-all duration-700 ease-out ${
                           isHovered ? 'w-4/5' : 'w-0'
                         }`}
                       />
@@ -125,7 +151,7 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
                       </div>
 
                       <div className="flex items-center gap-2 text-gray-300">
-                        <Calendar className="h-4 w-4 text-orange-300" />
+                        <Calendar className="h-4 w-4 text-teal-400" />
                         <span className="text-sm">{pkg.duration}</span>
                       </div>
 
@@ -172,6 +198,7 @@ export function PackageCardCarousel({ title = "Featured Packages", packages, onC
                   </div>
                 </div>
               </div>
+              </>
             )
           })}
         </div>

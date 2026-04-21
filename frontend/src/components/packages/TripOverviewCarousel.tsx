@@ -101,8 +101,33 @@ export function TripOverviewCarousel({
             >
 
               {/* Card */}
+              <style>{`
+                @keyframes glassShine-dark {
+                  0% { left: -100%; }
+                  100% { left: 100%; }
+                }
+                .trip-shimmer-card::before {
+                  content: '';
+                  position: absolute;
+                  top: -50%;
+                  left: -100%;
+                  width: 35%;
+                  height: 200%;
+                  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 25%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.35) 75%, transparent 100%);
+                  transform: skewX(-20deg);
+                  pointer-events: none;
+                  border-radius: 2rem;
+                  opacity: 0;
+                  animation: glassShine-dark 1.5s ease-in-out;
+                  filter: blur(2px);
+                }
+                .trip-shimmer-card:hover::before {
+                  opacity: 1;
+                  animation: glassShine-dark 1.5s ease-in-out infinite;
+                }
+              `}</style>
               <div
-                className="relative w-[260px] h-[360px] rounded-[2rem] overflow-hidden shadow-2xl bg-neutral-900"
+                className="trip-shimmer-card relative w-[260px] h-[360px] rounded-[2rem] overflow-hidden shadow-2xl bg-neutral-900 transition-all duration-500 hover:shadow-[0_15px_40px_rgba(0,0,0,0.3)] hover:scale-105 hover:-translate-y-2 cursor-pointer group"
                 onClick={() => router.push(`/packages/${pkg.id}`)}
               >
 

@@ -52,7 +52,7 @@ export function PackageSearchForm() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr,1.5fr,1.5fr,1fr] gap-3 items-end">
         {/* Destination */}
         <div className="space-y-1">
-          <Label htmlFor="destination" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+          <Label htmlFor="destination" className="flex items-center gap-1.5 text-xs font-semibold text-white">
             <MapPin className="h-3.5 w-3.5 text-primary-600" />
             Destination
           </Label>
@@ -77,7 +77,7 @@ export function PackageSearchForm() {
         {/* Dates */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
-            <Label htmlFor="checkIn" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <Label htmlFor="checkIn" className="flex items-center gap-1.5 text-xs font-semibold text-white">
               <Calendar className="h-3.5 w-3.5 text-primary-600" />
               Check-in
             </Label>
@@ -107,7 +107,7 @@ export function PackageSearchForm() {
             </Popover>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="checkOut" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <Label htmlFor="checkOut" className="flex items-center gap-1.5 text-xs font-semibold text-white">
               <Calendar className="h-3.5 w-3.5 text-primary-600" />
               Check-out
             </Label>
@@ -141,7 +141,7 @@ export function PackageSearchForm() {
 
         {/* Guests */}
         <div className="space-y-1">
-          <Label className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+          <Label className="flex items-center gap-1.5 text-xs font-semibold text-white">
             <Users className="h-3.5 w-3.5 text-primary-600" />
             Guests & Rooms
           </Label>
@@ -191,7 +191,10 @@ export function PackageSearchForm() {
 
         {/* Search Button */}
         <div className="flex items-end sm:col-span-2 lg:col-span-1">
-          <Button type="submit" className="group w-full h-11 bg-gradient-to-r from-accent-500 to-primary-500 hover:from-accent-400 hover:to-primary-400 text-white font-bold text-base gap-2 shadow-lg shadow-accent-200/50 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgba(20,184,166,0.5)] hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0">
+          <Button
+            type="submit"
+            className="group w-full h-11 bg-gradient-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-700 text-white font-bold text-base gap-2 shadow-lg shadow-teal-800/30 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgba(0,75,69,0.35)] hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0"
+          >
             <Search className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
             Search
           </Button>

@@ -212,27 +212,27 @@ export default function Home() {
     <div className="relative overflow-hidden bg-gradient-to-b from-neutral-50 via-primary-50/35 to-neutral-100">
       <div className="pointer-events-none absolute inset-0 opacity-[0.32]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }} />
       <div className="pointer-events-none absolute -top-24 -left-24 w-[420px] h-[420px] rounded-full bg-gradient-to-br from-primary-200/35 to-transparent blur-3xl" />
-      <div className="pointer-events-none absolute top-[28%] -right-32 w-[460px] h-[460px] rounded-full bg-gradient-to-br from-accent-200/25 to-transparent blur-3xl" />
+      <div className="pointer-events-none absolute top-[28%] -right-32 w-[460px] h-[460px] rounded-full bg-gradient-to-br from-teal-300/25 to-transparent blur-3xl" />
 
       {/* Hero */}
       <SearchHero />
 
       {/* Why Choose Us */}
-      <section className="py-12 sm:py-14 md:py-16 px-4 bg-gradient-to-br from-white via-primary-50/25 to-accent-50/20 border-b border-primary-100/60 relative overflow-hidden">
+      <section className="py-12 sm:py-14 md:py-16 px-4 bg-gradient-to-br from-white via-teal-50/25 to-teal-100/20 border-b border-teal-100/60 relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.28]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }} />
         <div className="absolute inset-0 islamic-pattern opacity-30" />
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-white/70 to-transparent" />
-        <div className="absolute top-5 sm:top-10 left-10 sm:left-20 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-primary-200/20 to-accent-200/20 rounded-full blur-2xl animate-float" />
-        <div className="absolute bottom-5 sm:bottom-10 right-10 sm:right-20 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-br from-accent-200/20 to-primary-200/20 rounded-full blur-2xl animate-float-slow" />
+        <div className="absolute top-5 sm:top-10 left-10 sm:left-20 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-teal-200/20 to-teal-300/20 rounded-full blur-2xl animate-float" />
+        <div className="absolute bottom-5 sm:bottom-10 right-10 sm:right-20 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-br from-teal-300/20 to-teal-200/20 rounded-full blur-2xl animate-float-slow" />
         <div className="container mx-auto max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 text-center relative z-10">
           {[
-            { Icon: BadgeCheck, title: 'Halal Friendy Packages',    desc: 'Every stay, experience, and package is reviewed for halal compliance',  color: 'from-primary-500 to-accent-400' },
+            { Icon: BadgeCheck, title: 'Halal Friendy Packages',    desc: 'Every stay, experience, and package is reviewed for halal compliance',  color: 'from-teal-600 to-teal-700' },
             { Icon: Lock,       title: 'Secure Checkout',   desc: 'Encrypted payments with privacy-first data protection',                 color: 'from-primary-400 to-primary-500' },
             { Icon: Headphones, title: 'Concierge Support', desc: 'Specialists available whenever you need assistance',                    color: 'from-primary-500 to-supporting-sage-400' },
           ].map(({ Icon, title, desc, color }) => (
             <div key={title} className="flex flex-col items-center group px-3 py-5 rounded-[2rem] bg-white/75 border border-white/90 shadow-[0_16px_40px_rgba(15,118,110,0.12)] backdrop-blur-sm hover:bg-primary-600 hover:border-primary-500 hover:-translate-y-3 hover:shadow-[0_32px_60px_rgba(15,118,110,0.35)] transition-all duration-500 ease-out cursor-pointer relative overflow-hidden">
               <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-teal-300/20 to-transparent" />
               <div className="mb-3 sm:mb-4 relative z-10">
                 <div className={`absolute inset-0 bg-gradient-to-br ${color} rounded-2xl blur-xl opacity-30 group-hover:opacity-60 group-hover:scale-125 transition-all duration-500`} />
                 <div className="relative rounded-2xl bg-white shadow-lg ring-1 ring-primary-100 p-3 sm:p-4 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-2xl transition-all duration-500 ease-out">
@@ -251,14 +251,14 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-br from-white via-primary-50/30 to-white" />
         <div className="absolute inset-0 opacity-[0.24]" style={{ backgroundImage: "url('/image.png')", backgroundSize: '140px 140px' }} />
         <div className="absolute top-8 left-10 text-cyan-500/15 crescent-moon animate-geometric" />
-        <div className="absolute top-20 right-14 text-orange-400/20 crescent-moon animate-geometric" style={{ animationDelay: '1.3s' }} />
+        <div className="absolute top-20 right-14 text-teal-500/20 crescent-moon animate-geometric" style={{ animationDelay: '1.3s' }} />
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="text-center mb-12 sm:mb-16 relative">
-            <div className="absolute -top-8 left-1/4 w-32 h-32 bg-gradient-to-br from-primary-200/20 to-accent-200/10 rounded-full blur-3xl" />
-            <div className="absolute -top-4 right-1/4 w-24 h-24 bg-gradient-to-br from-accent-200/20 to-primary-200/10 rounded-full blur-2xl" />
-            <div className="absolute -top-6 left-[15%] sm:left-1/4 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-teal-400 via-primary-400 to-orange-400 islamic-star opacity-60 animate-pulse shadow-lg shadow-primary-200/30" />
-            <div className="absolute -top-2 right-[15%] sm:right-1/4 w-5 h-5 sm:w-7 sm:h-7 bg-gradient-to-br from-orange-400 via-accent-400 to-teal-400 islamic-star opacity-50 animate-pulse" style={{ animationDelay: '1s' }} />
-            <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-100/90 to-accent-100/90 border border-primary-200/80 px-5 sm:px-6 py-2 sm:py-2.5 mb-4 sm:mb-5 shadow-lg shadow-primary-100/20 backdrop-blur-sm">
+            <div className="absolute -top-8 left-1/4 w-32 h-32 bg-gradient-to-br from-teal-200/20 to-teal-300/10 rounded-full blur-3xl" />
+            <div className="absolute -top-4 right-1/4 w-24 h-24 bg-gradient-to-br from-teal-300/20 to-teal-200/10 rounded-full blur-2xl" />
+            <div className="absolute -top-6 left-[15%] sm:left-1/4 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-teal-400 via-teal-500 to-teal-600 islamic-star opacity-60 animate-pulse shadow-lg shadow-teal-400/30" />
+            <div className="absolute -top-2 right-[15%] sm:right-1/4 w-5 h-5 sm:w-7 sm:h-7 bg-gradient-to-br from-teal-500 via-teal-600 to-teal-700 islamic-star opacity-50 animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-100/90 to-teal-200/90 border border-teal-300/80 px-5 sm:px-6 py-2 sm:py-2.5 mb-4 sm:mb-5 shadow-lg shadow-teal-200/20 backdrop-blur-sm">
               <span className="h-2 w-2 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 animate-pulse" />
               <span className="text-primary-800 text-xs font-bold uppercase tracking-[0.18em] sm:tracking-[0.22em]">Explore</span>
             </div>
@@ -268,9 +268,9 @@ export default function Home() {
               <span className="text-primary-700">Packages</span>
             </h2>
             <div className="flex items-center justify-center gap-3 mb-5">
-              <div className="w-10 h-[2px] bg-gradient-to-r from-transparent via-primary-300 to-primary-400 rounded-full" />
-              <div className="w-20 h-[3px] bg-gradient-to-r from-primary-400 via-accent-400 to-primary-400 rounded-full shadow-sm shadow-accent-200/50" />
-              <div className="w-10 h-[2px] bg-gradient-to-l from-transparent via-accent-300 to-accent-400 rounded-full" />
+              <div className="w-10 h-[2px] bg-gradient-to-r from-transparent via-teal-300 to-teal-400 rounded-full" />
+              <div className="w-20 h-[3px] bg-gradient-to-r from-teal-400 via-teal-600 to-teal-500 rounded-full shadow-sm shadow-teal-300/50" />
+              <div className="w-10 h-[2px] bg-gradient-to-l from-transparent via-teal-400 to-teal-500 rounded-full" />
             </div>
             <p className="text-neutral-600 text-base sm:text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light">
               Handpicked halal-friendly tours for <span className="text-primary-600 font-semibold">unforgettable experiences</span>
@@ -329,7 +329,7 @@ export default function Home() {
           </div>
           <div className="flex flex-wrap justify-center gap-6 sm:gap-8" style={{ perspective: '1200px' }}>
             {[
-              { Icon: MapPin,   title: 'Masjid Distance',      desc: 'Find hotels within walking distance to nearby mosques for convenient prayer access.', gradient: 'from-orange-400 via-orange-500 to-amber-500', iconBg: 'bg-orange-500', ringColor: 'ring-orange-300' },
+              { Icon: MapPin,   title: 'Masjid Distance',      desc: 'Find hotels within walking distance to nearby mosques for convenient prayer access.', gradient: 'from-teal-500 via-teal-600 to-teal-700', iconBg: 'bg-teal-600', ringColor: 'ring-teal-400' },
               { Icon: BookOpen,  title: 'Prayer Mat',     desc: 'Fresh prayer mats available in every hotel room for your daily prayers and spiritual needs.', gradient: 'from-sky-400 via-sky-500 to-blue-500', iconBg: 'bg-sky-500', ringColor: 'ring-sky-300' },
               { Icon: Utensils,   title: 'Vegetarian Restaurant', desc: 'Discover vegetarian-friendly dining options that meet your dietary preferences and requirements.', gradient: 'from-pink-400 via-pink-500 to-rose-500', iconBg: 'bg-pink-500', ringColor: 'ring-pink-300' },
               { Icon: Utensils,    title: 'Muslim Restaurant',    desc: 'Curated list of Muslim-owned and halal-certified restaurants near your accommodation.', gradient: 'from-purple-400 via-purple-500 to-violet-500', iconBg: 'bg-purple-500', ringColor: 'ring-purple-300' },
@@ -465,12 +465,12 @@ export default function Home() {
                     <div className="h-px w-full bg-gradient-to-r from-transparent via-primary-200/60 to-transparent mb-5" />
                     <div className="flex items-center gap-4">
                       <div className="relative">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-400 to-accent-500 p-[2px] shadow-lg shadow-primary-200/50">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-teal-500 to-teal-700 p-[2px] shadow-lg shadow-teal-400/50">
                           <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
                             <span className="text-lg font-bold bg-gradient-to-br from-primary-600 to-accent-500 bg-clip-text text-transparent">{t.name.charAt(0)}</span>
                           </div>
                         </div>
-                        <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br from-accent-400 to-primary-500 flex items-center justify-center shadow-md">
+                        <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-gradient-to-br from-teal-600 to-teal-800 flex items-center justify-center shadow-md">
                           <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
@@ -490,17 +490,17 @@ export default function Home() {
       </section>
 
       {/* Premium Final CTA */}
-      <section className="py-12 md:py-16 px-4 bg-gradient-to-br from-primary-50/60 via-white to-accent-50/40 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, rgba(20,184,166,0.4) 1px, transparent 0)", backgroundSize: '40px 40px' }} />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-to-br from-accent-200/30 to-transparent rounded-full blur-3xl" />
+      <section className="py-12 md:py-16 px-4 bg-gradient-to-br from-teal-50/60 via-white to-teal-100/40 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "radial-gradient(circle at 2px 2px, rgba(0,150,136,0.4) 1px, transparent 0)", backgroundSize: '40px 40px' }} />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-to-br from-teal-300/30 to-transparent rounded-full blur-3xl" />
         <div className="relative container mx-auto max-w-6xl">
-          <div className="relative rounded-[2.5rem] p-[2px] bg-gradient-to-br from-primary-300/80 via-accent-300/60 to-primary-300/80 shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
-            <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-primary-400/20 via-transparent to-accent-400/20 animate-pulse" />
-            <div className="relative rounded-[2.4rem] bg-gradient-to-br from-white via-white/95 to-primary-50/90 backdrop-blur-xl p-6 sm:p-8 md:p-10">
+          <div className="relative rounded-[2.5rem] p-[2px] bg-gradient-to-br from-teal-400/80 via-teal-500/60 to-teal-600/80 shadow-[0_20px_60px_rgba(0,0,0,0.12)]">
+            <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-teal-400/20 via-transparent to-teal-600/20 animate-pulse" />
+            <div className="relative rounded-[2.4rem] bg-gradient-to-br from-white via-white/95 to-teal-50/90 backdrop-blur-xl p-6 sm:p-8 md:p-10">
               <div className="grid grid-cols-1 lg:grid-cols-[1.4fr,0.6fr] gap-8 items-center">
                 <div>
-                  <div className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-primary-100/80 to-accent-100/80 border border-primary-200/60 px-4 py-2 mb-4 shadow-sm">
-                    <span className="h-2.5 w-2.5 rounded-full bg-gradient-to-r from-primary-500 to-accent-500 animate-pulse" />
+                  <div className="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-teal-100/80 to-teal-200/80 border border-teal-300/60 px-4 py-2 mb-4 shadow-sm">
+                    <span className="h-2.5 w-2.5 rounded-full bg-gradient-to-r from-teal-500 to-teal-700 animate-pulse" />
                     <span className="text-[11px] font-bold uppercase tracking-[0.2em] bg-gradient-to-r from-primary-700 to-accent-600 bg-clip-text">Plan with confidence</span>
                   </div>
                   <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4">

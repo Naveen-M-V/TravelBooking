@@ -23,7 +23,7 @@ export default function Footer() {
 
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="rounded-[1.5rem] border border-neutral-200 bg-white/85 backdrop-blur-sm shadow-lg shadow-primary-100/30 overflow-hidden">
-          <div className="h-1 bg-gradient-to-r from-primary-500 via-primary-400 to-accent-300" />
+          <div className="h-1 bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700" />
 
           <div className="p-5 sm:p-6">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-start">
@@ -42,7 +42,7 @@ export default function Footer() {
                       key={label}
                       href={href}
                       aria-label={label}
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white ring-1 ring-neutral-200 text-primary-600 transition-all duration-200 hover:-translate-y-[1px] hover:bg-gradient-to-br hover:from-primary-500 hover:to-accent-500 hover:text-white hover:ring-primary-200 hover:shadow-lg hover:shadow-primary-200/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                      className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-white ring-1 ring-neutral-200 text-teal-600 transition-all duration-200 hover:-translate-y-[1px] hover:bg-gradient-to-br hover:from-teal-600 hover:to-teal-800 hover:text-white hover:ring-teal-300 hover:shadow-lg hover:shadow-teal-400/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
                     >
                       <Icon className="h-4 w-4" />
                     </Link>

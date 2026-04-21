@@ -85,7 +85,7 @@ export function FlightSearchForm() {
         {/* Origin & Destination */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="space-y-1">
-            <Label htmlFor="origin" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <Label htmlFor="origin" className="flex items-center gap-1.5 text-xs font-semibold text-white">
               <MapPin className="h-3.5 w-3.5 text-primary-600" />
               From
             </Label>
@@ -107,7 +107,7 @@ export function FlightSearchForm() {
             </Select>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="destination" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <Label htmlFor="destination" className="flex items-center gap-1.5 text-xs font-semibold text-white">
               <MapPin className="h-3.5 w-3.5 text-primary-600" />
               To
             </Label>
@@ -133,7 +133,7 @@ export function FlightSearchForm() {
         {/* Dates */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
-            <Label htmlFor="departureDate" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <Label htmlFor="departureDate" className="flex items-center gap-1.5 text-xs font-semibold text-white">
               <Calendar className="h-3.5 w-3.5 text-primary-600" />
               Departure
             </Label>
@@ -159,7 +159,7 @@ export function FlightSearchForm() {
             </Popover>
           </div>
           <div className={`space-y-1 transition-opacity duration-300 ${tripType === 'one-way' ? 'opacity-50' : ''}`}>
-            <Label htmlFor="returnDate" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <Label htmlFor="returnDate" className="flex items-center gap-1.5 text-xs font-semibold text-white">
               <Calendar className="h-3.5 w-3.5 text-primary-600" />
               Return
             </Label>
@@ -190,7 +190,7 @@ export function FlightSearchForm() {
         {/* Passengers & Class */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-1">
-            <Label className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <Label className="flex items-center gap-1.5 text-xs font-semibold text-white">
               <Users className="h-3.5 w-3.5 text-primary-600" />
               Passengers
             </Label>
@@ -238,7 +238,7 @@ export function FlightSearchForm() {
             </Popover>
           </div>
           <div className="space-y-1">
-            <Label htmlFor="cabinClass" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-700">
+            <Label htmlFor="cabinClass" className="flex items-center gap-1.5 text-xs font-semibold text-white">
               <Users className="h-3.5 w-3.5 text-primary-600" />
               Class
             </Label>
@@ -260,7 +260,10 @@ export function FlightSearchForm() {
 
         {/* Search Button */}
         <div className="flex items-end sm:col-span-2 lg:col-span-1">
-          <Button type="submit" className="group w-full h-11 bg-primary-500 hover:bg-primary-400 text-white font-bold text-base gap-2 shadow-lg shadow-primary-500/30 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgba(20,184,166,0.5)] hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0">
+          <Button
+            type="submit"
+            className="group w-full h-11 bg-gradient-to-r from-teal-700 to-teal-800 hover:from-teal-800 hover:to-teal-700 text-white font-bold text-base gap-2 shadow-lg shadow-teal-800/30 transition-all duration-500 ease-out hover:shadow-[0_8px_30px_rgba(0,75,69,0.35)] hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0"
+          >
             <Search className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
             Search
           </Button>

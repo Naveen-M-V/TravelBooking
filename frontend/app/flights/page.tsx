@@ -417,11 +417,11 @@ export default function FlightsPage() {
         <div className="mt-16">
           <div className="flex items-end justify-between gap-6 mb-8">
             <div>
-              <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-100 to-cyan-100 border border-teal-200 px-4 py-1.5 mb-3">
-                <span className="h-2 w-2 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 animate-pulse" />
+              <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-teal-100 to-teal-200 border border-teal-300 px-4 py-1.5 mb-3">
+                <span className="h-2 w-2 rounded-full bg-gradient-to-r from-teal-600 to-teal-800 animate-pulse" />
                 <span className="text-teal-700 text-xs font-bold uppercase tracking-[0.15em]">Quick Search</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 to-teal-800 bg-clip-text text-transparent">Popular Routes</h2>
+              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 to-teal-900 bg-clip-text text-transparent">Popular Routes</h2>
               <p className="text-gray-600 mt-2">One-tap presets to get you searching faster</p>
             </div>
           </div>

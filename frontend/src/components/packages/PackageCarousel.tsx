@@ -152,11 +152,40 @@ export function PackageCarousel({ title, packages, reverse = false }: PackageCar
           {/* Inject webkit scrollbar hide rule once */}
           <style>{`.pkg-carousel-track::-webkit-scrollbar{display:none}`}</style>
 
+          <style>{`
+            @keyframes glassShine {
+              0% { left: -100%; }
+              100% { left: 100%; }
+            }
+            .pkg-shimmer-card {
+              position: relative;
+              overflow: hidden;
+            }
+            .pkg-shimmer-card::before {
+              content: '';
+              position: absolute;
+              top: -50%;
+              left: -100%;
+              width: 30%;
+              height: 200%;
+              background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 25%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.4) 75%, transparent 100%);
+              transform: skewX(-20deg);
+              pointer-events: none;
+              border-radius: 1.5rem;
+              opacity: 0;
+              animation: glassShine 1.5s ease-in-out;
+              filter: blur(2px);
+            }
+            .pkg-shimmer-card:hover::before {
+              opacity: 1;
+              animation: glassShine 1.5s ease-in-out infinite;
+            }
+          `}</style>
           <div className="flex gap-4" style={{ width: 'max-content' }}>
             {doubled.map((pkg, index) => (
               <div key={`${pkg.id}-${index}`} className={cardSizeClasses} data-carousel-card="true">
                 <Card
-                  className="overflow-hidden cursor-pointer group border-0 shadow-[0_10px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_25px_70px_rgba(6,182,212,0.34)] transition-all duration-500 rounded-3xl bg-white h-full flex flex-col relative before:absolute before:inset-0 before:rounded-3xl before:p-[1px] before:bg-gradient-to-br before:from-cyan-400 before:via-cyan-500 before:to-teal-500 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-500 before:-z-10 hover:scale-[1.035] hover:-translate-y-1"
+                  className="pkg-shimmer-card overflow-hidden cursor-pointer group border-0 shadow-[0_10px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_15px_35px_rgba(0,0,0,0.15)] transition-all duration-500 rounded-3xl bg-white h-full flex flex-col relative hover:scale-105 hover:-translate-y-2"
                   onClick={() => router.push(`/packages/${pkg.id}`)}
                 >
                   {/* Image */}
