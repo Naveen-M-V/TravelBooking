@@ -329,12 +329,12 @@ export default function Home() {
           </div>
           <div className="flex flex-wrap justify-center gap-6 sm:gap-8" style={{ perspective: '1200px' }}>
             {[
-              { Icon: MapPin,   title: 'Masjid Distance',      desc: 'Find hotels within walking distance to nearby mosques for convenient prayer access.', gradient: 'from-teal-500 via-teal-600 to-teal-700', iconBg: 'bg-teal-600', ringColor: 'ring-teal-400' },
-              { Icon: BookOpen,  title: 'Prayer Mat',     desc: 'Fresh prayer mats available in every hotel room for your daily prayers and spiritual needs.', gradient: 'from-sky-400 via-sky-500 to-blue-500', iconBg: 'bg-sky-500', ringColor: 'ring-sky-300' },
-              { Icon: Utensils,   title: 'Vegetarian Restaurant', desc: 'Discover vegetarian-friendly dining options that meet your dietary preferences and requirements.', gradient: 'from-pink-400 via-pink-500 to-rose-500', iconBg: 'bg-pink-500', ringColor: 'ring-pink-300' },
-              { Icon: Utensils,    title: 'Muslim Restaurant',    desc: 'Curated list of Muslim-owned and halal-certified restaurants near your accommodation.', gradient: 'from-purple-400 via-purple-500 to-violet-500', iconBg: 'bg-purple-500', ringColor: 'ring-purple-300' },
-              { Icon: Compass,  title: 'Qiblah Direction', desc: 'Clearly marked Qiblah direction in hotel rooms for convenient and accurate prayer orientation.', gradient: 'from-teal-400 via-cyan-500 to-teal-500', iconBg: 'bg-cyan-500', ringColor: 'ring-cyan-300' },
-            ].map(({ Icon, title, desc, gradient, iconBg, ringColor }) => (
+              { iconSrc: '/Asset 11.png', title: 'Masjid Distance',      desc: 'Find hotels within walking distance to nearby mosques for convenient prayer access.', gradient: 'from-teal-500 via-teal-600 to-teal-700' },
+              { iconSrc: '/Asset 12.png', title: 'Prayer Mat',          desc: 'Fresh prayer mats available in every hotel room for your daily prayers and spiritual needs.', gradient: 'from-sky-400 via-sky-500 to-blue-500' },
+              { iconSrc: '/Asset 13.png', title: 'Vegetarian Restaurant', desc: 'Discover vegetarian-friendly dining options that meet your dietary preferences and requirements.', gradient: 'from-pink-400 via-pink-500 to-rose-500' },
+              { iconSrc: '/Asset 14.png', title: 'Muslim Restaurant',    desc: 'Curated list of Muslim-owned and halal-certified restaurants near your accommodation.', gradient: 'from-purple-400 via-purple-500 to-violet-500' },
+              { iconSrc: '/Asset 15.png', title: 'Qiblah Direction',     desc: 'Clearly marked Qiblah direction in hotel rooms for convenient and accurate prayer orientation.', gradient: 'from-teal-400 via-cyan-500 to-teal-500' },
+            ].map(({ iconSrc, title, desc, gradient }) => (
               <div
                 key={title}
                 className="relative h-[260px] sm:h-[280px] w-full sm:w-[280px] lg:w-[320px] cursor-pointer group flex-shrink-0"
@@ -357,10 +357,8 @@ export default function Home() {
                       {/* Premium Icon Container */}
                       <div className="relative">
                         <div className={`absolute inset-0 bg-gradient-to-br ${gradient} rounded-3xl blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500`}></div>
-                        <div className={`relative h-20 w-20 sm:h-24 sm:w-24 rounded-3xl bg-gradient-to-br from-white to-neutral-50 ${ringColor} ring-2 flex items-center justify-center shadow-[0_12px_40px_rgba(0,0,0,0.12)] group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-all duration-500`}>
-                          <div className={`h-12 w-12 sm:h-14 sm:w-14 rounded-2xl ${iconBg} flex items-center justify-center shadow-lg`}>
-                            <Icon className="h-7 w-7 sm:h-8 sm:w-8 text-white" strokeWidth={1.5} />
-                          </div>
+                        <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-3xl bg-white/90 ring-2 ring-white/90 flex items-center justify-center shadow-[0_12px_40px_rgba(0,0,0,0.12)] group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-all duration-500">
+                          <img src={iconSrc} alt="" className="h-12 w-12 sm:h-14 sm:w-14 object-contain" />
                         </div>
                       </div>
                       
@@ -388,8 +386,8 @@ export default function Home() {
                     <div className="h-full flex flex-col justify-center">
                       {/* Header with icon */}
                       <div className="flex items-start gap-4 mb-4">
-                        <div className={`h-12 w-12 rounded-2xl ${iconBg} flex items-center justify-center flex-shrink-0 shadow-lg`}>
-                          <Icon className="h-6 w-6 text-white" strokeWidth={1.5} />
+                        <div className="h-12 w-12 rounded-2xl bg-white ring-1 ring-neutral-200 flex items-center justify-center flex-shrink-0 shadow-lg">
+                          <img src={iconSrc} alt="" className="h-7 w-7 object-contain" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <h3 className="font-display font-bold text-teal-800 text-base sm:text-lg leading-tight tracking-tight">{title}</h3>

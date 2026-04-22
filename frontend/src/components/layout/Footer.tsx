@@ -29,7 +29,7 @@ export default function Footer() {
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-start">
               <div className="lg:col-span-6">
                 <Link href="/" className="inline-flex items-center gap-3">
-                  <img src="/Halal-Logo-White-BG (1).svg" alt="Halal Travels Club" className="h-10 w-auto object-contain" />
+                  <img src="/HalalLogo.png" alt="Halal Travels Club" className="h-16 sm:h-20 w-auto object-contain" />
                 </Link>
 
                 <p className="mt-3 text-neutral-600 text-sm leading-relaxed max-w-md">

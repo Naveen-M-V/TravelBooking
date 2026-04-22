@@ -83,25 +83,26 @@ export default function Navbar() {
               : 'bg-white/70 backdrop-blur-lg shadow-[0_4px_30px_rgba(0,0,0,0.08)] ring-1 ring-white/60'
           }`}
         >
-          {/* Solid green border */}
-          <div className="absolute -inset-[1px] rounded-[2rem] sm:rounded-[2.5rem] bg-primary-300/60 opacity-0 hover:opacity-100 transition-opacity duration-700" />
+          {/* Neutral border accent */}
+          <div className="absolute -inset-[1px] rounded-[2rem] sm:rounded-[2.5rem] bg-neutral-200/70 opacity-0 hover:opacity-100 transition-opacity duration-700" />
           
           {/* Inner glow */}
-          <div className="absolute inset-0 rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-br from-white/50 via-transparent to-primary-50/30 pointer-events-none" />
+          <div className="absolute inset-0 rounded-[2rem] sm:rounded-[2.5rem] bg-gradient-to-br from-white/50 via-transparent to-transparent pointer-events-none" />
 
-          <div className="relative flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
+          <div className="relative flex items-center justify-between pl-2 sm:pl-3 pr-4 sm:pr-6 py-3 sm:py-4">
             {/* Logo */}
             <Link 
               href="/" 
-              className="group flex items-center gap-2 transition-transform duration-300 hover:scale-[1.02]"
+              className="group -ml-5 sm:-ml-8 flex items-center gap-2 transition-transform duration-300 hover:scale-[1.02]"
             >
               <div className="relative">
-                <div className="absolute inset-0 bg-primary-400 rounded-xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity" />
                 <img
-                  src="/Halal-Logo-White-BR.svg"
+                  src="/HalalLogo.png"
                   alt="Halal Travels Club"
                   className={`relative object-contain transition-all duration-300 ${
-                    scrolled || !isHome ? 'h-8 sm:h-10 w-28 sm:w-36' : 'h-9 sm:h-11 w-32 sm:w-40'
+                    scrolled || !isHome
+                      ? 'h-10 sm:h-12 w-40 sm:w-48 scale-[1.34] sm:scale-[1.4] origin-left'
+                      : 'h-10 sm:h-12 w-40 sm:w-48 scale-[1.42] sm:scale-[1.5] origin-left'
                   }`}
                   style={{
                     filter: 'drop-shadow(0 2px 4px rgba(196,154,98,0.2))',

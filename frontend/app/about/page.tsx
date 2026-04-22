@@ -29,11 +29,11 @@ const missionPoints = [
 ]
 
 const halalServices = [
-  { Icon: XCircle,  title: 'Mini Bar Removal in Hotel Rooms',   desc: 'No liquor or alcohol-related items in mini bars.' },
-  { Icon: BookOpen, title: 'Prayer Mat in Hotel Rooms',          desc: 'Availability of Prayer Mat in Hotel Rooms.' },
-  { Icon: Compass,  title: 'Qiblah Direction Clearly Indicated', desc: 'Hotel rooms feature a clearly marked Qiblah direction for convenient prayer.' },
-  { Icon: MapPin,   title: 'Nearby Mosques',                     desc: 'Information on Nearby Mosques for ease of access to prayer facilities if available.' },
-  { Icon: Utensils, title: 'Muslim-Friendly Restaurant',         desc: 'Information of closest Muslim Owned Restaurants if available.' },
+  { iconSrc: '/Asset 11.png', title: 'Mini Bar Removal in Hotel Rooms',   desc: 'No liquor or alcohol-related items in mini bars.' },
+  { iconSrc: '/Asset 12.png', title: 'Prayer Mat in Hotel Rooms',          desc: 'Availability of Prayer Mat in Hotel Rooms.' },
+  { iconSrc: '/Asset 13.png', title: 'Qiblah Direction Clearly Indicated', desc: 'Hotel rooms feature a clearly marked Qiblah direction for convenient prayer.' },
+  { iconSrc: '/Asset 14.png', title: 'Nearby Mosques',                     desc: 'Information on Nearby Mosques for ease of access to prayer facilities if available.' },
+  { iconSrc: '/Asset 15.png', title: 'Muslim-Friendly Restaurant',         desc: 'Information of closest Muslim Owned Restaurants if available.' },
 ]
 
 const whyChoose = [
@@ -168,10 +168,10 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {halalServices.map(({ Icon, title, desc }) => (
+            {halalServices.map(({ iconSrc, title, desc }) => (
               <div key={title} className="rounded-2xl bg-white border border-gray-200 shadow-sm p-7 hover:shadow-md hover:border-teal-200 transition-all">
                 <div className="h-11 w-11 rounded-xl bg-teal-50 ring-1 ring-teal-100 flex items-center justify-center mb-4">
-                  <Icon className="h-5 w-5 text-teal-600" />
+                  <img src={iconSrc} alt="" className="h-7 w-7 object-contain" />
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">{desc}</p>
