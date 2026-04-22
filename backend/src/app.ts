@@ -23,8 +23,24 @@ const app: Application = express()
 
 // Middleware
 app.use(cors({
-  origin: config.allowedOrigins,
+  origin: (origin, callback) => {
+    // Allow server-to-server tools/curl/postman without Origin header
+    if (!origin) return callback(null, true)
+
+    const normalizedOrigin = origin.trim()
+    const isConfigured = config.allowedOrigins.includes(normalizedOrigin)
+    const isLocalhost = /^https?:\/\/localhost(?::\d+)?$/.test(normalizedOrigin)
+    const isVercelPreview = /^https:\/\/[a-z0-9-]+\.vercel\.app$/i.test(normalizedOrigin)
+
+    if (isConfigured || isLocalhost || isVercelPreview) {
+      return callback(null, true)
+    }
+
+    return callback(new Error(`CORS blocked for origin: ${normalizedOrigin}`))
+  },
   credentials: true,
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
 }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
