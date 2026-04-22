@@ -1,11 +1,8 @@
 import axios from 'axios'
 
-// Use relative path in browser so requests go through Next.js rewrites (same origin).
-// Falls back to direct backend URL only for non-browser environments (e.g. SSR).
-const API_URL =
-  typeof window !== 'undefined'
-    ? '/api'
-    : process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+// Use the backend URL directly in both browser and server environments.
+// This avoids sending frontend-domain cookies to the frontend reverse proxy.
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
 
 export const apiClient = axios.create({
   baseURL: API_URL,
