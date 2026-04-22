@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-// Always use same-origin proxy in browser to avoid CORS.
-// On server-side, use configured backend URL if provided.
+// Prefer explicit backend URL when configured.
+// Fallback to same-origin /api proxy in browser.
 const ENV_API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '')
 const API_URL = typeof window !== 'undefined'
-  ? '/api'
+  ? (ENV_API_URL || '/api')
   : (ENV_API_URL || 'http://localhost:5000/api')
 
 export const apiClient = axios.create({
