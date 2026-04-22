@@ -29,6 +29,17 @@ app.use(cors({
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+// Root info route
+app.get('/', (_req, res) => {
+  res.json({
+    service: 'Halal Travels Backend API',
+    status: 'ok',
+    health: '/health',
+    apiBase: '/api',
+    timestamp: new Date().toISOString(),
+  })
+})
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
