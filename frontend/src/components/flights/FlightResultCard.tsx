@@ -13,6 +13,7 @@ interface FlightResultCardProps {
 }
 
 export function FlightResultCard({ itinerary, onSelect, onViewDetails }: FlightResultCardProps) {
+  const coupon = (itinerary as any).couponApplied
   // For now, use mock display data - will be replaced with actual segment lookup
   const mockSegment = {
     airline: { code: itinerary.airline, name: { en: itinerary.airline } },
@@ -99,9 +100,19 @@ export function FlightResultCard({ itinerary, onSelect, onViewDetails }: FlightR
           <div className="lg:col-span-3 lg:border-l lg:pl-6 flex flex-row lg:flex-col items-center lg:items-end justify-between gap-4">
             <div>
               <p className="text-xs text-gray-500 mb-1">Total Price</p>
+              {coupon?.originalTotal && (
+                <p className="text-sm text-gray-400 line-through">
+                  {formatPrice(coupon.originalTotal, itinerary.price.currency)}
+                </p>
+              )}
               <p className="text-2xl lg:text-3xl font-bold text-primary">
                 {formatPrice(itinerary.price.total, itinerary.price.currency)}
               </p>
+              {coupon?.discount ? (
+                <p className="text-xs text-teal-600 mt-1 font-semibold">
+                  Coupon {coupon.code} saved {formatPrice(coupon.discount, itinerary.price.currency)}
+                </p>
+              ) : null}
               <p className="text-xs text-gray-500 mt-1 hidden sm:block">
                 {itinerary.price.base ? formatPrice(itinerary.price.base, itinerary.price.currency) : formatPrice(itinerary.price.total * 0.85, itinerary.price.currency)} base + taxes
               </p>

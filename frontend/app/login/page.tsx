@@ -20,6 +20,17 @@ export default function LoginPage() {
   const [remember, setRemember] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
 
+  const toErrorMessage = (err: any, fallback: string) => {
+    const value = err?.response?.data?.error ?? err?.response?.data ?? err?.message
+    if (typeof value === 'string') return value
+    if (value && typeof value === 'object') {
+      if (typeof value.message === 'string') return value.message
+      if (typeof value.code === 'string') return `${value.code}`
+      try { return JSON.stringify(value) } catch { return fallback }
+    }
+    return fallback
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -29,7 +40,7 @@ export default function LoginPage() {
       if (user.role === 'admin') router.push('/dashboard/admin')
       else router.push('/dashboard/customer')
     } catch (err: any) {
-      setError(err.response?.data?.error || err.message || 'Login failed')
+      setError(toErrorMessage(err, 'Login failed'))
     } finally {
       setLoading(false)
     }

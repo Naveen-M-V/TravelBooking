@@ -16,12 +16,24 @@ export default function RegisterPage() {
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', password: '', telephone: '',
   })
+  const [isTravelAgent, setIsTravelAgent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [verificationSent, setVerificationSent] = useState(false)
   const [resending, setResending] = useState(false)
   const [resent, setResent] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+
+  const toErrorMessage = (err: any, fallback: string) => {
+    const value = err?.response?.data?.error ?? err?.response?.data ?? err?.message
+    if (typeof value === 'string') return value
+    if (value && typeof value === 'object') {
+      if (typeof value.message === 'string') return value.message
+      if (typeof value.code === 'string') return `${value.code}`
+      try { return JSON.stringify(value) } catch { return fallback }
+    }
+    return fallback
+  }
 
   const update = (field: string, value: string) =>
     setForm(prev => ({ ...prev, [field]: value }))
@@ -31,12 +43,12 @@ export default function RegisterPage() {
     setLoading(true)
     setError(null)
     try {
-      const result = await signUp({ ...form, role: 'customer' })
+      const result = await signUp({ ...form, role: isTravelAgent ? 'Travel agent' : 'customer' })
       if (result.requiresVerification) {
         setVerificationSent(true)
       }
     } catch (err: any) {
-      setError(err.response?.data?.error || err.message || 'Registration failed')
+      setError(toErrorMessage(err, 'Registration failed'))
     } finally {
       setLoading(false)
     }
@@ -48,7 +60,7 @@ export default function RegisterPage() {
       await authAPI.resendVerification(form.email)
       setResent(true)
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to resend')
+      setError(toErrorMessage(err, 'Failed to resend'))
     } finally {
       setResending(false)
     }
@@ -200,6 +212,19 @@ export default function RegisterPage() {
                   </button>
                 </div>
                 <p className="text-xs text-gray-400">Use at least 8 characters.</p>
+              </div>
+
+              <div className="rounded-xl border border-gray-200 bg-gray-50/80 px-4 py-3">
+                <label htmlFor="travel-agent" className="flex items-center gap-3 cursor-pointer">
+                  <input
+                    id="travel-agent"
+                    type="checkbox"
+                    checked={isTravelAgent}
+                    onChange={(e) => setIsTravelAgent(e.target.checked)}
+                    className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+                  />
+                  <span className="text-sm text-gray-700 font-medium">Are you a travel agent?</span>
+                </label>
               </div>
 
               {error && (

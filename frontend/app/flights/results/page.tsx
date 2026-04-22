@@ -14,6 +14,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Slider } from '@/components/ui/slider'
 import { Loader2, Plane, Clock, Filter, AlertCircle, RefreshCw } from 'lucide-react'
 import { flightAPI } from '@/lib/api/flights'
+import { couponsAPI } from '@/lib/api/coupons'
 import { getMockSearchResults } from '@/mocks/flight-mock-data'
 import type { Itinerary } from '@/types/flights'
 import { formatPrice } from '@/lib/utils'
@@ -40,17 +41,62 @@ function FlightResultsContent() {
   const [showFilters, setShowFilters] = useState(false)
   const [selectedFlight, setSelectedFlight] = useState<Itinerary | null>(null)
   const [showDetailsModal, setShowDetailsModal] = useState(false)
+  const [couponStatus, setCouponStatus] = useState<string | null>(null)
 
   const pollCount = useRef(0)
   const pollTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const couponCode = (searchParams.get('coupon') || '').trim().toUpperCase()
 
   const airlines = Array.from(new Set(results.map(i => i.airline)))
 
-  const loadResults = (itineraries: Itinerary[]) => {
-    setResults(itineraries)
-    setFilteredResults(itineraries)
-    if (itineraries.length > 0) {
-      const prices = itineraries.map((i: any) => Number(i.price?.total ?? 0))
+  const loadResults = async (itineraries: Itinerary[]) => {
+    let finalItineraries: any[] = itineraries
+
+    if (couponCode) {
+      finalItineraries = await Promise.all(itineraries.map(async (itinerary: any) => {
+        try {
+          const orderValue = Number(itinerary?.price?.total ?? 0)
+          const validation = await couponsAPI.validate({
+            code: couponCode,
+            orderValue,
+            type: 'FLIGHT',
+          })
+
+          if (!validation?.valid) return itinerary
+
+          return {
+            ...itinerary,
+            price: {
+              ...itinerary.price,
+              total: Number(validation.finalAmount),
+            },
+            couponApplied: {
+              code: couponCode,
+              discount: Number(validation.discount),
+              originalTotal: orderValue,
+            },
+          }
+        } catch {
+          return itinerary
+        }
+      }))
+    }
+
+    const appliedCount = finalItineraries.filter((it: any) => Boolean(it.couponApplied)).length
+    if (couponCode) {
+      if (appliedCount > 0) {
+        setCouponStatus(`Coupon ${couponCode} applied to ${appliedCount} flight option${appliedCount > 1 ? 's' : ''}.`)
+      } else {
+        setCouponStatus(`Coupon ${couponCode} is not valid for these flight fares.`)
+      }
+    } else {
+      setCouponStatus(null)
+    }
+
+    setResults(finalItineraries)
+    setFilteredResults(finalItineraries)
+    if (finalItineraries.length > 0) {
+      const prices = finalItineraries.map((i: any) => Number(i.price?.total ?? 0))
       const min = Math.min(...prices)
       const max = Math.max(...prices)
       setPriceRange([min, max])
@@ -266,7 +312,13 @@ function FlightResultsContent() {
             <Badge className="bg-white/20 backdrop-blur-sm text-white border-0 px-4 py-2">
               {searchParams.get('adults') || '1'} Passenger(s)
             </Badge>
+            {couponCode && (
+              <Badge className="bg-teal-500/90 text-white border-0 px-4 py-2">
+                Coupon: {couponCode}
+              </Badge>
+            )}
           </div>
+          {couponStatus && <p className="mt-3 text-sm text-white/90">{couponStatus}</p>}
         </div>
       </div>
 

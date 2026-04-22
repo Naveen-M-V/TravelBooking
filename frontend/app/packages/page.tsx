@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { PackageResultCard } from '@/components/packages/PackageResultCard'
 import { EnquiryFormModal } from '@/components/packages/EnquiryFormModal'
 import { Slider } from '@/components/ui/slider'
@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Filter, SlidersHorizontal, MapPin, ShieldCheck, Calendar, X, Loader2, Users, BedDouble, Plus, Minus, Info } from 'lucide-react'
 import { packagesAPI } from '@/lib/api/packages'
+import { couponsAPI } from '@/lib/api/coupons'
 import { wishlistAPI } from '@/lib/api/wishlist'
 import { useAuth } from '@/context/AuthContext'
 
@@ -55,10 +56,12 @@ function normalizePackage(p: any) {
 
 export default function PackagesPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { user } = useAuth()
   const maxChildrenForAdults = (adults: number) => Math.max(0, 4 - adults)
 
   const [packages, setPackages] = useState<any[]>([])
+  const [basePackages, setBasePackages] = useState<any[]>([])
   const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set())
   const [pkgLoading, setPkgLoading] = useState(true)
   const [priceRange, setPriceRange] = useState([0, 10000])
@@ -72,13 +75,80 @@ export default function PackagesPage() {
   const [showFilters, setShowFilters] = useState(false)
   const [showMobileFilters, setShowMobileFilters] = useState(false)
   const [enquiryPackage, setEnquiryPackage] = useState<any>(null)
+  const [couponStatus, setCouponStatus] = useState<string | null>(null)
+
+  const couponCode = (searchParams.get('coupon') || '').trim().toUpperCase()
 
   useEffect(() => {
     packagesAPI.getAll({ isActive: true })
-      .then((res) => setPackages((res.packages || []).map(normalizePackage)))
-      .catch(() => setPackages([]))
+      .then((res) => {
+        const normalized = (res.packages || []).map(normalizePackage)
+        setBasePackages(normalized)
+        setPackages(normalized)
+      })
+      .catch(() => {
+        setBasePackages([])
+        setPackages([])
+      })
       .finally(() => setPkgLoading(false))
   }, [])
+
+  useEffect(() => {
+    const applyCoupon = async () => {
+      if (!couponCode) {
+        setPackages(basePackages)
+        setCouponStatus(null)
+        return
+      }
+
+      if (!basePackages.length) {
+        setPackages([])
+        return
+      }
+
+      const adjusted = await Promise.all(basePackages.map(async (pkg) => {
+        try {
+          const orderValue = Number(pkg.price?.total || 0)
+          const validation = await couponsAPI.validate({
+            code: couponCode,
+            orderValue,
+            type: 'PACKAGE',
+          })
+
+          if (!validation?.valid) return pkg
+
+          const finalAmount = Number(validation.finalAmount)
+          const discount = Number(validation.discount)
+
+          return {
+            ...pkg,
+            price: {
+              ...pkg.price,
+              total: finalAmount,
+            },
+            couponApplied: {
+              code: couponCode,
+              discount,
+              originalTotal: orderValue,
+            },
+          }
+        } catch {
+          return pkg
+        }
+      }))
+
+      const appliedCount = adjusted.filter((pkg) => Boolean(pkg.couponApplied)).length
+      if (appliedCount > 0) {
+        setCouponStatus(`Coupon ${couponCode} applied to ${appliedCount} package${appliedCount > 1 ? 's' : ''}.`)
+      } else {
+        setCouponStatus(`Coupon ${couponCode} is not valid for current package prices.`)
+      }
+
+      setPackages(adjusted)
+    }
+
+    applyCoupon()
+  }, [basePackages, couponCode])
 
   useEffect(() => {
     if (!user) {
@@ -277,6 +347,13 @@ export default function PackagesPage() {
             <p className="text-gray-500 text-base md:text-lg leading-relaxed mb-6">
               Unique stays, thoughtful itineraries, and a seamless halal-friendly experience.
             </p>
+
+            {couponStatus && (
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-4 py-2 text-sm text-teal-700">
+                <span className="h-2 w-2 rounded-full bg-teal-500" />
+                {couponStatus}
+              </div>
+            )}
 
             {/* Sort and Filter Controls */}
             <div className="flex items-center gap-3 flex-wrap mb-6">

@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-// Use relative path so requests go through Next.js rewrites (same origin, no CORS).
-// Falls back to direct backend URL only for non-browser environments (e.g. SSR).
+// Prefer explicit backend URL in all environments when provided.
+// Fallback to Next.js rewrite path in browser and localhost for SSR/dev.
+const ENV_API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '')
 const API_URL =
-  typeof window !== 'undefined'
-    ? '/api'
-    : process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+  ENV_API_URL ||
+  (typeof window !== 'undefined' ? '/api' : 'http://localhost:5000/api')
 
 export const apiClient = axios.create({
   baseURL: API_URL,

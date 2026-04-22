@@ -28,6 +28,7 @@ export function PackageSearchForm() {
     adults: 2,
     children: 0,
   })
+  const [couponCode, setCouponCode] = useState('')
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -41,7 +42,10 @@ export function PackageSearchForm() {
       children: searchData.children.toString(),
     })
 
-    router.push(`/packages/results?${params.toString()}`)
+    const coupon = couponCode.trim()
+    if (coupon) params.set('coupon', coupon.toUpperCase())
+
+    router.push(`/packages?${params.toString()}`)
   }
 
   const today = new Date()
@@ -198,6 +202,19 @@ export function PackageSearchForm() {
             <Search className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
             Search
           </Button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr,1fr] gap-3 items-end">
+        <div className="space-y-1">
+          <Label htmlFor="package-coupon" className="text-xs font-semibold text-white">Coupon Code</Label>
+          <Input
+            id="package-coupon"
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value)}
+            placeholder="e.g., RAMADAN20"
+            className="h-11 text-sm bg-white/85 border-neutral-300 focus:ring-primary-500"
+          />
         </div>
       </div>
     </form>

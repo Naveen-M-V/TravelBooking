@@ -13,6 +13,7 @@ const nextConfig = {
       { protocol: 'https', hostname: 'plus.unsplash.com' },
       { protocol: 'https', hostname: 'instasize.com' },
       { protocol: 'https', hostname: 'www.instasize.com' },
+      { protocol: 'https', hostname: 'wwyzjqdkzhqtrjuvfhyl.supabase.co' },
       { protocol: 'http',  hostname: 'localhost' },
     ],
   },

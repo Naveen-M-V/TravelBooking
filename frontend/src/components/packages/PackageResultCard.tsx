@@ -27,6 +27,7 @@ export function PackageResultCard({ package: pkg, onSelect, onViewDetails, onTog
     checkIn,
     checkOut
   } = pkg
+  const coupon = pkg?.couponApplied
 
   return (
     <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:border-teal-400/50 hover:shadow-md">
@@ -143,6 +144,22 @@ export function PackageResultCard({ package: pkg, onSelect, onViewDetails, onTog
               </div>
 
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3 border-t border-gray-200 pt-5">
+                <div className="sm:mr-auto">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-gray-400">From</p>
+                  {coupon?.originalTotal ? (
+                    <p className="text-sm text-gray-400 line-through">
+                      {price.currency} {Number(coupon.originalTotal).toLocaleString()}
+                    </p>
+                  ) : null}
+                  <p className="text-2xl font-bold text-teal-700">
+                    {price.currency} {Number(price.total).toLocaleString()}
+                  </p>
+                  {coupon?.discount ? (
+                    <p className="text-xs text-teal-600 font-semibold">
+                      Coupon {coupon.code} saved {price.currency} {Number(coupon.discount).toLocaleString()}
+                    </p>
+                  ) : null}
+                </div>
                 <Button onClick={() => onViewDetails(pkg)} size="lg" variant="outline" className="rounded-2xl h-11 px-5 border-teal-200 text-teal-700 hover:bg-teal-50">
                   View Details
                 </Button>
