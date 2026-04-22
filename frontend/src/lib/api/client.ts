@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-// Prefer explicit backend URL when configured.
-// Fallback to same-origin /api proxy in browser.
+// Always use same-origin /api in browser (handled by Next route proxy) to avoid CORS.
+// On server-side, use configured backend URL when available.
 const ENV_API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '')
 const API_URL = typeof window !== 'undefined'
-  ? (ENV_API_URL || '/api')
+  ? '/api'
   : (ENV_API_URL || 'http://localhost:5000/api')
 
 export const apiClient = axios.create({
