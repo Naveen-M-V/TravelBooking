@@ -1,5 +1,13 @@
 /** @type {import('next').NextConfig} */
-const apiBase = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api').replace(/\/$/, '')
+const rawApiBase = process.env.NEXT_PUBLIC_API_URL
+  || (process.env.NODE_ENV === 'production'
+    ? 'https://htc-backend.vercel.app/api'
+    : 'http://localhost:5000/api')
+
+const normalizedApiBase = rawApiBase.replace(/\/$/, '')
+const apiBase = normalizedApiBase.endsWith('/api')
+  ? normalizedApiBase
+  : `${normalizedApiBase}/api`
 
 const nextConfig = {
   reactStrictMode: true,
