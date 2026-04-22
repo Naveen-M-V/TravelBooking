@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { PackageResultCard } from '@/components/packages/PackageResultCard'
 import { EnquiryFormModal } from '@/components/packages/EnquiryFormModal'
@@ -54,7 +54,7 @@ function normalizePackage(p: any) {
   }
 }
 
-export default function PackagesPage() {
+function PackagesPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { user } = useAuth()
@@ -723,5 +723,13 @@ export default function PackagesPage() {
         />
       )}
     </div>
+  )
+}
+
+export default function PackagesPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen page-ivory" />}>
+      <PackagesPageContent />
+    </Suspense>
   )
 }
