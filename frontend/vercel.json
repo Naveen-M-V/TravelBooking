@@ -1,11 +1,5 @@
 {
   "framework": "nextjs",
   "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://htc-backend.vercel.app/api/$1"
-    }
-  ]
+  "installCommand": "npm install"
 }

@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-// Always use same-origin /api in browser (handled by Next route proxy) to avoid CORS.
-// On server-side, use configured backend URL when available.
-const ENV_API_URL = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '')
-const API_URL = typeof window !== 'undefined'
-  ? '/api'
-  : (ENV_API_URL || 'http://localhost:5000/api')
+// Use relative path in browser so requests go through Next.js rewrites (same origin).
+// Falls back to direct backend URL only for non-browser environments (e.g. SSR).
+const API_URL =
+  typeof window !== 'undefined'
+    ? '/api'
+    : process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
 
 export const apiClient = axios.create({
   baseURL: API_URL,

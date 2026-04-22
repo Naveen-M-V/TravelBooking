@@ -13,6 +13,8 @@ async function proxy(request: NextRequest, pathSegments: string[]) {
   const headers = new Headers(request.headers)
   headers.delete('host')
   headers.delete('content-length')
+  headers.delete('cookie')
+  headers.delete('authorization')
 
   const method = request.method.toUpperCase()
   const hasBody = !['GET', 'HEAD'].includes(method)
