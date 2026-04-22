@@ -4,7 +4,7 @@ const rawApiBase = process.env.NEXT_PUBLIC_API_URL
     ? 'https://htc-backend.vercel.app/api'
     : 'http://localhost:5000/api')
 
-const normalizedApiBase = rawApiBase.replace(/\/$/, '')
+const normalizedApiBase = rawApiBase.trim().replace(/\/$/, '')
 const apiBase = normalizedApiBase.endsWith('/api')
   ? normalizedApiBase
   : `${normalizedApiBase}/api`
@@ -27,6 +27,10 @@ const nextConfig = {
   },
   async rewrites() {
     return [
+      {
+        source: '/favicon.ico',
+        destination: '/HalalLogo.png',
+      },
       {
         source: '/api/:path*',
         destination: `${apiBase}/:path*`,
