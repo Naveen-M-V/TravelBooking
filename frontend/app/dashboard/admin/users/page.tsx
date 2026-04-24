@@ -17,6 +17,8 @@ const ROLE_COLORS: Record<string, string> = {
   customer: 'bg-gray-100 text-gray-700',
 }
 
+const TRAVEL_AGENT_COLORS = 'bg-teal-100 text-teal-800'
+
 export default function AdminUsersPage() {
   const { user, loading: authLoading, isAdmin } = useAuth()
   const router = useRouter()
@@ -26,6 +28,7 @@ export default function AdminUsersPage() {
   const [error, setError]         = useState<string | null>(null)
   const [search, setSearch]       = useState('')
   const [roleFilter, setRoleFilter] = useState('all')
+  const [agentFilter, setAgentFilter] = useState('all')
   const [updating, setUpdating]   = useState<string | null>(null)
   const [updateMsg, setUpdateMsg] = useState<{ id: string; ok: boolean; text: string } | null>(null)
   const [total, setTotal]         = useState(0)
@@ -80,7 +83,12 @@ export default function AdminUsersPage() {
     search === '' ||
     u.email.toLowerCase().includes(search.toLowerCase()) ||
     `${u.firstName ?? ''} ${u.lastName ?? ''}`.toLowerCase().includes(search.toLowerCase())
-  )
+  ).filter(u => {
+    if (agentFilter === 'all') return true
+    if (agentFilter === 'travel') return Boolean(u.isTravelAgent)
+    if (agentFilter === 'non-travel') return !u.isTravelAgent
+    return true
+  })
 
   return (
     <div className="max-w-5xl space-y-6">
@@ -115,6 +123,16 @@ export default function AdminUsersPage() {
             <SelectItem value="customer">Customers</SelectItem>
             <SelectItem value="vendor">Vendors</SelectItem>
             <SelectItem value="admin">Admins</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select value={agentFilter} onValueChange={setAgentFilter}>
+          <SelectTrigger className="w-[190px] h-10">
+            <SelectValue placeholder="Travel agent filter" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Users</SelectItem>
+            <SelectItem value="travel">Travel Agents</SelectItem>
+            <SelectItem value="non-travel">Non-Travel Agents</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -169,6 +187,11 @@ export default function AdminUsersPage() {
                         <Badge className={`text-xs ${ROLE_COLORS[u.role] ?? 'bg-gray-100 text-gray-700'}`}>
                           {u.role}
                         </Badge>
+                        {u.isTravelAgent && (
+                          <Badge className={`text-xs ${TRAVEL_AGENT_COLORS}`}>
+                            Travel Agent
+                          </Badge>
+                        )}
                         {u.emailVerified ? (
                           <span title="Email verified" className="text-emerald-500"><CheckCircle className="h-3.5 w-3.5" /></span>
                         ) : (
@@ -179,6 +202,11 @@ export default function AdminUsersPage() {
                         )}
                       </div>
                       <p className="text-xs text-gray-400 truncate mt-0.5">{u.email}</p>
+                      {u.isTravelAgent && (u.companyName || u.website) && (
+                        <p className="text-xs text-teal-700 mt-0.5 truncate">
+                          {u.companyName || 'Travel agent'}{u.website ? ` · ${u.website}` : ''}
+                        </p>
+                      )}
                       <p className="text-xs text-gray-300 mt-0.5">
                         Joined {new Date(u.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
                       </p>

@@ -23,6 +23,14 @@ export function TripOverviewCarousel({
   const [isPaused, setIsPaused] = useState(false)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
+  const getCircularOffset = (index: number, centerIndex: number, total: number) => {
+    let diff = index - centerIndex
+    const half = total / 2
+    if (diff > half) diff -= total
+    if (diff < -half) diff += total
+    return diff
+  }
+
   const nextSlide = () => {
     setActiveIndex((prev) => (prev + 1) % packages.length)
   }
@@ -43,6 +51,10 @@ export function TripOverviewCarousel({
       if (intervalRef.current) clearInterval(intervalRef.current)
     }
   }, [isPaused, packages.length])
+
+  useEffect(() => {
+    setActiveIndex((prev) => (packages.length ? prev % packages.length : 0))
+  }, [packages.length])
 
   if (packages.length === 0) return null
 
@@ -82,11 +94,11 @@ export function TripOverviewCarousel({
 
         {/* Cards */}
         {packages.map((pkg, index) => {
-          const offset = index - activeIndex
+          const offset = getCircularOffset(index, activeIndex, packages.length)
 
           return (
             <div
-              key={pkg.id}
+              key={`${pkg.id}-${index}`}
               className="absolute transition-all duration-700 ease-in-out cursor-pointer"
               style={{
                 transform: `
