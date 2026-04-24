@@ -14,7 +14,7 @@ export default function RegisterPage() {
   const { signUp } = useAuth()
 
   const [form, setForm] = useState({
-    firstName: '', lastName: '', email: '', password: '', telephone: '',
+    firstName: '', lastName: '', email: '', password: '', telephone: '', companyName: '', website: '',
   })
   const [isTravelAgent, setIsTravelAgent] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -38,12 +38,23 @@ export default function RegisterPage() {
   const update = (field: string, value: string) =>
     setForm(prev => ({ ...prev, [field]: value }))
 
+  const handleTravelAgentToggle = (checked: boolean) => {
+    setIsTravelAgent(checked)
+    if (!checked) {
+      setForm(prev => ({ ...prev, companyName: '', website: '' }))
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setError(null)
     try {
-      const result = await signUp({ ...form, role: isTravelAgent ? 'Travel agent' : 'customer' })
+      const result = await signUp({
+        ...form,
+        role: 'customer',
+        isTravelAgent,
+      })
       if (result.requiresVerification) {
         setVerificationSent(true)
       }
@@ -220,12 +231,40 @@ export default function RegisterPage() {
                     id="travel-agent"
                     type="checkbox"
                     checked={isTravelAgent}
-                    onChange={(e) => setIsTravelAgent(e.target.checked)}
+                    onChange={(e) => handleTravelAgentToggle(e.target.checked)}
                     className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
                   />
                   <span className="text-sm text-gray-700 font-medium">Are you a travel agent?</span>
                 </label>
               </div>
+
+              {isTravelAgent && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-xl border border-teal-100 bg-teal-50/50 p-4">
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="companyName" className="text-gray-700">Company Name</Label>
+                    <Input
+                      id="companyName"
+                      value={form.companyName}
+                      onChange={(e) => update('companyName', e.target.value)}
+                      placeholder="Your agency name"
+                      required={isTravelAgent}
+                      className="h-11"
+                    />
+                  </div>
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="website" className="text-gray-700">Website Link</Label>
+                    <Input
+                      id="website"
+                      type="url"
+                      value={form.website}
+                      onChange={(e) => update('website', e.target.value)}
+                      placeholder="https://youragency.com"
+                      required={isTravelAgent}
+                      className="h-11"
+                    />
+                  </div>
+                </div>
+              )}
 
               {error && (
                 <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">

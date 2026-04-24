@@ -3,7 +3,6 @@
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { authAPI } from '@/lib/api/auth'
-import { useAuth } from '@/context/AuthContext'
 import { Loader2, CheckCircle, XCircle, RefreshCw, Mail } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,9 +12,6 @@ function VerifyEmailContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const token = searchParams.get('token')
-
-  // Access persist via a workaround — call signIn after verify auto-logs in via returned token
-  const { signOut } = useAuth()
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'no-token'>('loading')
   const [error, setError] = useState('')
@@ -34,9 +30,9 @@ function VerifyEmailContent() {
           localStorage.setItem('auth_user', JSON.stringify(result.user))
         }
         setStatus('success')
-        // Redirect to dashboard after 2 seconds
+        // Redirect to the landing page after 2 seconds
         setTimeout(() => {
-          router.push(result.user?.role === 'admin' ? '/dashboard/admin' : '/dashboard/customer')
+          router.push('/')
         }, 2000)
       })
       .catch((err) => {
@@ -80,7 +76,7 @@ function VerifyEmailContent() {
               <CheckCircle className="h-8 w-8 text-emerald-600" />
             </div>
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Email verified!</h1>
-            <p className="text-gray-500 mb-6">Your account is active. Redirecting you to your dashboard…</p>
+            <p className="text-gray-500 mb-6">Your account is active. Redirecting you to the homepage…</p>
             <Loader2 className="h-5 w-5 animate-spin text-teal-500 mx-auto" />
           </>
         )}

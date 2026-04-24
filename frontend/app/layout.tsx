@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/layout/Footer'
 import { AuthProvider } from '@/context/AuthContext'
 import ScrollReveal from '@/components/ScrollReveal'
+import WhatsAppButton from '@/components/WhatsAppButton'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -35,6 +36,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <WhatsAppButton />
         </AuthProvider>
       </body>
     </html>

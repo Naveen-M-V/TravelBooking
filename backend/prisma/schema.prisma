@@ -23,6 +23,9 @@ model User {
   firstName     String?
   lastName      String?
   telephone     String?
+  isTravelAgent Boolean   @default(false)
+  companyName   String?
+  website       String?
   nationality   String?
   residency     String?
   role                      String    @default("customer") // customer, vendor, admin

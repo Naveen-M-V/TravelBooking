@@ -4,11 +4,11 @@ import { AuthService } from '../services/auth.service'
 export class AuthController {
   static async register(req: Request, res: Response) {
     try {
-      const { email, password, firstName, lastName, telephone, role } = req.body
+      const { email, password, firstName, lastName, telephone, companyName, website, isTravelAgent } = req.body
       if (!email || !password) {
         return res.status(400).json({ error: 'Email and password are required' })
       }
-      const result = await AuthService.register(email, password, firstName, lastName, role, telephone)
+      const result = await AuthService.register(email, password, firstName, lastName, 'customer', telephone, companyName, website, Boolean(isTravelAgent))
       res.status(201).json({ success: true, ...result })
     } catch (error: any) {
       res.status(400).json({ error: error.message || 'Registration failed' })
@@ -49,8 +49,8 @@ export class AuthController {
     try {
       const userId = (req as any).user?.userId
       if (!userId) return res.status(401).json({ error: 'Unauthorized' })
-      const { firstName, lastName, telephone, nationality, residency } = req.body
-      const user = await AuthService.updateProfile(userId, { firstName, lastName, telephone, nationality, residency })
+      const { firstName, lastName, telephone, isTravelAgent, companyName, website, nationality, residency } = req.body
+      const user = await AuthService.updateProfile(userId, { firstName, lastName, telephone, isTravelAgent, companyName, website, nationality, residency })
       res.status(200).json({ success: true, user })
     } catch (error: any) {
       res.status(500).json({ error: error.message || 'Failed to update profile' })

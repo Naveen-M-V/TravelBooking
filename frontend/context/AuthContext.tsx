@@ -8,6 +8,9 @@ export interface AuthUser {
   email: string
   firstName?: string | null
   lastName?: string | null
+  isTravelAgent?: boolean | null
+  companyName?: string | null
+  website?: string | null
   role: string
 }
 

@@ -20,7 +20,10 @@ export class AuthService {
     firstName: string,
     lastName: string,
     role: string = 'customer',
-    telephone?: string
+    telephone?: string,
+    companyName?: string,
+    website?: string,
+    isTravelAgent = false
   ) {
     const existing = await prisma.user.findUnique({ where: { email } })
     if (existing) throw new Error('Email is already registered')
@@ -31,7 +34,7 @@ export class AuthService {
 
     await prisma.user.create({
       data: {
-        email, passwordHash, firstName, lastName, role, telephone,
+        email, passwordHash, firstName, lastName, role, telephone, companyName, website, isTravelAgent,
         emailVerified: false, verificationToken, verificationTokenExpiry,
       },
     })
@@ -54,7 +57,16 @@ export class AuthService {
 
     const jwtToken = this.signToken({ userId: updated.id, email: updated.email, role: updated.role })
     return {
-      user: { id: updated.id, email: updated.email, firstName: updated.firstName, lastName: updated.lastName, role: updated.role },
+      user: {
+        id: updated.id,
+        email: updated.email,
+        firstName: updated.firstName,
+        lastName: updated.lastName,
+        isTravelAgent: updated.isTravelAgent,
+        companyName: updated.companyName,
+        website: updated.website,
+        role: updated.role,
+      },
       token: jwtToken,
     }
   }
@@ -85,7 +97,16 @@ export class AuthService {
 
     const token = this.signToken({ userId: user.id, email: user.email, role: user.role })
     return {
-      user: { id: user.id, email: user.email, firstName: user.firstName, lastName: user.lastName, role: user.role },
+      user: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        isTravelAgent: user.isTravelAgent,
+        companyName: user.companyName,
+        website: user.website,
+        role: user.role,
+      },
       token,
     }
   }
@@ -130,18 +151,18 @@ export class AuthService {
       where: { id: userId },
       select: {
         id: true, email: true, firstName: true, lastName: true, role: true,
-        telephone: true, nationality: true, residency: true, createdAt: true,
+        telephone: true, isTravelAgent: true, companyName: true, website: true, nationality: true, residency: true, createdAt: true,
       },
     })
   }
 
-  static async updateProfile(userId: string, data: { firstName?: string; lastName?: string; telephone?: string; nationality?: string; residency?: string }) {
+  static async updateProfile(userId: string, data: { firstName?: string; lastName?: string; telephone?: string; isTravelAgent?: boolean; companyName?: string; website?: string; nationality?: string; residency?: string }) {
     return prisma.user.update({
       where: { id: userId },
       data,
       select: {
         id: true, email: true, firstName: true, lastName: true, role: true,
-        telephone: true, nationality: true, residency: true,
+        telephone: true, isTravelAgent: true, companyName: true, website: true, nationality: true, residency: true,
       },
     })
   }
@@ -169,7 +190,7 @@ export class AuthService {
         orderBy: { createdAt: 'desc' },
         select: {
           id: true, email: true, firstName: true, lastName: true,
-          role: true, emailVerified: true, telephone: true,
+          role: true, emailVerified: true, telephone: true, isTravelAgent: true, companyName: true, website: true,
           nationality: true, createdAt: true,
         },
       }),

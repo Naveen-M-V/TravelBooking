@@ -78,6 +78,85 @@ export default function CustomerEnquiriesPage() {
   const formatCurrency = (amount: number, currency = 'SAR') =>
     new Intl.NumberFormat('en-SA', { style: 'currency', currency }).format(amount)
 
+  const renderPackageDetails = (details: any) => {
+    if (!details || typeof details !== 'object') return null
+
+    const highlights = Array.isArray(details.highlights) ? details.highlights : []
+    const included = Array.isArray(details.included) ? details.included : []
+    const features = Array.isArray(details.features) ? details.features : []
+    const itinerary = Array.isArray(details.itinerary) ? details.itinerary : []
+    const enquiryGuests = details.enquiryGuests
+
+    return (
+      <div className="space-y-4 rounded-xl bg-gray-50 border border-gray-200 p-4">
+        <div>
+          <h5 className="font-semibold text-gray-900">Package Snapshot</h5>
+          <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600">
+            <p><strong>Name:</strong> {details.name || 'N/A'}</p>
+            <p><strong>Destination:</strong> {details.destination || 'N/A'}</p>
+            <p><strong>Country:</strong> {details.country || 'N/A'}</p>
+            <p><strong>Duration:</strong> {details.duration || 'N/A'}</p>
+          </div>
+          {details.description && <p className="mt-3 text-sm text-gray-600">{details.description}</p>}
+        </div>
+
+        {enquiryGuests && (
+          <div>
+            <h5 className="font-semibold text-gray-900">Traveller Summary</h5>
+            <p className="mt-1 text-sm text-gray-600">
+              {enquiryGuests.totalAdults} adult(s), {enquiryGuests.totalChildren} child(ren), {enquiryGuests.totalGuests} total guest(s)
+            </p>
+          </div>
+        )}
+
+        {highlights.length > 0 && (
+          <div>
+            <h5 className="font-semibold text-gray-900 mb-2">Highlights</h5>
+            <ul className="list-disc pl-5 text-sm text-gray-600 space-y-1">
+              {highlights.slice(0, 6).map((item: string) => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {included.length > 0 && (
+          <div>
+            <h5 className="font-semibold text-gray-900 mb-2">Included</h5>
+            <ul className="list-disc pl-5 text-sm text-gray-600 space-y-1">
+              {included.slice(0, 6).map((item: string) => <li key={item}>{item}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {features.length > 0 && (
+          <div>
+            <h5 className="font-semibold text-gray-900 mb-2">Features</h5>
+            <div className="flex flex-wrap gap-2">
+              {features.slice(0, 8).map((item: string) => (
+                <span key={item} className="rounded-full bg-teal-50 border border-teal-200 text-teal-700 px-3 py-1 text-xs font-medium">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {itinerary.length > 0 && (
+          <div>
+            <h5 className="font-semibold text-gray-900 mb-2">Itinerary</h5>
+            <div className="space-y-2 text-sm text-gray-600">
+              {itinerary.slice(0, 5).map((day: any) => (
+                <div key={day.day ?? day.title} className="rounded-lg bg-white border border-gray-200 p-3">
+                  <p className="font-medium text-gray-800">{day.day ? `Day ${day.day}` : 'Day'} {day.title ? `- ${day.title}` : ''}</p>
+                  {day.description && <p className="mt-1">{day.description}</p>}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }
+
   if (authLoading || loading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -166,17 +245,10 @@ export default function CustomerEnquiriesPage() {
                       <h4 className="font-semibold text-blue-900 mb-2">Your Quote</h4>
                       <div className="flex items-end justify-between">
                         <div>
-                          {enq.basePrice && (
-                            <div className="text-sm text-gray-600 space-y-0.5">
-                              <p>Base Price: {formatCurrency(Number(enq.basePrice), enq.currency)}</p>
-                              {Number(enq.markupPercentage) > 0 && (
-                                <p>Service Fee ({enq.markupPercentage}%): {formatCurrency(Number(enq.markupAmount), enq.currency)}</p>
-                              )}
-                            </div>
-                          )}
                           <p className="text-2xl font-bold text-blue-900 mt-1">
                             {formatCurrency(Number(enq.totalPrice), enq.currency)}
                           </p>
+                          <p className="text-sm text-gray-600 mt-1">Total price for this enquiry</p>
                           {enq.quoteValidUntil && enq.status === 'QUOTED' && (
                             <p className="text-xs text-gray-500">
                               Valid until {new Date(enq.quoteValidUntil).toLocaleDateString()}
@@ -237,6 +309,7 @@ export default function CustomerEnquiriesPage() {
 
                   {isExpanded && (
                     <div className="mt-3 pt-3 border-t space-y-2 text-sm text-gray-600">
+                      {renderPackageDetails(enq.packageDetails)}
                       {enq.specialRequests && (
                         <p><strong>Special Requests:</strong> {enq.specialRequests}</p>
                       )}

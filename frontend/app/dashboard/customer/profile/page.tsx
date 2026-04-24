@@ -15,7 +15,7 @@ export default function CustomerProfilePage() {
   const router = useRouter()
 
   const [profile, setProfile] = useState({
-    firstName: '', lastName: '', telephone: '', nationality: '', residency: '',
+    firstName: '', lastName: '', telephone: '', nationality: '', residency: '', isTravelAgent: false, companyName: '', website: '',
   })
   const [passwords, setPasswords] = useState({ current: '', newPass: '', confirm: '' })
   const [savingProfile, setSavingProfile] = useState(false)
@@ -32,11 +32,21 @@ export default function CustomerProfilePage() {
         telephone:   (user as any).telephone  || '',
         nationality: (user as any).nationality || '',
         residency:   (user as any).residency   || '',
+        isTravelAgent: Boolean((user as any).isTravelAgent),
+        companyName: (user as any).companyName || '',
+        website: (user as any).website || '',
       })
     }
   }, [authLoading, user, router])
 
   const set = (k: keyof typeof profile, v: string) => setProfile(p => ({ ...p, [k]: v }))
+  const setTravelAgent = (checked: boolean) => {
+    setProfile(p => ({
+      ...p,
+      isTravelAgent: checked,
+      ...(checked ? {} : { companyName: '', website: '' }),
+    }))
+  }
   const setPwd = (k: keyof typeof passwords, v: string) => setPasswords(p => ({ ...p, [k]: v }))
 
   const handleSaveProfile = async () => {
@@ -121,6 +131,41 @@ export default function CustomerProfilePage() {
               <Input value={profile.residency}   onChange={e => set('residency', e.target.value)}   placeholder="e.g. Saudi Arabia" />
             </div>
           </div>
+
+          <div className="rounded-xl border border-gray-200 bg-gray-50/80 px-4 py-3">
+            <label htmlFor="travel-agent" className="flex items-center gap-3 cursor-pointer">
+              <input
+                id="travel-agent"
+                type="checkbox"
+                checked={profile.isTravelAgent}
+                onChange={(e) => setTravelAgent(e.target.checked)}
+                className="h-4 w-4 rounded border-gray-300 text-teal-600 focus:ring-teal-500"
+              />
+              <span className="text-sm text-gray-700 font-medium">Are you a travel agent?</span>
+            </label>
+          </div>
+
+          {profile.isTravelAgent && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-xl border border-teal-100 bg-teal-50/50 p-4">
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label>Company Name</Label>
+                <Input
+                  value={profile.companyName}
+                  onChange={e => set('companyName', e.target.value)}
+                  placeholder="Your agency name"
+                />
+              </div>
+              <div className="space-y-1.5 sm:col-span-2">
+                <Label>Website Link</Label>
+                <Input
+                  type="url"
+                  value={profile.website}
+                  onChange={e => set('website', e.target.value)}
+                  placeholder="https://youragency.com"
+                />
+              </div>
+            </div>
+          )}
           <Msg msg={profileMsg} />
           <Button onClick={handleSaveProfile} disabled={savingProfile} className="gap-2 bg-teal-600 hover:bg-teal-500">
             {savingProfile ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}

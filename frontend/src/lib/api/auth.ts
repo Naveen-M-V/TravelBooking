@@ -6,6 +6,9 @@ export interface RegisterData {
   firstName: string
   lastName: string
   telephone?: string
+  isTravelAgent?: boolean
+  companyName?: string
+  website?: string
   role?: string
 }
 
