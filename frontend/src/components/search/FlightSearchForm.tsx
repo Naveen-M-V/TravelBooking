@@ -275,8 +275,8 @@ export function FlightSearchForm() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr,1fr] gap-3 items-end">
-        <div className="space-y-1">
+      <div className="flex justify-start">
+        <div className="space-y-1 w-full sm:w-[240px]">
           <Label htmlFor="flight-coupon" className="text-xs font-semibold text-white">Coupon Code</Label>
           <Input
             id="flight-coupon"

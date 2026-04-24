@@ -69,14 +69,14 @@ export function SearchHero() {
         <div className="absolute bottom-12 right-10 text-primary-200/80 crescent-moon animate-geometric" style={{ animationDelay: '1.2s' }}></div>
 
         {/* Headline Over Image */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center -translate-y-4 sm:-translate-y-6 md:-translate-y-10">
+        <div className="absolute inset-0 flex flex-col items-center justify-center px-4 text-center -translate-y-10 sm:-translate-y-14 md:-translate-y-20">
           <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-neutral-50 tracking-tight leading-tight max-w-4xl [text-shadow:0_4px_16px_rgba(47,43,38,0.55)] px-2">
             Go Explore, <span className="italic font-serif text-accent-100">It's a Big World</span><br />Out There!
           </h1>
         </div>
 
         {/* Search Box on Hero */}
-        <div className="absolute inset-x-0 bottom-18 sm:bottom-24 md:bottom-28 px-3 sm:px-4 z-20">
+        <div className="absolute inset-x-0 bottom-6 sm:bottom-10 md:bottom-14 px-3 sm:px-4 z-20">
           <div className="max-w-6xl mx-auto">
             <div className="relative group">
               {/* Decorative Glow */}
