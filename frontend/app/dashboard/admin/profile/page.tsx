@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Loader2, Save, KeyRound, User, Mail, Phone, Globe, CheckCircle, AlertCircle } from 'lucide-react'
 
 export default function AdminProfilePage() {
-  const { user, loading: authLoading, isAdmin } = useAuth()
+  const { user, loading: authLoading, isAdmin, updateProfile } = useAuth()
   const router = useRouter()
 
   const [profile, setProfile] = useState({ firstName: '', lastName: '', telephone: '', nationality: '', residency: '' })
@@ -40,7 +40,7 @@ export default function AdminProfilePage() {
   const handleSaveProfile = async () => {
     setSavingProfile(true); setProfileMsg(null)
     try {
-      await apiClient.put('/auth/profile', profile)
+      await updateProfile(profile)
       setProfileMsg({ type: 'ok', text: 'Profile updated successfully.' })
     } catch (e: any) {
       setProfileMsg({ type: 'err', text: e.response?.data?.error || 'Failed to update profile' })

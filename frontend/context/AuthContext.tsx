@@ -8,6 +8,9 @@ export interface AuthUser {
   email: string
   firstName?: string | null
   lastName?: string | null
+  telephone?: string | null
+  nationality?: string | null
+  residency?: string | null
   isTravelAgent?: boolean | null
   companyName?: string | null
   website?: string | null
@@ -26,6 +29,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<AuthUser>
   signUp: (data: RegisterData) => Promise<SignUpResult>
   signOut: () => void
+  updateProfile: (data: Partial<AuthUser>) => Promise<AuthUser>
   isAdmin: boolean
   isCustomer: boolean
 }
@@ -82,6 +86,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('auth_user')
   }, [])
 
+  const updateProfile = useCallback(async (data: Partial<AuthUser>): Promise<AuthUser> => {
+    const result = await authAPI.updateProfile(data)
+    const updatedUser = result.user
+    setUser(updatedUser)
+    localStorage.setItem('auth_user', JSON.stringify(updatedUser))
+    return updatedUser
+  }, [])
+
   const value: AuthContextType = {
     user,
     token,
@@ -89,6 +101,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signIn,
     signUp,
     signOut,
+    updateProfile,
     isAdmin: user?.role === 'admin',
     isCustomer: user?.role === 'customer',
   }

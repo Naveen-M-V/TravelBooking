@@ -47,5 +47,8 @@ export const authAPI = {
 
   updateUserRole: (userId: string, role: string) =>
     apiClient.put(`/auth/users/${userId}/role`, { role }).then((r) => r.data),
+
+  updateProfile: (data: { firstName?: string | null; lastName?: string | null; telephone?: string | null; nationality?: string | null; residency?: string | null; isTravelAgent?: boolean | null; companyName?: string | null; website?: string | null }) =>
+    apiClient.put('/auth/profile', data).then((r) => r.data),
 }
 
