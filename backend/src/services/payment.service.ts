@@ -46,19 +46,21 @@ export class PaymentService {
     const orderId = `HT-${Date.now()}-${enquiry.id.slice(0, 6).toUpperCase()}`
 
     // Build the request parameter string
+    // NOTE: Do NOT encodeURIComponent values here — CCAvenue decrypts and reads
+    // the string raw, so URL-encoding inside the encrypted payload causes auth failure.
     const params = [
-      `merchant_id=${encodeURIComponent(ccAvenueConfig.merchantId)}`,
-      `order_id=${encodeURIComponent(orderId)}`,
-      `currency=${encodeURIComponent(enquiry.currency)}`,
-      `amount=${encodeURIComponent(Number(enquiry.totalPrice).toFixed(2))}`,
-      `redirect_url=${encodeURIComponent(ccAvenueConfig.redirectUrl)}`,
-      `cancel_url=${encodeURIComponent(ccAvenueConfig.cancelUrl)}`,
+      `merchant_id=${ccAvenueConfig.merchantId}`,
+      `order_id=${orderId}`,
+      `currency=${enquiry.currency}`,
+      `amount=${Number(enquiry.totalPrice).toFixed(2)}`,
+      `redirect_url=${ccAvenueConfig.redirectUrl}`,
+      `cancel_url=${ccAvenueConfig.cancelUrl}`,
       `language=EN`,
-      `billing_name=${encodeURIComponent(enquiry.customerName)}`,
-      `billing_email=${encodeURIComponent(enquiry.customerEmail)}`,
-      `billing_tel=${encodeURIComponent(enquiry.customerPhone)}`,
-      `billing_country=${encodeURIComponent('Saudi Arabia')}`,
-      `merchant_param1=${encodeURIComponent(enquiryId)}`, // Pass our enquiry ID for callback lookup
+      `billing_name=${enquiry.customerName}`,
+      `billing_email=${enquiry.customerEmail}`,
+      `billing_tel=${enquiry.customerPhone}`,
+      `billing_country=Saudi Arabia`,
+      `merchant_param1=${enquiryId}`, // Pass our enquiry ID for callback lookup
     ].join('&')
 
     const encRequest = this.encrypt(params)
